@@ -1,0 +1,262 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    color: var(--text-gray);
+}
+:root{
+    --blue-mikasa: #18317B;
+    --text-white: #fff;
+    --text-gray: #2D2D2D;
+    --yellow-mikasa: #FCD201;
+}
+
+/* HEADER DO SITE */
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* background: linear-gradient(to bottom, #fff, transparent); */
+}
+
+.img_container_logo{
+    width: 150px;
+}
+.img_container_logo>img{
+    width: 100%;
+}
+
+.navigation{
+    display: flex;
+    gap: 52px;
+    list-style: none;
+}
+
+.navigation>li{
+    cursor: pointer;
+}
+
+.btn_header{
+    background-color: var(--blue-mikasa);
+    color: var(--text-white);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 15px 20px;
+    font-weight: 700;
+}
+
+/* BANNER SITE */
+.banner_mikasa{
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+.banner_mikasa::before{
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--yellow-mikasa);
+}
+
+.mikasa_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.mikasa_container>h2{
+    font-size: 100px;
+}
+
+.mikasa_container>img{
+    width: 300px;
+    height: 300px;
+    transform: rotate(0deg);
+    transition: transform 1s ease;
+}
+
+.mikasa_container>img:hover{
+    transform: rotate(360deg);
+}
+
+
+.mikasa_footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 30px;
+}
+
+.mikasa_footer>p{
+    font-size: 20px;
+}
+
+.mikasa_footer>.btn_banner{
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background-color: var(--blue-mikasa);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    animation: btn_mov 2000ms infinite ease-in-out;
+
+}
+
+.mikasa_footer>.btn_banner>i{
+    font-size: 20px;
+    color: var(--text-white);
+}
+
+@keyframes btn_mov {
+    0%{
+        transform: translateY(0px);
+    }50%{
+        transform: translateY(20px);
+    }100%{
+        transform: translateY(0px);
+
+    }
+}
+
+/* HISTORY CONTAINER */
+.history_container{
+    height: 100vh;
+    display: flex;
+}
+
+.history_container>.history_left_container{
+    width: 50%;
+    height: 100%;
+    background: url("../assets/img/Jogo-de-volei-feminino.webp")center no-repeat;
+    background-size: cover;
+}
+
+.text_content{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+}
+
+.text_content>h4{
+    font-size: 20px;
+    color: var(--blue-mikasa);
+}
+
+.text_content>h1{
+    font-size: 70px;
+}
+
+.text_content>p{
+    margin-top: 20px;
+    text-indent: 40px;
+    font-size: 18px;
+    text-align: justify;
+    line-height: 1.5;
+}
+
+/* CHARACTERISTICS */
+.characteristics_container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.characteristics_header{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    background-color: var(--blue-mikasa);
+    border-bottom: solid 15px var(--yellow-mikasa);
+}
+
+.characteristics_header>h1{
+    letter-spacing: 30px;
+    font-size: 30px;
+    padding-left: 20px;
+    color: var(--text-white);
+    border-left: solid 15px var(--yellow-mikasa);
+}
+
+.characteristics_flex{
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.characteristics_flex>.img_flex{
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+    
+}
+
+.characteristics_flex>.img_flex:hover{
+   transform: scale(105%);
+}
+
+.gradient{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+    background: linear-gradient(to top,#000, transparent);
+    background-blend-mode: color;
+}
+
+
+.gradient>p{
+    color: var(--text-white);
+    font-weight: 600;
+    font-size: 30px;
+    width: 250px;
+    text-align: center;
+    padding-bottom: 60px;
+}
+
+.flex1{
+    background: url('../assets/img/equipe-volei.jpg');
+}
+
+.flex2{
+    background: url('../assets/img/darlan-concentracao.webp');
+}
+
+.flex3{
+    background: url('../assets/img/volei-abraco.webp');
+}
+
+/* ABOUT */
+.about_container{
+    height: 100vh;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.about_container>.about_right_container{
+    width: 50%;
+    height: 100%;
+    background: url("../assets/img/eu_volei.jpeg")center no-repeat;
+    background-size: cover;
+}
+
+/* COMUNIDADE */

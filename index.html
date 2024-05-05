@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voleibol - Estilo de vida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="img_container_logo">
+            <img src="./assets/img/voleibol_png_preta.png" alt="">
+        </div>
+        <ul class="navigation">
+            <li>HISTÓRIA</li>
+            <li>CARACTERÍSTICAS</li>
+            <li>SOBRE MIM </li>
+        </ul>
+        <button class="btn_header">ENTRAR</button>
+    </header>
+
+    <section class="banner_mikasa">
+        <div class="mikasa_container">
+            <h2>VÔLEI</h2>
+            <img id="img-ball" src="./assets/img/mikasa-png.png" alt="">
+            <h2>VÔLEI</h2>
+        </div>
+        <div class="mikasa_footer">
+            <p>Conheça o esporte que mudou minha vida</p>
+            <button class="btn_banner"><i class="fa-solid fa-arrow-down"></i></button>
+        </div>
+    </section>
+
+    <section class="history_container">
+        <div class="history_left_container"></div>
+        <div class="text_content">
+            <h4>História do vôlei</h4>
+            <h1>O QUE É VÔLEI?</h1>
+            <p>    Vôlei é um esporte dinâmico e envolvente, conquistando uma vasta audiência global desde sua origem nos Estados Unidos. Tornou-se um destaque nos Jogos Olímpicos desde 1964, exigindo dos jogadores não apenas habilidades técnicas, mas também coordenação, agilidade e comunicação. Além de ser emocionante de assistir, o vôlei proporciona uma plataforma ideal para o desenvolvimento de habilidades sociais e físicas.</p>
+        </div>
+    </section>
+
+    <section class="characteristics_container">
+        <div class="characteristics_header">
+            <h1>MAIS QUE UM JOGO</h1>
+        </div>
+        <div class="characteristics_flex">
+            <div class="img_flex flex1">
+                <div class="gradient"><p>TRABALHO EM EQUIPE</p></div>
+            </div>
+            <div class="img_flex flex2">
+                <div class="gradient"><p>FOCO E RESILIÊNCIA</p></div>
+            </div>
+            <div class="img_flex flex3">
+                <div class="gradient"><p>COMPANHERISMO</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about_container">
+        <div class="about_right_container"></div>
+        <div class="text_content">
+            <h4>Sobre mim</h4>
+            <h1>ESTILO DE VIDA</h1>
+            <p>      O vôlei não apenas me proporcionou a oportunidade de me exercitar e melhorar minha saúde física, mas também me ofereceu um time caloroso e cheio de alegria chamado Comensais, equipe amadora na qual fiz parte por 5 anos. Os laços que formei com meus colegas de equipe se transformaram em amizades, repletas de companheirismo e apoio mútuo. Juntos, enfrentamos desafios e celebramos conquistas em diversos campeonatos, construindo memórias inesquecíveis que sempre carregarei comigo. </p>
+        </div>
+    </section>
+
+    
+
+</body>
+
+</html>
+
+<script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+
+<script>
+    
+    let actualBall = 'mikasa'
+    setInterval(() => {
+        let ballImg = document.getElementById("img-ball")
+        if(actualBall == 'mikasa'){
+            ballImg.setAttribute('src', './assets/img/mikasa-praia-png.png')
+            actualBall = 'mikasa praia'
+        }else if(actualBall == 'mikasa praia'){
+            ballImg.setAttribute('src', './assets/img/bola-antiga-png.png')
+            actualBall = 'mikasa antiga'
+        }else{
+            ballImg.setAttribute('src', './assets/img/mikasa-png.png')
+            actualBall = 'mikasa'
+        }
+    }, 1500)
+
+</script>
