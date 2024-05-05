@@ -5,6 +5,10 @@
     font-family: "Inter", sans-serif;
     color: var(--text-gray);
 }
+
+body{
+    overflow-x: hidden;
+}
 :root{
     --blue-mikasa: #18317B;
     --text-white: #fff;
@@ -184,7 +188,7 @@ header{
     display: flex;
     justify-content: center;
     background-color: var(--blue-mikasa);
-    border-bottom: solid 15px var(--yellow-mikasa);
+    border-bottom: solid 10px var(--yellow-mikasa);
 }
 
 .characteristics_header>h1{
@@ -266,31 +270,76 @@ header{
     display: flex;
     flex-direction: column;
     height: 100vh;
+   
+   
 }
 
 .community_content{
-    padding: 30px;
-    height: 20%;
+    height: 100%;
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content:  center;
     align-items: center;
-    background-color: var(--blue-mikasa);
-    border-top: solid 15px var(--yellow-mikasa);
+    position: relative;
+    gap: 30px;
 }
+
+.community_container::before{
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--yellow-mikasa);
+}
+
+.community_content::after{
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -10%;
+    right: -5%;
+    width: 300px;
+    height: 300px;
+    background: url("../assets/img/mikasa-png.png");
+    background-size: contain;
+}
+
+.community_content::before{
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: -10%;
+    left: -5%;
+    width: 300px;
+    height: 300px;
+    background: url("../assets/img/mikasa-png.png");
+    background-size: contain;
+}
+
+
 
 .community_content>h1{
     letter-spacing: 20px;
-    font-size: 30px;
-    padding-left: 20px;
+    font-size: 40px;
+    text-align: center;
     width: 60%;
-    color: var(--text-white);
+}
+
+.community_content>p{
+    width: 50%;
+    text-align: center;
+    line-height: 1.5;
 }
 
 .btn_community{
     border: none;
     font-weight: bold;
-    background-color: var(--yellow-mikasa);
-    padding: 20px 30px;
+    background-color: var(--blue-mikasa);
+    color: var(--text-white);
+    padding: 20px 50px;
+    font-size: 18px;
     cursor: pointer;
 }
 
@@ -299,9 +348,6 @@ header{
     height: 80%;
 }
 
-.galery_container>img{
-    
-}
 
 .galery_doble{
     display: flex;
@@ -311,4 +357,3 @@ header{
 .galery_doble>img{
     height: 50%;
 }
-
