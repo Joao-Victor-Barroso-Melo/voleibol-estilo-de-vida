@@ -1,6 +1,64 @@
+@import url('../css/colors.css');
 
 /* footer */
 .footer_container{
     height: 100vh;
+}
+
+.top_footer{
     background: var(--blue-mikasa);
+    height: 90%;
+    padding: 100px 90px;
+    display: flex;
+    justify-content: space-between;
+   
+}
+
+
+.img_container_footer{
+    width: 150px;
+}
+.img_container_footer>img{
+    width: 100%;
+}
+
+.list_footer>li,.list_icon>p,i{
+    color: var(--text-white);
+    cursor: pointer;
+}
+
+.title_list{
+    font-weight: bold;
+    font-size: 20px;
+    cursor:default !important;
+}
+
+.list_footer{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.flex_icon{
+    display: flex;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.flex_icon>i{
+    padding: 15px;
+    background-color: #122357;
+    border-radius: 50%;
+    font-size: 25px;
+}
+
+.bottom_footer{
+    height: 10%;
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--yellow-mikasa);
 }
