@@ -13,24 +13,26 @@ html{
 }
 
 body{
-
+    overflow-y: hidden;
     overflow-x: hidden;
 
 }
 
+.scroll_mandatory{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
+    scrollbar-width: none;
+    scroll-snap-type: y mandatory;
+}
+
+.scroll_content{
+    
+    scroll-snap-align: start;
+}
+
 
 /* HEADER DO SITE */
-header{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 16px;
-    height: 100px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    /* background: linear-gradient(to bottom, #fff, transparent); */
-}
 
 .img_container_logo{
     width: 150px;
@@ -71,6 +73,7 @@ header{
     justify-content: center;
     height: 100vh;
     scroll-snap-align: start;
+    position: relative;
 }
 .banner_mikasa::before{
     content: "";
@@ -81,6 +84,19 @@ header{
     width: 50%;
     height: 100%;
     background: var(--yellow-mikasa);
+}
+
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 16px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* background: linear-gradient(to bottom, #fff, transparent); */
 }
 
 .mikasa_container{
@@ -278,7 +294,7 @@ header{
     display: flex;
     flex-direction: column;
     height: 100vh;
-   
+   position: relative;
    
 }
 
@@ -299,7 +315,7 @@ header{
     left: 0;
     width: 50%;
     height: 100%;
-    background: var(--yellow-mikasa);
+    background-color: var(--yellow-mikasa);
 }
 
 .community_content::after{
