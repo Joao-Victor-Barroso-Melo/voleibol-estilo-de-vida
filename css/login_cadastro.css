@@ -1,6 +1,6 @@
 @import url('../css/colors.css');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,12 +8,13 @@
     color: var(--text-gray);
 }
 
-.container{
+.container {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
-.img_container{
+.img_container {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -23,29 +24,30 @@
     background-blend-mode: color;
 }
 
-.img_container>img{
+.img_container>img {
     height: 80px;
     margin: 20px;
 }
 
-.login_container{
+.login_container {
     display: flex;
     justify-content: center;
     align-self: center;
     width: 50%;
     height: 100vh;
     border-left: 20px solid var(--yellow-mikasa);
+    position: relative;
 }
 
-.login_content{
+.login_content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 40px;
+    gap: 30px;
     width: 80%;
 }
 
-.login_content>a{
+.login_content>a {
     align-self: flex-end;
     background-color: var(--blue-mikasa);
     padding: 10px;
@@ -53,37 +55,43 @@
     cursor: pointer;
 }
 
-.login_content>a>i{
+.login_content>a>i {
     color: var(--text-white);
 
 }
 
-.login_content>h1{
-    font-size: 38px;
+.login_content>h1 {
+    font-size: 36px;
 }
 
-.form_container{
+.form_container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    width: 100%;
+    gap: 30px;
 }
 
-.form_container>a,.btn_container>span>a{
+.form_container>a,
+.btn_container>span>a {
     align-self: flex-end;
     color: #0086E8;
 }
 
-.form_container>input{
+.form_container>input {
     border: none;
     border-bottom: 1px solid var(--text-gray);
     padding: 10px 0px;
 }
 
-.form_container>input:focus{
+.form_container>input::placeholder {
+    font-size: 14px;
+}
+
+.form_container>input:focus {
     outline: none;
 }
 
-.btn_container{
+.btn_container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,7 +99,7 @@
     font-weight: bold;
 }
 
-.btn_container>button{
+.btn_container>button {
     background-color: var(--blue-mikasa);
     color: var(--text-white);
     border: none;
@@ -99,4 +107,62 @@
     font-size: 16px;
     padding: 15px 50px;
     font-weight: bold;
+}
+
+/* ALERT ERROR */
+#alert_error {
+    position: absolute;
+    width: 300px;
+    background-color: rgb(240, 81, 81);
+    color: var(--text-white);
+    padding: 20px;
+    text-align: center;
+    top: 30px;
+    right: 30px;
+    transform: translateX(110%);
+    animation-duration: 500ms;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes showRight {
+    0% {
+        transform: translateX(110%);
+    }50%{
+        transform: translateX(-5%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+@keyframes hideRight {
+    0% {
+        transform: translateX(0%);
+    }50%{
+        transform: translateX(-5%);
+    }
+    100% {
+        transform: translateX(110%);
+    }
+}
+
+/* CADASTRO VALIDATION */
+.validationList {
+    list-style-position: inside;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.validationList>li {
+    color: var(--text-gray);
+}
+
+.correct{
+    color: rgb(43, 207, 98) !important;
+}
+
+.wrong{
+    color: rgb(240, 81, 81) !important;
 }

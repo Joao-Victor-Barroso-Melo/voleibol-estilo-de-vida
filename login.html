@@ -1,32 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login_cadastro.css">
     <title>Document</title>
 </head>
+
 <body>
     <section class="container">
         <div class="img_container">
             <img src="./assets/img/voleibol_png_branca.png" alt="">
         </div>
         <div class="login_container">
+            <span id="alert_error"></span>
             <div class="login_content">
                 <a href="index.html"><i class="fa-solid fa-house"></i></a>
                 <h1>ENTRAR</h1>
                 <form class="form_container" action="">
-                    <input type="text" placeholder="nome@gmail.com">
-                    <input type="password" placeholder="********">
+                    <input id="input_email" type="text" placeholder="nome@gmail.com">
+                    <input id="input_password" type="password" placeholder="********">
                     <a href="">Esqueceu a senha?</a>
                 </form>
                 <div class="btn_container">
-                    <button class="">ENTRAR</button>
+                    <button class="" onclick="entrar()">ENTRAR</button>
                     <span>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></span>
                 </div>
             </div>
         </div>
     </section>
 </body>
+
 </html>
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+
+
+<script>
+
+    function entrar() {
+
+        const email = input_email.value;
+        const password = input_password.value;
+
+        let msgError = '';
+        if (email == '' || password == '') {
+            msgError = 'Preencha os campos corretamente'
+            alert_error.innerHTML = msgError;
+            alert_error.style.animationName = 'showRight'
+            alert_error.addEventListener('animationend', setTimeout(() => {
+                alert_error.style.animationName = 'hideRight'
+            }, 2000)
+            )
+
+        }
+
+
+    }
+
+</script>

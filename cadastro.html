@@ -1,33 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login_cadastro.css">
     <title>Document</title>
 </head>
+
 <body>
     <section class="container">
         <div class="img_container">
             <img src="./assets/img/voleibol_png_branca.png" alt="">
         </div>
         <div class="login_container">
+            <span id="alert_error"></span>
             <div class="login_content">
                 <a href="index.html"><i class="fa-solid fa-house"></i></a>
                 <h1>CADASTRE-SE</h1>
                 <form class="form_container" action="">
-                    <input type="text" placeholder="Nome Completo">
-                    <input type="text" placeholder="nome@gmail.com">
-                    <input type="password" placeholder="Senha">
-                    <input type="password" placeholder="Confirmar Senha">
+                    <input id="input_name" type="text" placeholder="Nome Completo">
+                    <input id="input_email" type="text" placeholder="nome@gmail.com">
+                    <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
+                    <ul class="validationList">
+                        <li id="validation1" class="">Deve conter 10 caracteres</li>
+                        <li id="validation2">Deve conter um caracter especial (@ ou #)</li>
+                        <li id="validation3">Deve conter um número</li>
+                    </ul>
+                    <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
                 </form>
                 <div class="btn_container">
-                    <button class="">CADASTRAR</button>
+                    <button onclick="cadastrar()">CADASTRAR</button>
                     <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
                 </div>
             </div>
         </div>
     </section>
 </body>
+
 </html>
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+
+<script>
+
+    function cadastrar() {
+        const name = input_name.value;
+        const email = input_email.value;
+        const password = input_password.value;
+        const confirmPassword = input_confirm_password.value;
+        let msgError = '';
+        if (name == '' || email == '' || password == '' || confirmPassword == '') {
+            msgError = 'Preencha os campos corretamente'
+            alert_error.innerHTML = msgError;
+            alert_error.style.animationName = 'showRight'
+            alert_error.addEventListener('animationend', setTimeout(() => {
+                alert_error.style.animationName = 'hideRight'
+            }, 2000)
+            )
+
+        }
+
+
+    }
+
+    function changeValidation(content, colorValidation) {
+        content.className = '';
+        content.classList.add(colorValidation)
+    }
+
+    function validarSenha() {
+        const password = input_password.value;
+        const primeiraValidation = document.querySelector("#validation1")
+        const segundaValidation = document.querySelector("#validation2")
+        const terceiraValidation = document.querySelector("#validation3")
+
+        const hasTenCaracters = password.length >= 10 ? 'correct' : 'wrong';
+        const hasSpecial = password.indexOf('@') > 0 || password.indexOf('#') > 0 ? 'correct' : 'wrong';
+
+        let hasNumber = 'wrong';
+        for (let i = 0; i <= 9; i++) {
+            let numberConvertido = i.toString()
+            if (password.indexOf(numberConvertido) > 0) {
+                hasNumber = 'correct'
+            }
+
+        }
+
+        changeValidation(primeiraValidation, hasTenCaracters)
+        changeValidation(segundaValidation, hasSpecial)
+        changeValidation(terceiraValidation, hasNumber)
+
+    }
+
+</script>
