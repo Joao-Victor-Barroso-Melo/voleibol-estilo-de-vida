@@ -44,9 +44,11 @@
         alert_error.innerHTML = msg;
         alert_error.style.backgroundColor = type
         alert_error.style.animationName = 'showRight'
-        alert_error.addEventListener('animationend', setTimeout(() => {
-            alert_error.style.animationName = 'hideRight'
-        }, 2000)
+        alert_error.addEventListener('animationend', () => {
+            setTimeout(() =>{
+                alert_error.style.animationName = 'hideRight'
+            },2000)
+        }
         )
     }
 
@@ -55,7 +57,6 @@
         const email = input_email.value;
         const password = input_password.value;
         error_email.style.display = 'none'
-        
         let msgError = '';
         let wrongColor = 'rgb(240, 81, 81)'
         let correctColor = 'rgb(43, 207, 98)'

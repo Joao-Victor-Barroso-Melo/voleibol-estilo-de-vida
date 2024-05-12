@@ -53,9 +53,11 @@
         alert_error.innerHTML = msg;
         alert_error.style.backgroundColor = type
         alert_error.style.animationName = 'showRight'
-        alert_error.addEventListener('animationend', setTimeout(() => {
-            alert_error.style.animationName = 'hideRight'
-        }, 2000)
+        alert_error.addEventListener('animationend', () => {
+            setTimeout(() =>{
+                alert_error.style.animationName = 'hideRight'
+            },2000)
+        }
         )
     }
 
@@ -96,8 +98,11 @@
         }
 
         if (validationIsCompleted) {
-            msgError = 'Cadastro realizado'
+            msgError = 'Cadastro realizado - Redirecionando para Login'
             alertMsg(msgError, correctColor);
+            setTimeout(() =>{
+                window.location = "login.html"
+            },2000)
         }
 
 
