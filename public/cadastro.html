@@ -20,14 +20,18 @@
                 <h1>CADASTRE-SE</h1>
                 <form class="form_container" action="">
                     <input id="input_name" type="text" placeholder="Nome Completo">
+
                     <input id="input_email" type="text" placeholder="nome@gmail.com">
                     <span id="error_email" class="msg_error">Insira um email válido</span>
+
                     <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
+                    <span id="error_senha" class="msg_error">Senha Inválida</span>
                     <ul class="validationList">
                         <li id="validation1" class="">Deve conter 10 caracteres</li>
                         <li id="validation2">Deve conter um caracter especial (@ ou #)</li>
                         <li id="validation3">Deve conter um número</li>
                     </ul>
+
                     <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
                     <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
                 </form>
@@ -61,38 +65,49 @@
         const password = input_password.value;
         const confirmPassword = input_confirm_password.value;
         let msgError = '';
+        let wrongColor = 'rgb(240, 81, 81)'
+        let correctColor = 'rgb(43, 207, 98)'
         error_email.style.display = 'none';
         error_conf_senha.style.display = 'none'
+        error_senha.style.display = 'none'
 
         let validationIsCompleted = true;
 
         if (name == '' || email == '' || password == '' || confirmPassword == '') {
             msgError = 'Preencha todos os campos'
-            color = 'rgb(240, 81, 81)'
-            alertMsg(msgError, color);
-        } else {
-            if (email.indexOf('@') < 0 || email.indexOf('.com') < 0) {
-                error_email.style.display = 'block';
-                validationIsCompleted = false;
-            }
-
-            if (confirmPassword != password) {
-                error_conf_senha.style.display = 'block'
-                validationIsCompleted = false;
-            }
-
-            if (validationIsCompleted) {
-                msgError = 'Cadastro realizado'
-                color = 'rgb(43, 207, 98)'
-                alertMsg(msgError, color);
-            }
+            alertMsg(msgError, wrongColor);
         }
+
+
+        if (email.indexOf('@') < 0 || email.indexOf('.com') < 0) {
+            error_email.style.display = 'block';
+            validationIsCompleted = false;
+        }
+
+
+        if (confirmPassword != password) {
+            error_conf_senha.style.display = 'block'
+            validationIsCompleted = false;
+        }
+
+        if (validarSenha() <= 3 && validarSenha() > 0) {
+            error_senha.style.display = 'block'
+            validationIsCompleted = false;
+        }
+
+        if (validationIsCompleted) {
+            msgError = 'Cadastro realizado'
+            alertMsg(msgError, correctColor);
+        }
+
 
     }
 
     function changeValidation(content, colorValidation) {
         content.className = '';
         content.classList.add(colorValidation)
+        if (colorValidation == 'wrong') return 1;
+        else return 0;
     }
 
     function validarSenha() {
@@ -107,16 +122,18 @@
         let hasNumber = 'wrong';
         for (let i = 0; i <= 9; i++) {
             let numberConvertido = i.toString()
-            if (password.indexOf(numberConvertido) > 0) {
+            if (password.indexOf(numberConvertido) >= 0) {
                 hasNumber = 'correct'
             }
 
         }
 
-        changeValidation(primeiraValidation, hasTenCaracters)
-        changeValidation(segundaValidation, hasSpecial)
-        changeValidation(terceiraValidation, hasNumber)
+        let faliedPasswordValidation = 0
+        faliedPasswordValidation += changeValidation(primeiraValidation, hasTenCaracters)
+        faliedPasswordValidation += changeValidation(segundaValidation, hasSpecial)
+        faliedPasswordValidation += changeValidation(terceiraValidation, hasNumber)
 
+        return faliedPasswordValidation
     }
 
 </script>

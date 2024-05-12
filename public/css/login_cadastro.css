@@ -97,6 +97,7 @@
     flex-direction: column;
     align-items: center;
     font-weight: bold;
+    gap: 10px;
 }
 
 .btn_container>button {
@@ -109,9 +110,7 @@
     font-weight: bold;
 }
 
-.msg_error{
-    display: none; color: rgb(240, 81, 81); font-size: 14px;
-}
+
 
 /* ALERT ERROR */
 #alert_error {
@@ -160,6 +159,13 @@
 
 .validationList>li {
     color: var(--text-gray);
+}
+
+.msg_error{
+    display: none; 
+    color: rgb(240, 81, 81); 
+    font-size: 14px;
+    text-align: end;
 }
 
 .correct{
