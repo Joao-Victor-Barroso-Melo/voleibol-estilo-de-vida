@@ -45,7 +45,7 @@
 
         let msgError = '';
         if (email == '' || password == '') {
-            msgError = 'Preencha os campos corretamente'
+            msgError = 'Preencha todos os campos'
             alert_error.innerHTML = msgError;
             alert_error.style.animationName = 'showRight'
             alert_error.addEventListener('animationend', setTimeout(() => {

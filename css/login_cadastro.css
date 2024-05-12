@@ -68,7 +68,6 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 30px;
 }
 
 .form_container>a,
@@ -81,6 +80,8 @@
     border: none;
     border-bottom: 1px solid var(--text-gray);
     padding: 10px 0px;
+    margin-top: 5%;
+    margin-bottom: 5px;
 }
 
 .form_container>input::placeholder {
@@ -95,7 +96,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     font-weight: bold;
 }
 
@@ -109,11 +109,14 @@
     font-weight: bold;
 }
 
+.msg_error{
+    display: none; color: rgb(240, 81, 81); font-size: 14px;
+}
+
 /* ALERT ERROR */
 #alert_error {
     position: absolute;
     width: 300px;
-    background-color: rgb(240, 81, 81);
     color: var(--text-white);
     padding: 20px;
     text-align: center;

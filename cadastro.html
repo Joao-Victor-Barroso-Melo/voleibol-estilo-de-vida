@@ -21,6 +21,7 @@
                 <form class="form_container" action="">
                     <input id="input_name" type="text" placeholder="Nome Completo">
                     <input id="input_email" type="text" placeholder="nome@gmail.com">
+                    <span id="error_email" class="msg_error">Insira um email válido</span>
                     <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
                     <ul class="validationList">
                         <li id="validation1" class="">Deve conter 10 caracteres</li>
@@ -28,9 +29,10 @@
                         <li id="validation3">Deve conter um número</li>
                     </ul>
                     <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
+                    <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
                 </form>
                 <div class="btn_container">
-                    <button onclick="cadastrar()">CADASTRAR</button>
+                    <button id="btn_cadastro" onclick="validarCampos()">CADASTRAR</button>
                     <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
                 </div>
             </div>
@@ -43,23 +45,48 @@
 
 <script>
 
-    function cadastrar() {
+    function alertMsg(msg, type) {
+        alert_error.innerHTML = msg;
+        alert_error.style.backgroundColor = type
+        alert_error.style.animationName = 'showRight'
+        alert_error.addEventListener('animationend', setTimeout(() => {
+            alert_error.style.animationName = 'hideRight'
+        }, 2000)
+        )
+    }
+
+    function validarCampos() {
         const name = input_name.value;
         const email = input_email.value;
         const password = input_password.value;
         const confirmPassword = input_confirm_password.value;
         let msgError = '';
+        error_email.style.display = 'none';
+        error_conf_senha.style.display = 'none'
+
+        let validationIsCompleted = true;
+
         if (name == '' || email == '' || password == '' || confirmPassword == '') {
-            msgError = 'Preencha os campos corretamente'
-            alert_error.innerHTML = msgError;
-            alert_error.style.animationName = 'showRight'
-            alert_error.addEventListener('animationend', setTimeout(() => {
-                alert_error.style.animationName = 'hideRight'
-            }, 2000)
-            )
+            msgError = 'Preencha todos os campos'
+            color = 'rgb(240, 81, 81)'
+            alertMsg(msgError, color);
+        } else {
+            if (email.indexOf('@') < 0 || email.indexOf('.com') < 0) {
+                error_email.style.display = 'block';
+                validationIsCompleted = false;
+            }
 
+            if (confirmPassword != password) {
+                error_conf_senha.style.display = 'block'
+                validationIsCompleted = false;
+            }
+
+            if (validationIsCompleted) {
+                msgError = 'Cadastro realizado'
+                color = 'rgb(43, 207, 98)'
+                alertMsg(msgError, color);
+            }
         }
-
 
     }
 
