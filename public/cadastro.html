@@ -27,7 +27,7 @@
                     <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
                     <span id="error_senha" class="msg_error">Senha Inválida</span>
                     <ul class="validationList">
-                        <li id="validation1" class="">Deve conter 10 caracteres</li>
+                        <li id="validation1">Deve conter 10 caracteres</li>
                         <li id="validation2">Deve conter um caracter especial (@ ou #)</li>
                         <li id="validation3">Deve conter um número</li>
                     </ul>
@@ -48,6 +48,17 @@
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
 
 <script>
+
+    function limparCampos(){
+        input_name.value = '';
+        input_email.value = '';
+        input_password.value = '';
+        input_confirm_password.value = '';
+        btn_content.innerHTML = `
+             <button id="btn_cadastro" onclick="validarCampos()">CADASTRAR</button>
+             <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
+          `
+    }
 
     function alertMsg(msg, type) {
         alert_error.innerHTML = msg;
@@ -126,6 +137,7 @@
 
                         setTimeout(() => {
                             window.location = "login.html";
+                            limparCampos()
                         }, 2000);
 
 
