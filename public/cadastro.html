@@ -35,7 +35,7 @@
                     <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
                     <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
                 </form>
-                <div class="btn_container">
+                <div id="btn_content" class="btn_container">
                     <button id="btn_cadastro" onclick="validarCampos()">CADASTRAR</button>
                     <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
                 </div>
@@ -54,14 +54,15 @@
         alert_error.style.backgroundColor = type
         alert_error.style.animationName = 'showRight'
         alert_error.addEventListener('animationend', () => {
-            setTimeout(() =>{
+            setTimeout(() => {
                 alert_error.style.animationName = 'hideRight'
-            },2000)
+            }, 2000)
         }
         )
     }
 
     function validarCampos() {
+        btn_content.innerHTML = `<span class="loader"></span>`
         const name = input_name.value;
         const email = input_email.value;
         const password = input_password.value;
@@ -97,15 +98,51 @@
             validationIsCompleted = false;
         }
 
-        if (validationIsCompleted) {
-            msgError = 'Cadastro realizado - Redirecionando para Login'
-            alertMsg(msgError, correctColor);
-            setTimeout(() =>{
-                window.location = "login.html"
-            },2000)
+        if (validationIsCompleted == false) {
+            btn_content.innerHTML = `
+                <button id="btn_cadastro" onclick="validarCampos()">CADASTRAR</button>
+                <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
+            `
+        } else {
+            fetch("/usuarios/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    nomeServer: name,
+                    emailServer: email,
+                    senhaServer: password
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        msgError = 'Cadastro realizado - Redirecionando para Login'
+                        alertMsg(msgError, correctColor);
+
+                        setTimeout(() => {
+                            window.location = "login.html";
+                        }, 2000);
+
+
+                    } else {
+                        throw "Houve um erro ao tentar realizar o cadastro!";
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    btn_content.innerHTML = `
+                    <button id="btn_cadastro" onclick="validarCampos()">CADASTRAR</button>
+                    <span>Já faz parte da comunidade? <a href="login.html">Entrar</a></span>
+                `
+                });
         }
 
-
+        
     }
 
     function changeValidation(content, colorValidation) {
