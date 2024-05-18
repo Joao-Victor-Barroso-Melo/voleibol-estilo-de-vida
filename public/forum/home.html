@@ -1,16 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/headerForum.css">
+    <link rel="stylesheet" href="../css/homeForum.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
+
 <body>
-    <h1>Bem vindo ao Fórum, <span id="user_name"></span></h1>
+    <header class="header_container">
+        <section class="section_header container">
+            <div class="img_container">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <div class="perfil_container">
+                <span id="user_name">João Victor</span>
+                <div class="foto_perfil"></div>
+                <span class="menu_toggle"><i class="fa-solid fa-sort-down"></i></span>
+            </div>
+        </section>
+    </header>
+    <section class="nav_section">
+        <div class="nav_content container">
+            <nav class=nav_menu>
+                <span class="item_menu menu_active">Home</span>
+                <span class="item_menu">Notícias</span>
+            </nav>
+            <div class="pesquisa_container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+        </div>
+    </section>
+
+    <!-- CSS da tag main no arquivo headerForum.css -->
+    <main>
+        <div class="container">
+            <div class="forum_grid">
+                <div id="grid1" class="forum_posts_container">
+                    <div class="header_posts">
+                        <button class="btn_add_post">
+                            CRIAR POST
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                        <span class="filter_content">
+                            Filtrar por
+                            <i class="fa-solid fa-sort-down"></i>
+                        </span>
+                    </div>
+
+                    <div id="post_list">
+                        <div class="post_item">
+                            <div class="post_section">
+                                <div class="foto_post"></div>
+                                <div class="post_content">
+                                    <div class="post_info">
+                                        <p>Sarah Lakers</p>
+                                        <h2>Como vocês melhoram a impulsão nos treinos?</h2>
+                                    </div>
+                                    <div class="post_status">
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-message msg"></i>
+                                            5 Comentários
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-heart like"></i>
+                                            10 Curtidas
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-eye view"></i>
+                                            20 Visualizações
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="dataTime_post">
+                                10 min
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="grid2"></div>
+                <div id="grid3"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer_container scroll_content">
+        <div class="top_footer">
+            <div class="img_container_footer ">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <ul class="list_footer">
+                <li class="title_list">Navegação</li>
+                <li>História</li>
+                <li>Características</li>
+                <li>Sobre mim</li>
+            </ul>
+            <ul class="list_footer">
+                <li class="title_list">Contato</li>
+                <li>(+55) 0000-0000</li>
+                <li>(+55) 3691-0000</li>
+                <li>nome.sobrenome@gmail.com</li>
+            </ul>
+            <div class="list_icon">
+                <p class="title_list">Redes Sociais</p>
+                <div class="flex_icon">
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bottom_footer">
+            <p>©2024 - Vôlei como estilo de vida</p>
+        </div>
+    </footer>
+
 </body>
+
 </html>
 
+<script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+
 <script>
-    user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+    // user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
 </script>

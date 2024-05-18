@@ -1,0 +1,117 @@
+.forum_grid{
+    padding: 50px 10px;
+    height: 800px;
+    display: grid;
+    grid-template-areas: 
+    "grid1 grid1 grid2"
+    "grid1 grid1 grid3";
+    max-width: 100%;
+    gap: 20px;
+}
+
+#grid1{
+    grid-area: grid1;
+    background-color: #fff;
+    height: 100%;
+    overflow: hidden;
+}
+#grid2{
+    grid-area: grid2;
+    background-color: #fff;
+    height: 100%;
+}
+
+#grid3{
+    grid-area: grid3;
+    background-color: #fff;
+    height: 100%;
+}
+
+.header_posts{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.btn_add_post{
+    padding: 20px 30px;
+    border: none;
+    background-color: var(--blue-mikasa);
+    cursor: pointer;
+}
+
+.btn_add_post,.btn_add_post>i{
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-white);
+}
+
+.filter_content{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/* ITEM_POSTAGEM */
+
+
+
+.post_item{
+    padding: 40px 20px;
+    border-bottom: 1px solid var(--text-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.post_section{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.post_content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post_info>p{
+    font-size: 14px;
+}
+
+.post_info>h2{
+    font-size: 18px;
+}
+
+.foto_post{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--text-gray);
+}
+
+.post_status{
+    display: flex;
+    gap: 20px;
+}
+
+.msg{
+    color: #FFAF36;
+}
+
+.like{
+    color: #FF3636;
+}
+
+.view{
+    color: #2B84D7;
+}
+
+.dataTime_post{
+    font-weight: bold;
+    align-self: flex-end;
+}

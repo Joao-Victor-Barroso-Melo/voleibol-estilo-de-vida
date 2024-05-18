@@ -22,7 +22,7 @@
     width: 100%;
 }
 
-.list_footer>li,.list_icon>p,i{
+.list_footer>li,.list_icon>p,.flex_icon>i{
     color: var(--text-white);
     cursor: pointer;
 }
