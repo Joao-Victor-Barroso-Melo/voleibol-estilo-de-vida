@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="../css/headerForum.css">
     <link rel="stylesheet" href="../css/homeForum.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <script src="../js/sessao.js"></script>
+
 </head>
 
-<body onload="atualizarFeed()">
+<body onload="atualizarFeed(); validarSessao()">
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -18,8 +20,15 @@
             </div>
             <div class="perfil_container">
                 <span id="user_name"></span>
-                <div class="foto_perfil"></div>
-                <span class="menu_toggle"><i class="fa-solid fa-sort-down"></i></span>
+                <div class="foto_perfil">
+                    <img src="../assets/img/user_profiel_image.png" alt="">
+                </div>
+                <span class="menu_toggle">
+                    <i onclick="dropDownMenuToggle()" class="fa-solid fa-sort-down"></i>
+                    <div id="dropDownMenu" class="dropdow_menu">
+                        <span onclick="limparSessao()">Sair <i class="fa-solid fa-right-from-bracket"></i></span>
+                    </div>
+                </span>
             </div>
         </section>
     </header>
@@ -42,7 +51,7 @@
             <div class="forum_grid">
                 <div id="grid1" class="forum_posts_container">
                     <div class="header_posts">
-                        <button class="btn_add_post">
+                        <button class="btn_add_post" onclick="toggleModal()">
                             CRIAR POST
                             <i class="fa-solid fa-plus"></i>
                         </button>
@@ -58,6 +67,18 @@
                 <div id="grid3"></div>
             </div>
     </main>
+    <div id="modal_post" class="modal_container">
+        <div class="modal_content">
+            <div onclick="toggleModal()" class="header_modal"><i class="fa-solid fa-x"></i></div>
+            <form onsubmit="return publicar()" class="form_post">
+                <label>Assunto:</label>
+                <input id="input_assunto" type="text" name="assunto">
+                <label>Descricao:</label>
+                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50"> </textarea>
+                <button class="btn_insert_post">PUBLICAR</button>
+            </form>
+        </div>
+    </div>
 
     <footer class="footer_container scroll_content">
         <div class="top_footer">
@@ -99,6 +120,47 @@
 <script>
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
+    function publicar() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+        const assunto = input_assunto.value;
+        const descricao = input_descricao.value;
+        var corpo = {
+            titulo: assunto,
+            descricao: descricao
+        }
+
+        if(assunto.trim().length <= 0 || descricao.trim().length <= 0){
+            alert("Preencha todos os campos")
+        }else{
+            fetch(`/postagens/publicar/${idUsuario}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(corpo)
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
+                window.location = "/forum/home.html";
+
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+
+        });
+        }
+
+        return false;
+
+    }
+
     function atualizarFeed() {
         feed.innerHTML = "";
 
@@ -130,13 +192,13 @@
                         minutes %= 60;
                         hours %= 24;
 
-                        if(days > 0){
+                        if (days > 0) {
                             dataPostagem = `${days} d`;
-                        }else if(hours > 0){
+                        } else if (hours > 0) {
                             dataPostagem = `${hours} h`
-                        }else if(minutes > 0){
+                        } else if (minutes > 0) {
                             dataPostagem = `${minutes} min`
-                        }else{
+                        } else {
                             dataPostagem = `${seconds} s`
                         }
 
@@ -158,7 +220,9 @@
                         feed.innerHTML += `
                         <div class="post_item">
                             <div class="post_section">
-                                <div class="foto_post"></div>
+                                <div class="foto_post">
+                                <img src="../assets/img/user_profiel_image.png" alt="">
+                                </div>
                                 <div class="post_content">
                                     <div class="post_info">
                                         <p>${post.nome}</p>
@@ -196,6 +260,30 @@
         }).catch(function (resposta) {
             console.error(resposta);
         });
+    }
+
+    let modalOpen = false;
+    function toggleModal() {
+        if (modalOpen) {
+            modal_post.style.display = 'none'
+            document.body.style.overflow = 'auto';
+
+        } else {
+            document.body.style.overflow = 'hidden';
+            modal_post.style.display = 'flex'
+        }
+        modalOpen = !modalOpen;
+    }
+
+    let dropdowMenuOpen = false;
+    function dropDownMenuToggle(){
+        if (dropdowMenuOpen) {
+            dropDownMenu.style.display = 'none'
+
+        } else {
+            dropDownMenu.style.display = 'flex'
+        }
+        dropdowMenuOpen = !dropdowMenuOpen;
     }
 
 </script>
