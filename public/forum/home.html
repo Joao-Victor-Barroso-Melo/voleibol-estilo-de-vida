@@ -35,7 +35,7 @@
     <section class="nav_section">
         <div class="nav_content container">
             <nav class=nav_menu>
-                <span class="item_menu menu_active">Home</span>
+                <span class="item_menu menu_active">Feed</span>
                 <span class="item_menu">Notícias</span>
             </nav>
             <div class="pesquisa_container">
@@ -63,8 +63,10 @@
 
                     <div id="feed"></div>
                 </div>
-                <div id="grid2"></div>
-                <div id="grid3"></div>
+                <div class="right_cards">
+                    <div id="grid2"></div>
+                    <div id="grid3"></div>
+                </div>
             </div>
     </main>
     <div id="modal_post" class="modal_container">
@@ -129,32 +131,32 @@
             descricao: descricao
         }
 
-        if(assunto.trim().length <= 0 || descricao.trim().length <= 0){
+        if (assunto.trim().length <= 0 || descricao.trim().length <= 0) {
             alert("Preencha todos os campos")
-        }else{
+        } else {
             fetch(`/postagens/publicar/${idUsuario}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(corpo)
-        }).then(function (resposta) {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(corpo)
+            }).then(function (resposta) {
 
-            console.log("resposta: ", resposta);
+                console.log("resposta: ", resposta);
 
-            if (resposta.ok) {
-                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location = "/forum/home.html";
+                if (resposta.ok) {
+                    window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
+                    window.location = "/forum/home.html";
 
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
 
-        });
+            });
         }
 
         return false;
@@ -276,7 +278,7 @@
     }
 
     let dropdowMenuOpen = false;
-    function dropDownMenuToggle(){
+    function dropDownMenuToggle() {
         if (dropdowMenuOpen) {
             dropDownMenu.style.display = 'none'
 
