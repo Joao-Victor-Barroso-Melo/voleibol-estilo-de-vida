@@ -1,4 +1,6 @@
-CREATE DATABASE voleiForum;
+DROP DATABASE IF EXISTS voleiForum;
+CREATE DATABASE IF NOT EXISTS voleiForum;
+
 
 USE voleiForum;
 
@@ -20,7 +22,7 @@ CREATE TABLE postagem(
 );
 
 CREATE TABLE comentario(
-	idComentario INT,
+	idComentario INT AUTO_INCREMENT,
     fkPostagem INT,
     fkUsuario INT,
     mensagem VARCHAR(255),
@@ -31,7 +33,7 @@ CREATE TABLE comentario(
 ); 
 
 CREATE TABLE curtida(
-	idCurtida INT,
+	idCurtida INT AUTO_INCREMENT,
     fkPostagem INT,
     fkUsuario INT,
     FOREIGN KEY (fkPostagem) REFERENCES postagem(idPostagem),
@@ -40,7 +42,7 @@ CREATE TABLE curtida(
 ); 
 
 CREATE TABLE visualizacao(
-	idVisualizacao INT,
+	idVisualizacao INT AUTO_INCREMENT,
     fkPostagem INT,
     fkUsuario INT,
     dataHora DATETIME,
@@ -51,4 +53,60 @@ CREATE TABLE visualizacao(
 
 INSERT INTO usuario (nome, email, senha) VALUES ('João Victor', 'joao@gmail.com', 'joao@gmail.com1');
 
+INSERT INTO postagem (assunto, descricao, dataHora, fkUsuario) VALUES 
+	('Como vocês melhoram a impulsão nos treinos?', 'Eu tenho feito diversos circuitos para aumentar minha impulsão.', now(), 1),
+	('teste', 'este', now(), 1);
+
+INSERT INTO comentario (fkPostagem, fkUsuario, mensagem, dataHora) VALUES
+	(1, 1, 'Acho que você deveria treinar impulsão separado do seu treino de perna.', now()),
+	(1, 1, 'Ou você poderia comer melhor para saúde e bem estar', now()),
+	(2, 1, 'Ou você poderia comer melhor para saúde e bem estar', now());
+    
+INSERT INTO curtida (fkPostagem, fkUsuario) VALUES 
+	(1, 1),
+	(1, 1),
+	(2, 1);
+
+INSERT INTO visualizacao (fkPostagem, fkUsuario, dataHora) VALUES 
+	(1, 1 , now()),
+	(1, 1 , now()),
+	(2, 1 , now()),
+	(2, 1 , now());
+
 SELECT * FROM usuario;
+SELECT * FROM postagem;
+SELECT * FROM comentario;
+SELECT * FROM visualizacao;
+
+SELECT 
+            p.idPostagem,
+            p.assunto,
+            p.fkUsuario,
+            p.dataHora,
+            u.idUsuario,
+            u.nome,
+			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
+			(SELECT count(idCurtida) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
+            (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
+        FROM postagem p
+                JOIN usuario u
+                ON p.fkUsuario = u.idUsuario;
+                
+SELECT 
+            p.idPostagem,
+            p.assunto,
+            p.descricao,
+            p.fkUsuario,
+            u.idUsuario,
+            u.nome,
+            u.email,
+            u.senha
+        FROM postagem p
+            INNER JOIN usuario u
+                ON p.fkUsuario = u.idUsuario
+                ;
+                
+
+;
+
+                

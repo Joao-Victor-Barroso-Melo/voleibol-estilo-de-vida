@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="../css/footer.css">
 </head>
 
-<body>
+<body onload="atualizarFeed()">
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
                 <img src="../assets/img/voleibol_png_branca.png" alt="">
             </div>
             <div class="perfil_container">
-                <span id="user_name">João Victor</span>
+                <span id="user_name"></span>
                 <div class="foto_perfil"></div>
                 <span class="menu_toggle"><i class="fa-solid fa-sort-down"></i></span>
             </div>
@@ -52,43 +52,11 @@
                         </span>
                     </div>
 
-                    <div id="post_list">
-                        <div class="post_item">
-                            <div class="post_section">
-                                <div class="foto_post"></div>
-                                <div class="post_content">
-                                    <div class="post_info">
-                                        <p>Sarah Lakers</p>
-                                        <h2>Como vocês melhoram a impulsão nos treinos?</h2>
-                                    </div>
-                                    <div class="post_status">
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-message msg"></i>
-                                            5 Comentários
-                                        </span>
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-heart like"></i>
-                                            10 Curtidas
-                                        </span>
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-eye view"></i>
-                                            20 Visualizações
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="dataTime_post">
-                                10 min
-                            </span>
-                        </div>
-
-                    </div>
+                    <div id="feed"></div>
                 </div>
-
                 <div id="grid2"></div>
                 <div id="grid3"></div>
             </div>
-        </div>
     </main>
 
     <footer class="footer_container scroll_content">
@@ -129,6 +97,105 @@
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
 
 <script>
-    // user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+    user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+
+    function atualizarFeed() {
+        feed.innerHTML = "";
+
+        fetch("/postagens/listar").then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed");
+                    feed.innerHTML = `<h2>Nenhum resultado encontrado.</h2>`
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed");
+                    resposta.map((post) => {
+                        let dataPostagem = '';
+                        const datetimeString = post.dataHora;
+                        let startDate = new Date(datetimeString);
+                        let currentDate = new Date();
+                        let differenceInMilliseconds = currentDate - startDate;
+
+                        let seconds = Math.floor(differenceInMilliseconds / 1000);
+                        let minutes = Math.floor(seconds / 60);
+                        let hours = Math.floor(minutes / 60);
+                        let days = Math.floor(hours / 24);
+
+                        seconds %= 60;
+                        minutes %= 60;
+                        hours %= 24;
+
+                        if(days > 0){
+                            dataPostagem = `${days} d`;
+                        }else if(hours > 0){
+                            dataPostagem = `${hours} h`
+                        }else if(minutes > 0){
+                            dataPostagem = `${minutes} min`
+                        }else{
+                            dataPostagem = `${seconds} s`
+                        }
+
+                        console.log(`Passaram ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos.`);
+
+
+                        // let day = date.getDate().toString().padStart(2, '0');
+                        // let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Os meses são indexados de 0 a 11
+                        // let year = date.getFullYear();
+
+                        // let hours = date.getHours().toString().padStart(2, '0');
+                        // let minutes = date.getMinutes().toString().padStart(2, '0');
+
+                        // let formattedDate = `${day}/${month}/${year}`;
+                        // let formattedTime = `${hours}:${minutes}`;
+
+                        // console.log(`Data: ${formattedDate}`);
+                        // console.log(`Hora: ${formattedTime}`);
+                        feed.innerHTML += `
+                        <div class="post_item">
+                            <div class="post_section">
+                                <div class="foto_post"></div>
+                                <div class="post_content">
+                                    <div class="post_info">
+                                        <p>${post.nome}</p>
+                                        <h2>${post.assunto}</h2>
+                                    </div>
+                                    <div class="post_status">
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-message msg"></i>
+                                            ${post.qtdComentarios} Comentários
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-heart like"></i>
+                                            ${post.qtdCurtidas} Curtidas
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-eye view"></i>
+                                            ${post.qtdVisualizacoes} Visualizações
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="dataTime_post">
+                                ${dataPostagem}
+                            </span>
+                        </div>
+
+                    </div>
+                        `
+                    })
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
+    }
 
 </script>
