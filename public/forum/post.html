@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/headerForum.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/post.css">
+    <script src="../js/sessao.js"></script>
+</head>
+
+<body>
+    <header class="header_container">
+        <section class="section_header container">
+            <div class="img_container">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <div class="perfil_container">
+                <span id="user_name"></span>
+                <div class="foto_perfil">
+                    <img src="../assets/img/user_profiel_image.png" alt="">
+                </div>
+                <span class="menu_toggle">
+                    <i onclick="dropDownMenuToggle()" class="fa-solid fa-sort-down"></i>
+                    <div id="dropDownMenu" class="dropdow_menu">
+                        <span onclick="limparSessao()">Sair <i class="fa-solid fa-right-from-bracket"></i></span>
+                    </div>
+                </span>
+            </div>
+        </section>
+    </header>
+    <section class="nav_section">
+        <div class="nav_content container">
+            <nav class=nav_menu>
+                <span class="item_menu">Feed</span>
+                <span class="item_menu">Notícias</span>
+            </nav>
+            <div class="pesquisa_container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="post_container">
+                <div class="post_content">
+                    <div class="header_post">
+                        <div class="user_post_info">
+                            <div class="foto_perfil">
+                                <img src="../assets/img/user_profiel_image.png" alt="">
+                            </div>
+                            <h3>Nome Usuário</h3>
+                            <i class="fa-solid fa-circle"></i>
+                            <span>10 min</span>
+                        </div>
+                        <i class="fa-solid fa-heart like"></i>
+                    </div>
+                    <div class="user_post_content">
+                        <h1>Como vocês melhoram a impulsão nos treinos?</h1>
+                        <p>Eu tenho feito diversos circuitos para aumentar minha impulsão. Por exemplo, eu faço treino
+                            de pernas e algumas séries de pulo no caixote para aumentar minha força. Porém não vejo
+                            muitos resultado e fico cansada constantemente.</p>
+                    </div>
+                    <div class="user_post_status">
+                        <span class="status_item">
+                            <i class="fa-solid fa-message msg"></i>
+                            1 Comentários
+                        </span>
+                        <span class="status_item">
+                            <i class="fa-solid fa-heart like"></i>
+                            10 Curtidas
+                        </span>
+                        <span class="status_item">
+                            <i class="fa-solid fa-eye view"></i>
+                            20 Visualizações
+                        </span>
+                    </div>
+                </div>
+
+                <div class="user_post_comentarios">
+                    <h1>Comentários</h1>
+                    <div class="comentario_container">
+                        <div class="user_post_info">
+                            <div class="foto_perfil">
+                                <img src="../assets/img/user_profiel_image.png" alt="">
+                            </div>
+                            <h3>Nome Usuário</h3>
+                            <i class="fa-solid fa-circle"></i>
+                            <span>10 min</span>
+                        </div>
+                        <p>Acho que você deveria treinar impulsão separado do sseu treino de perna. Se não ficará muito cansada durante o treino e diminuirá seu desempenho</p>
+                    </div>
+
+                </div>
+
+                <div class="comentar_container">
+                    <div class="comentar_content">
+                        <div class="foto_perfil">
+                            <img src="../assets/img/user_profiel_image.png" alt="">
+                        </div>
+                        <textarea id="input_comentario" placeholder="Deixe aqui seu comentário"></textarea>
+                    </div>
+                    <button>COMENTAR</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer class="footer_container scroll_content">
+        <div class="top_footer">
+            <div class="img_container_footer ">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <ul class="list_footer">
+                <li class="title_list">Navegação</li>
+                <li>História</li>
+                <li>Características</li>
+                <li>Sobre mim</li>
+            </ul>
+            <ul class="list_footer">
+                <li class="title_list">Contato</li>
+                <li>(+55) 0000-0000</li>
+                <li>(+55) 3691-0000</li>
+                <li>nome.sobrenome@gmail.com</li>
+            </ul>
+            <div class="list_icon">
+                <p class="title_list">Redes Sociais</p>
+                <div class="flex_icon">
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bottom_footer">
+            <p>©2024 - Vôlei como estilo de vida</p>
+        </div>
+    </footer>
+</body>
+
+</html>
+
+<script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script>
+    user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+
+
+
+    let dropdowMenuOpen = false;
+    function dropDownMenuToggle() {
+        if (dropdowMenuOpen) {
+            dropDownMenu.style.display = 'none'
+
+        } else {
+            dropDownMenu.style.display = 'flex'
+        }
+        dropdowMenuOpen = !dropdowMenuOpen;
+    }
+
+</script>

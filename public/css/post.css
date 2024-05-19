@@ -1,0 +1,120 @@
+.post_container{
+    padding: 50px 10px;
+}
+
+.post_content{
+    background-color: #fff;
+}
+
+
+/* HEADER POST */
+.foto_post{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.foto_post>img{
+    width: 100%;
+}
+
+.header_post{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0px;
+    margin: 0px 30px;
+    border-bottom: 2px solid #d1d1d1;
+}
+
+.user_post_info{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user_post_info>i{
+    font-size: 5px;
+}
+
+.header_post>i{
+    font-size: 40px;
+    color: #d1d1d1;
+}
+
+/* POST CONTENT */
+.user_post_content{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* STATUS POST */
+.user_post_status{
+    padding: 30px;
+    display: flex;
+    gap: 50px;
+}
+
+.msg{
+    color: #FFAF36;
+}
+
+.like{
+    color: #FF3636;
+}
+
+.view{
+    color: #2B84D7;
+}
+
+.user_post_comentarios{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.user_post_comentarios>h1{
+    color: var(--text-white);
+}
+.comentario_container{
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+}
+
+/* COMENTAR */
+.comentar_container{
+    margin-top: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #fff;
+}
+
+.comentar_content{
+    display: flex;
+    gap: 10px;
+}
+
+.comentar_content>textarea{
+    width: 100%;
+    height: 200px;
+    padding: 10px 5px;
+}
+
+.comentar_container>button{
+    cursor: pointer;
+    align-self: flex-end;
+    font-weight: bold;
+    padding: 15px 40px;
+    border: none;
+    color: var(--text-white);
+    background-color: var(--blue-mikasa);
+}

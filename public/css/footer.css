@@ -3,12 +3,14 @@
 /* footer */
 .footer_container{
     height: 100vh;
+    background: var(--blue-mikasa);
 }
 
 .top_footer{
-    background: var(--blue-mikasa);
     height: 90%;
-    padding: 100px 90px;
+    padding: 100px 0px;
+    max-width: 1200px;
+    margin: auto;
     display: flex;
     justify-content: space-between;
    
