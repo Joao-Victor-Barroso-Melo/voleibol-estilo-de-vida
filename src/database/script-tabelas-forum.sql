@@ -123,12 +123,20 @@ SELECT
                 WHERE idPostagem = 1
                 ORDER BY p.dataHora;
                 
-SELECT * FROM 
-	comentario 
-    JOIN postagem 
-    ON comentario.fkPostagem = idPostagem
-    JOIN usuario 
-    ON comentario.fkUsuario = idUsuario
-    WHERE idPostagem = 1;
+SELECT 
+	c.idComentario,
+    c.fkPostagem,
+    c.fkUsuario,
+    c.dataHora,
+	c.mensagem,
+    u.idUsuario,
+    u.nome
+	FROM 
+	comentario as c
+    JOIN postagem as p
+    ON c.fkPostagem = p.idPostagem
+    JOIN usuario as u
+    ON c.fkUsuario = u.idUsuario
+    WHERE p.idPostagem = 1;
 
                 

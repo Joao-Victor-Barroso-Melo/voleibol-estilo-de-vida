@@ -47,54 +47,12 @@
     <main>
         <div class="container">
             <div class="post_container">
-                <div class="post_content">
-                    <div class="header_post">
-                        <div class="user_post_info">
-                            <div class="foto_perfil">
-                                <img src="../assets/img/user_profiel_image.png" alt="">
-                            </div>
-                            <h3>Nome Usuário</h3>
-                            <i class="fa-solid fa-circle"></i>
-                            <span>10 min</span>
-                        </div>
-                        <i class="fa-solid fa-heart like"></i>
-                    </div>
-                    <div class="user_post_content">
-                        <h1>Como vocês melhoram a impulsão nos treinos?</h1>
-                        <p>Eu tenho feito diversos circuitos para aumentar minha impulsão. Por exemplo, eu faço treino
-                            de pernas e algumas séries de pulo no caixote para aumentar minha força. Porém não vejo
-                            muitos resultado e fico cansada constantemente.</p>
-                    </div>
-                    <div class="user_post_status">
-                        <span class="status_item">
-                            <i class="fa-solid fa-message msg"></i>
-                            1 Comentários
-                        </span>
-                        <span class="status_item">
-                            <i class="fa-solid fa-heart like"></i>
-                            10 Curtidas
-                        </span>
-                        <span class="status_item">
-                            <i class="fa-solid fa-eye view"></i>
-                            20 Visualizações
-                        </span>
-                    </div>
+                <div id="post_content_id" class="post_content">
+
                 </div>
 
-                <div class="user_post_comentarios">
+                <div id="comentarios_container" class="user_post_comentarios">
                     <h1>Comentários</h1>
-                    <div class="comentario_container">
-                        <div class="user_post_info">
-                            <div class="foto_perfil">
-                                <img src="../assets/img/user_profiel_image.png" alt="">
-                            </div>
-                            <h3>Nome Usuário</h3>
-                            <i class="fa-solid fa-circle"></i>
-                            <span>10 min</span>
-                        </div>
-                        <p>Acho que você deveria treinar impulsão separado do sseu treino de perna. Se não ficará muito
-                            cansada durante o treino e diminuirá seu desempenho</p>
-                    </div>
 
                 </div>
 
@@ -153,21 +111,111 @@
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     console.log(id)
+    let dadosPostagens = '';
+    let comentarios = '';
 
-    function atualizarPost(){
-        fetch(`/postagens/pegar/${id}`, { cache: 'no-store' }).then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-                
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
-            }
-        })
+    function formatarTempoPostagem(dataHora) {
+        let dataPostagem = '';
+        const datetimeString = dataHora;
+        let startDate = new Date(datetimeString);
+        let currentDate = new Date();
+        let differenceInMilliseconds = currentDate - startDate;
+
+        let seconds = Math.floor(differenceInMilliseconds / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+        let days = Math.floor(hours / 24);
+
+        seconds %= 60;
+        minutes %= 60;
+        hours %= 24;
+
+        if (days > 0) {
+            dataPostagem = `${days} d`;
+        } else if (hours > 0) {
+            dataPostagem = `${hours} h`
+        } else if (minutes > 0) {
+            dataPostagem = `${minutes} min`
+        } else {
+            dataPostagem = `${seconds} s`
+        }
+
+        return dataPostagem;
+
+    }
+
+    function atualizarPost() {
+        fetch(`/postagens/pegar/${id}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        console.log(resposta)
+                        dadosPostagens = resposta.postagem[0];
+                        comentarios = resposta.comentarios;
+                        console.log(dadosPostagens)
+                        console.log(comentarios)
+
+
+                        post_content_id.innerHTML = `
+                    <div class="header_post">
+                        <div class="user_post_info">
+                            <div class="foto_perfil">
+                                <img src="../assets/img/user_profiel_image.png" alt="">
+                            </div>
+                            <h3>${dadosPostagens.nome}</h3>
+                            <i class="fa-solid fa-circle"></i>
+                            <span>${formatarTempoPostagem(dadosPostagens.dataHora)}</span>
+                        </div>
+                        <i class="fa-solid fa-heart like"></i>
+                    </div>
+                    <div class="user_post_content">
+                        <h1>${dadosPostagens.assunto}</h1>
+                        <p>${dadosPostagens.descricao}</p>
+                    </div>
+                    <div class="user_post_status">
+                        <span class="status_item">
+                            <i class="fa-solid fa-message msg"></i>
+                            ${dadosPostagens.qtdComentarios} Comentários
+                        </span>
+                        <span class="status_item">
+                            <i class="fa-solid fa-heart like"></i>
+                            ${dadosPostagens.qtdCurtidas} Curtidas
+                        </span>
+                        <span class="status_item">
+                            <i class="fa-solid fa-eye view"></i>
+                            ${dadosPostagens.qtdVisualizacoes} Visualizações
+                        </span>
+                    </div>
+            `
+
+            comentarios.map(comentario => {
+                comentarios_container.innerHTML += `
+                <div class="comentario_container">
+                        <div class="user_post_info">
+                            <div class="foto_perfil">
+                                <img src="../assets/img/user_profiel_image.png" alt="">
+                            </div>
+                            <h3>${comentario.nome}</h3>
+                            <i class="fa-solid fa-circle"></i>
+                            <span>${formatarTempoPostagem(comentario.dataHora)}</span>
+                        </div>
+                        <p>${comentario.mensagem}</p>
+                    </div>
+                `
+            })
+
+
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
             .catch(function (error) {
                 console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
             });
+
+
     }
 
     let dropdowMenuOpen = false;

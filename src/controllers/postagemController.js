@@ -45,10 +45,21 @@ function listarDadosPostagem(req, res) {
     postagemModel.listarDadosPostagem(idPostagem)
         .then(
             function (resultado) {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
+                if (resultado.length == 1) {
+                    postagemModel.buscarComentarioPorPostagem(idPostagem)
+                    .then((resultadoComentarios) => {
+                        if (resultadoComentarios.length > 0) {
+                            res.json({
+                                postagem: resultado,
+                                comentarios: resultadoComentarios
+                            });
+                        } else {
+                            res.json({postagem: resultado,
+                                comentarios: [] });
+                        }
+                    })
                 } else {
-                    res.status(204).send("Nenhum resultado encontrado!");
+                    res.status(403).send("Nenhum resultado encontrado!");
                 }
             }
         )
@@ -63,6 +74,23 @@ function listarDadosPostagem(req, res) {
             }
         );
 }
+
+function buscarComentarioPorPostagem(req, res) {
+    var idPostagem = req.params.idPostagem;
+  
+    postagemModel.buscarComentarioPorPostagem(idPostagem).then((resultado) => {
+      if (resultado.length > 0) {
+        
+        res.status(200).json(resultado);
+      } else {
+        res.status(204).json([]);
+      }
+    }).catch(function (erro) {
+      console.log(erro);
+      console.log("Houve um erro ao buscar os aquarios: ", erro.sqlMessage);
+      res.status(500).json(erro.sqlMessage);
+    });
+  }
 
 function pesquisarDescricao(req, res) {
     var descricao = req.params.descricao;
@@ -158,5 +186,6 @@ module.exports = {
     publicar,
     editar,
     deletar,
-    listarDadosPostagem
+    listarDadosPostagem,
+    buscarComentarioPorPostagem
 }
