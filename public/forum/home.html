@@ -220,7 +220,7 @@
                         // console.log(`Data: ${formattedDate}`);
                         // console.log(`Hora: ${formattedTime}`);
                         feed.innerHTML += `
-                        <div class="post_item">
+                        <div class="post_item" onclick="irParaPost(${post.idPostagem})">
                             <div class="post_section">
                                 <div class="foto_post">
                                 <img src="../assets/img/user_profiel_image.png" alt="">
@@ -286,6 +286,10 @@
             dropDownMenu.style.display = 'flex'
         }
         dropdowMenuOpen = !dropdowMenuOpen;
+    }
+
+    function irParaPost(id){
+        window.location = `post.html?id=${id}`
     }
 
 </script>

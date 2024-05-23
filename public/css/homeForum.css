@@ -69,7 +69,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
+}
 
+.post_item:hover{
+    background-color: #f0f0f0;
 }
 
 .post_section{

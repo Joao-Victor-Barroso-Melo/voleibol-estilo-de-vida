@@ -105,8 +105,30 @@ SELECT
             INNER JOIN usuario u
                 ON p.fkUsuario = u.idUsuario
                 ;
-                
 
-;
+SELECT 
+            p.idPostagem,
+            p.assunto,
+            p.descricao,
+            p.fkUsuario,
+            p.dataHora,
+            u.idUsuario,
+            u.nome,
+			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
+			(SELECT count(idCurtida) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
+            (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
+        FROM postagem p
+                JOIN usuario u
+                ON p.fkUsuario = u.idUsuario
+                WHERE idPostagem = 1
+                ORDER BY p.dataHora;
+                
+SELECT * FROM 
+	comentario 
+    JOIN postagem 
+    ON comentario.fkPostagem = idPostagem
+    JOIN usuario 
+    ON comentario.fkUsuario = idUsuario
+    WHERE idPostagem = 1;
 
                 

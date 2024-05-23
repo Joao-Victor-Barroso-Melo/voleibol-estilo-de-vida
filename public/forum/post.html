@@ -11,7 +11,7 @@
     <script src="../js/sessao.js"></script>
 </head>
 
-<body>
+<body onload="atualizarPost()">
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -92,7 +92,8 @@
                             <i class="fa-solid fa-circle"></i>
                             <span>10 min</span>
                         </div>
-                        <p>Acho que você deveria treinar impulsão separado do sseu treino de perna. Se não ficará muito cansada durante o treino e diminuirá seu desempenho</p>
+                        <p>Acho que você deveria treinar impulsão separado do sseu treino de perna. Se não ficará muito
+                            cansada durante o treino e diminuirá seu desempenho</p>
                     </div>
 
                 </div>
@@ -149,7 +150,25 @@
 <script>
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    console.log(id)
 
+    function atualizarPost(){
+        fetch(`/postagens/pegar/${id}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
 
     let dropdowMenuOpen = false;
     function dropDownMenuToggle() {
