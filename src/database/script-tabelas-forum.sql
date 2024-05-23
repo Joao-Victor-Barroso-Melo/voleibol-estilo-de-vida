@@ -6,15 +6,15 @@ USE voleiForum;
 
 CREATE TABLE usuario (
 	idUsuario INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
+	nome VARCHAR(45),
+	email VARCHAR(45),
+	senha VARCHAR(45),
     fotoPerfil MEDIUMBLOB
 );
 
 CREATE TABLE postagem(
 	idPostagem INT PRIMARY KEY AUTO_INCREMENT,
-    assunto VARCHAR(45),
+    assunto VARCHAR(255),
     descricao VARCHAR(255),
     dataHora DATETIME,
     fkUsuario INT,
@@ -90,7 +90,7 @@ SELECT
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
         FROM postagem p
                 JOIN usuario u
-                ON p.fkUsuario = u.idUsuario;
+                ON p.fkUsuario = u.idUsuario ORDER BY p.dataHora;
                 
 SELECT 
             p.idPostagem,

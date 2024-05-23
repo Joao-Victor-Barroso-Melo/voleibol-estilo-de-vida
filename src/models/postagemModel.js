@@ -15,7 +15,7 @@ function listar() {
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
             FROM postagem p
                 JOIN usuario u
-                ON p.fkUsuario = u.idUsuario;
+                ON p.fkUsuario = u.idUsuario ORDER BY p.dataHora DESC;
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
