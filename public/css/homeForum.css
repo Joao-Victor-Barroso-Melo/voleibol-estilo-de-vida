@@ -158,6 +158,11 @@
     padding: 10px 5px;
 }
 
+.form_post>textarea{
+    white-space: pre-wrap; 
+    overflow-wrap: break-word; 
+}
+
 .btn_insert_post{
     align-self: flex-start;
     padding: 15px 30px;

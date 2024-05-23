@@ -15,10 +15,6 @@ router.get("/pegar/:idPostagem", function (req, res) {
     postagemController.listarDadosPostagem(req, res);
 });
 
-router.get("listarComentarios/:idPostagem", function (req, res) {
-    postagemController.buscarComentarioPorPostagem(req, res);
-});
-
 router.get("/pesquisar/:descricao", function (req, res) {
     postagemController.pesquisarDescricao(req, res);
 });

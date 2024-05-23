@@ -1,4 +1,5 @@
 var postagemModel = require("../models/postagemModel");
+var comentarioModel = require("../models/comentarioModel");
 
 function listar(req, res) {
     postagemModel.listar().then(function (resultado) {
@@ -46,7 +47,7 @@ function listarDadosPostagem(req, res) {
         .then(
             function (resultado) {
                 if (resultado.length == 1) {
-                    postagemModel.buscarComentarioPorPostagem(idPostagem)
+                    comentarioModel.buscarComentarioPorPostagem(idPostagem)
                     .then((resultadoComentarios) => {
                         if (resultadoComentarios.length > 0) {
                             res.json({
@@ -75,22 +76,6 @@ function listarDadosPostagem(req, res) {
         );
 }
 
-function buscarComentarioPorPostagem(req, res) {
-    var idPostagem = req.params.idPostagem;
-  
-    postagemModel.buscarComentarioPorPostagem(idPostagem).then((resultado) => {
-      if (resultado.length > 0) {
-        
-        res.status(200).json(resultado);
-      } else {
-        res.status(204).json([]);
-      }
-    }).catch(function (erro) {
-      console.log(erro);
-      console.log("Houve um erro ao buscar os aquarios: ", erro.sqlMessage);
-      res.status(500).json(erro.sqlMessage);
-    });
-  }
 
 function pesquisarDescricao(req, res) {
     var descricao = req.params.descricao;
@@ -116,7 +101,7 @@ function pesquisarDescricao(req, res) {
 function publicar(req, res) {
     var titulo = req.body.titulo;
     var descricao = req.body.descricao;
-    var idUsuario = req.params.idUsuario;
+    var idUsuario = Number(req.params.idUsuario);
 
     if (titulo == undefined) {
         res.status(400).send("O título está indefinido!");
@@ -186,6 +171,5 @@ module.exports = {
     publicar,
     editar,
     deletar,
-    listarDadosPostagem,
-    buscarComentarioPorPostagem
+    listarDadosPostagem
 }
