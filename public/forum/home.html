@@ -19,14 +19,15 @@
                 <img src="../assets/img/voleibol_png_branca.png" alt="">
             </div>
             <div class="perfil_container">
-                <span id="user_name"></span>
                 <div class="foto_perfil">
                     <img src="../assets/img/user_profiel_image.png" alt="">
                 </div>
-                <span class="menu_toggle">
-                    <i onclick="dropDownMenuToggle()" class="fa-solid fa-sort-down"></i>
+                <span onclick="dropDownMenuToggle()" class="menu_toggle">
+                    <span id="user_name"></span>
+                    <i  class="fa-solid fa-sort-down"></i>
                     <div id="dropDownMenu" class="dropdow_menu">
-                        <span onclick="limparSessao()">Sair <i class="fa-solid fa-right-from-bracket"></i></span>
+                        <span onclick="navegation('profile.html')"><i class="fa-solid fa-user"></i> Perfi</span>
+                        <span onclick="limparSessao()"><i class="fa-solid fa-right-from-bracket"></i> Sair</span>
                     </div>
                 </span>
             </div>
@@ -290,6 +291,10 @@
 
     function irParaPost(id){
         window.location = `post.html?id=${id}`
+    }
+
+    function navegation(url){
+        window.location = url
     }
 
 </script>

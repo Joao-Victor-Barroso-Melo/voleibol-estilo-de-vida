@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/headerForum.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <script src="../js/sessao.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header class="header_container">
+        <section class="section_header container">
+            <div class="img_container">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <div class="perfil_container">
+                <div class="foto_perfil">
+                    <img src="../assets/img/user_profiel_image.png" alt="">
+                </div>
+                <span onclick="dropDownMenuToggle()" class="menu_toggle">
+                    <span id="user_name"></span>
+                    <i class="fa-solid fa-sort-down"></i>
+                    <div id="dropDownMenu" class="dropdow_menu">
+                        <span onclick="navegation('profile.html')"><i class="fa-solid fa-user"></i> Perfi</span>
+                        <span onclick="limparSessao()"><i class="fa-solid fa-right-from-bracket"></i> Sair</span>
+                    </div>
+                </span>
+            </div>
+        </section>
+    </header>
+    <section class="nav_section">
+        <div class="nav_content container">
+            <nav class=nav_menu>
+                <span onclick="navegation('home.html')" class="item_menu">Feed</span>
+                <span class="item_menu">Notícias</span>
+            </nav>
+            <div class="pesquisa_container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE CONTENT -->
+    <main>
+        <div class="container">
+            <div class="dashboard_container">
+                <h2 onclick="navegation('profile.html')">Voltar</h2>
+                <div class="dashboard_kpi">
+                    <div class="kpi">
+                        <h1>10</h1>
+                        <p>Publicações</p>
+                    </div>
+                    <div class="kpi">
+                        <h1>55</h1>
+                        <p>Curtidas</p>
+                    </div>
+                    <div class="kpi">
+                        <h1>20</h1>
+                        <p>Comentários</p>
+                    </div>
+                    <div class="kpi">
+                        <h1>200</h1>
+                        <p>Visualizações</p>
+                    </div>
+                </div>
+                <div class="graph">
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer class="footer_container scroll_content">
+        <div class="top_footer">
+            <div class="img_container_footer ">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <ul class="list_footer">
+                <li class="title_list">Navegação</li>
+                <li>História</li>
+                <li>Características</li>
+                <li>Sobre mim</li>
+            </ul>
+            <ul class="list_footer">
+                <li class="title_list">Contato</li>
+                <li>(+55) 0000-0000</li>
+                <li>(+55) 3691-0000</li>
+                <li>nome.sobrenome@gmail.com</li>
+            </ul>
+            <div class="list_icon">
+                <p class="title_list">Redes Sociais</p>
+                <div class="flex_icon">
+                    <i class="fa-brands fa-instagram"></i>
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bottom_footer">
+            <p>©2024 - Vôlei como estilo de vida</p>
+        </div>
+    </footer>
+</body>
+
+</html>
+
+<script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+
+<script>
+    user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+
+
+    let dropdowMenuOpen = false;
+    function dropDownMenuToggle() {
+        if (dropdowMenuOpen) {
+            dropDownMenu.style.display = 'none'
+
+        } else {
+            dropDownMenu.style.display = 'flex'
+        }
+        dropdowMenuOpen = !dropdowMenuOpen;
+    }
+
+    function navegation(url) {
+        window.location = url
+    }
+
+</script>

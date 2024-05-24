@@ -1,0 +1,154 @@
+.profile_container{
+    display: flex;
+    gap: 20px;
+    padding: 50px 10px;
+
+}
+
+.profile_info{
+    width: 300px;
+    height: 450px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+}
+
+.profile_foto{
+    width: 150px;
+    height: 150px;
+}
+
+.profile_foto>img{
+    width: 100%;
+}
+
+.profile_form{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.profile_form>input{
+    padding: 5px;
+}
+
+.profile_form>label,.profile_form>button{
+    margin-top: 15px;
+}
+
+/* FEED */
+
+
+#feed{
+    display: flex;
+    flex-direction: column;
+}
+
+
+#grid1{
+    background-color: #fff;
+    overflow: hidden;
+    width: 70%;
+}
+
+.feedHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 20px;
+}
+
+.feedHeader>span{
+    cursor: pointer;
+    font-weight: bold;
+    color: #2fbbfc;
+}
+
+.feedHeader>h2{
+    font-size: 20px;
+}
+
+
+.post_item{
+    padding: 20px 20px;
+    border-bottom: 1px solid var(--text-gray);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.post_item:hover{
+    background-color: #f0f0f0;
+}
+
+.post_section{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.post_content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.post_info>p{
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.post_info>p>i{
+    font-size: 5px;
+}
+
+.post_info>h2{
+    font-size: 20px;
+}
+
+.foto_post{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.foto_post>img{
+    width: 100%;
+}
+
+.post_status{
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.msg{
+    color: #FFAF36;
+}
+
+.like{
+    color: #FF3636;
+}
+
+.view{
+    color: #2B84D7;
+}
+
+.dataTime_post{
+    align-self: flex-end;
+}
+
+.btn_config{
+    cursor: pointer;
+    border: none;
+    padding: 10px 30px;
+    color: var(--text-white);
+    background-color: var(--blue-mikasa);
+}
