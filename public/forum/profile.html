@@ -5,13 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/headerForum.css">
+    <link rel="stylesheet" href="../css/modal.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/footer.css">
     <script src="../js/sessao.js"></script>
     <title>Document</title>
 </head>
 
-<body>
+<body onload="atualizarDadosUsuario()">
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -55,11 +56,11 @@
                     </div>
                     <div class="profile_form">
                         <label>Nome:</label>
-                        <input id="input_nome" type="text" value="João Victor">
+                        <input id="input_nome" type="text" value="">
                         <label>Email:</label>
-                        <input id="input_email" type="text" value="joao@gmail.com">
+                        <input id="input_email" type="text" value="">
                         <label>Senha:</label>
-                        <input id="input_senha" type="text" value="******">
+                        <input id="input_senha" type="text" value="">
                         <button class="btn_config">Salvar Alterações</button>
                     </div>
                 </div>
@@ -69,46 +70,41 @@
                         <span onclick="navegation('dashboard.html')">ver estatisticas</span>
                     </div>
                     <div id="feed">
-                        <div class="post_item">
-                            <div class="post_section">
-                                <div class="post_content">
-                                    <div class="post_info">
-                                        <p>João Victor
-                                            <i class="fa-solid fa-circle"></i>
-                                            <span class="dataTime_post">
-                                                1 min
-                                            </span>
-                                        </p>
-                                        <h2>Posso cair dentro da quadra do adversário?</h2>
-                                    </div>
-                                    <div class="post_status">
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-message msg"></i>
-                                            10 Comentários
-                                        </span>
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-heart like"></i>
-                                            5 Curtidas
-                                        </span>
-                                        <span class="status_item">
-                                            <i class="fa-solid fa-eye view"></i>
-                                            10 Visualizações
-                                        </span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn_config">Editar</button>
-                                    <button class="btn_config">Deletar</button>
-                                </div>
-                            </div>
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         </div>
     </main>
+
+    <!-- MODAL EDIT -->
+    <div id="modal_post" class="modal_container">
+        <div class="modal_content">
+            <div onclick="toggleModalEdit()" class="header_modal"><i class="fa-solid fa-x"></i></div>
+            <div class="form_post">
+                <label>Assunto:</label>
+                <input id="input_assunto" type="text" name="assunto" >
+                <label>Descricao:</label>
+                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50" > </textarea>
+                <button onclick="publicar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DELETE -->
+    <div id="modal_post" class="modal_container">
+        <div class="modal_content">
+            <div onclick="toggleModalEdit()" class="header_modal"><i class="fa-solid fa-x"></i></div>
+            <div class="form_post">
+                <label>Assunto:</label>
+                <input id="input_assunto" type="text" name="assunto" >
+                <label>Descricao:</label>
+                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50" > </textarea>
+                <button onclick="publicar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+            </div>
+        </div>
+    </div>
 
     <!-- footer -->
     <footer class="footer_container scroll_content">
@@ -148,8 +144,106 @@
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
 
 <script>
+    var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
+    let dadosUsuario = '';
+    let postagensUsuarios = '';
+
+    function atualizarDadosUsuario() {
+
+        fetch(`/usuarios/listar/${idUsuario}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        dadosUsuario = resposta.dataUser;
+                        postagensUsuarios = resposta.postagens;
+                        console.log(dadosUsuario)
+                        console.log(postagensUsuarios)
+
+                        input_nome.value = dadosUsuario.nome
+                        input_email.value = dadosUsuario.email
+                        // input_senha.value = dadosUsuario.senha
+
+                        postagensUsuarios.map(postagem => {
+                            feed.innerHTML += `
+                            <div class="post_item">
+                            <div class="post_section">
+                                <div onclick="irParaPost(${postagem.idPostagem})" class="post_content">
+                                    <div class="post_info">
+                                        <p>${postagem.nome}
+                                            <i class="fa-solid fa-circle"></i>
+                                            <span class="dataTime_post">
+                                                ${formatarTempoPostagem(postagem.dataHora)}
+                                            </span>
+                                        </p>
+                                        <h2>${postagem.assunto}</h2>
+                                    </div>
+                                    <div class="post_status">
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-message msg"></i>
+                                            ${postagem.qtdComentarios} Comentários
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-heart like"></i>
+                                            ${postagem.qtdCurtidas} Curtidas
+                                        </span>
+                                        <span class="status_item">
+                                            <i class="fa-solid fa-eye view"></i>
+                                            ${postagem.qtdVisualizacoes} Visualizações
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button onclick="toggleModalEdit('${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
+                                    <button class="btn_config">Deletar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                            `
+                        })
+
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function formatarTempoPostagem(dataHora) {
+        let dataPostagem = '';
+        const datetimeString = dataHora;
+        let startDate = new Date(datetimeString);
+        let currentDate = new Date();
+        let differenceInMilliseconds = currentDate - startDate;
+
+        let seconds = Math.floor(differenceInMilliseconds / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+        let days = Math.floor(hours / 24);
+
+        seconds %= 60;
+        minutes %= 60;
+        hours %= 24;
+
+        if (days > 0) {
+            dataPostagem = `${days} d`;
+        } else if (hours > 0) {
+            dataPostagem = `${hours} h`
+        } else if (minutes > 0) {
+            dataPostagem = `${minutes} min`
+        } else {
+            dataPostagem = `${seconds} s`
+        }
+
+        return dataPostagem;
+
+    }
 
     let dropdowMenuOpen = false;
     function dropDownMenuToggle() {
@@ -162,8 +256,30 @@
         dropdowMenuOpen = !dropdowMenuOpen;
     }
 
+    function irParaPost(id) {
+        window.location = `post.html?id=${id}`
+    }
+
     function navegation(url) {
         window.location = url
+    }
+
+    let modalOpen = false;
+    function toggleModalEdit(assunto, descricao) {
+        input_assunto.value = '';
+        input_descricao.value = '';
+
+        if (modalOpen) {
+            modal_post.style.display = 'none'
+            document.body.style.overflow = 'auto';
+            
+        } else {
+            document.body.style.overflow = 'hidden';
+            modal_post.style.display = 'flex'
+            input_assunto.value = assunto;
+            input_descricao.value = descricao;
+        }
+        modalOpen = !modalOpen;
     }
 
 </script>

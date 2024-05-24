@@ -4,11 +4,19 @@
     flex-direction: column;
     gap: 20px;
 }
+.btn_voltar>i{
+    color: #fff;
+    font-size: 16px;
+    transform: rotate(-90deg);
+}
 
-.dashboard_container>h2{
+.btn_voltar{
     cursor: pointer;
     display: inline-block;
     color: var(--text-white);
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .dashboard_kpi{

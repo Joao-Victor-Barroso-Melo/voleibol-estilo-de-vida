@@ -92,20 +92,23 @@ SELECT
                 JOIN usuario u
                 ON p.fkUsuario = u.idUsuario ORDER BY p.dataHora;
                 
+SELECT * FROM usuario WHERE idUsuario = 1;
+
 SELECT 
             p.idPostagem,
             p.assunto,
             p.descricao,
             p.fkUsuario,
-            u.idUsuario,
-            u.nome,
-            u.email,
-            u.senha
+            p.dataHora,
+            u.nome
         FROM postagem p
             INNER JOIN usuario u
                 ON p.fkUsuario = u.idUsuario
+                WHERE p.fkUsuario = 1
+                ORDER BY p.dataHora DESC
                 ;
 
+-- PEGAR TODOS OS DADOS DE UMA POSTAGEM
 SELECT 
             p.idPostagem,
             p.assunto,
@@ -122,7 +125,8 @@ SELECT
                 ON p.fkUsuario = u.idUsuario
                 WHERE idPostagem = 1
                 ORDER BY p.dataHora;
-                
+   
+-- PEGAR COMENTARIOS DE UMA POSTAGEM ESPECIFICA
 SELECT 
 	c.idComentario,
     c.fkPostagem,
@@ -138,5 +142,19 @@ SELECT
     JOIN usuario as u
     ON c.fkUsuario = u.idUsuario
     WHERE p.idPostagem = 1;
+    
+-- PEGAR POSTAGEM UNICA
+SELECT 
+            p.idPostagem,
+            p.assunto,
+            p.descricao,
+            p.fkUsuario,
+            p.dataHora,
+            u.nome
+        FROM postagem p
+            INNER JOIN usuario u
+                ON p.fkUsuario = u.idUsuario
+                WHERE p.fkUsuario = 1 AND p.idPostagem = 1;
+
 
                 

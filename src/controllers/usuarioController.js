@@ -1,5 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
-// var aquarioModel = require("../models/aquarioModel");
+var postagemModel = require("../models/postagemModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -86,7 +86,55 @@ function cadastrar(req, res) {
     }
 }
 
+function listarDadosUsuario(req, res) {
+    var idUsuario = req.params.idUsuario;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else {
+
+        usuarioModel.listarDadosUsuario(idUsuario)
+            .then(
+                function (resultadoUsuario) {
+                    console.log(`\nResultados encontrados: ${resultadoUsuario.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultadoUsuario)}`); // transforma JSON em String
+
+                    if (resultadoUsuario.length == 1) {
+                        console.log(resultadoUsuario);
+
+                    
+                        postagemModel.listarPorUsuario(idUsuario)
+                            .then((resultadoPostagens) => {
+                                if (resultadoPostagens.length > 0) {
+                                    res.json({
+                                        dataUser: resultadoUsuario[0],
+                                        postagens: resultadoPostagens
+                                    });
+                                } else {
+                                    res.json({ 
+                                        dataUser: resultadoUsuario[0],
+                                        postagens: [] });
+                                }
+                            })
+                    } else if (resultadoUsuario.length == 0) {
+                        res.status(403).send("Email e/ou senha inválido(s)");
+                    } else {
+                        res.status(403).send("Mais de um usuário com o mesmo login e senha!");
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    listarDadosUsuario
 }

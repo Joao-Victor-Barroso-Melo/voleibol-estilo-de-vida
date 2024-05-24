@@ -1,0 +1,59 @@
+
+
+/* MODAL INSERT POSTAGEM */
+.modal_container{
+    position: fixed;
+    display: none;
+    background-color: rgba(1, 1, 1, 0.8);
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.modal_content{
+    background-color: #fff;
+    width: 50%;
+    padding: 50px;
+    position: relative;
+}
+
+.form_post{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.form_post>input,.form_post>textarea{
+    padding: 10px 5px;
+}
+
+.form_post>textarea{
+    white-space: pre-wrap; 
+    overflow-wrap: break-word; 
+}
+
+.btn_insert_post{
+    align-self: flex-start;
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+    color: var(--text-white);
+    background-color: var(--blue-mikasa);
+}
+
+.header_modal{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    padding: 15px;
+    cursor: pointer;
+    background: var(--blue-mikasa);
+}
+
+.header_modal>i{
+    font-size: 18px;
+    color: var(--text-white);
+}
