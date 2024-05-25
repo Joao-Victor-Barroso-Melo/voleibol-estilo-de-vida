@@ -44,25 +44,37 @@ function listarPorUsuario(req, res) {
 }
 function listarDadosPostagem(req, res) {
     var idPostagem = req.params.idPostagem;
+    var idUsuario = req.params.idUsuario;
 
+    let comentarios = []
+    let curtidas = []
     postagemModel.listarDadosPostagem(idPostagem)
         .then(
-            function (resultado) {
+            async function (resultado) {
                 if (resultado.length == 1) {
-                    comentarioModel.buscarComentarioPorPostagem(idPostagem)
+                    await comentarioModel.buscarComentarioPorPostagem(idPostagem)
                         .then((resultadoComentarios) => {
                             if (resultadoComentarios.length > 0) {
-                                res.json({
-                                    postagem: resultado,
-                                    comentarios: resultadoComentarios
-                                });
-                            } else {
-                                res.json({
-                                    postagem: resultado,
-                                    comentarios: []
-                                });
+                                comentarios = resultadoComentarios
+                            }else{
+                                comentarios = [];
                             }
                         })
+                    await curtidaModel.buscarCurtidaPorPostagemAndUsuario(idPostagem, idUsuario)
+                        .then(resultadoCurtida => {
+                            if (resultadoCurtida.length == 1) {
+                                curtidas = resultadoCurtida
+                            } else {
+                                curtidas = []
+                            }
+                        })
+                    
+                    res.json({
+                        postagem: resultado,
+                        curtidas: curtidas,
+                        comentarios: comentarios
+                    })
+
                 } else {
                     res.status(403).send("Nenhum resultado encontrado!");
                 }
@@ -158,7 +170,7 @@ function deletar(req, res) {
     visualizacaoModel.deletarPorPostagem(idPostagem)
         .then(
             function (resultadoDelVisualizacao) {
-                curtidaModel.deletarPorPostagem(idPostagem)
+                curtidaModel.deletarCurtida(idPostagem)
                     .then(
                         function (resultadoDelCurtida) {
                             comentarioModel.deletarPorPostagem(idPostagem)

@@ -3,12 +3,12 @@ var router = express.Router();
 
 var curtidaController = require("../controllers/curtidaController");
 
-router.get("listarComentarios/:idPostagem", function (req, res) {
-    curtidaController.buscarComentarioPorPostagem(req, res);
+router.post("/buscarCurtida", function (req, res) {
+    curtidaController.buscarCurtidaPorPostagemAndUsuario(req, res);
 });
 
-router.post("/publicar", function (req, res) {
-    curtidaController.publicar(req, res);
+router.post("/validarCurtida", function (req, res) {
+    curtidaController.validar(req, res);
 });
 
 router.put("/editar", function (req, res) {
@@ -16,7 +16,7 @@ router.put("/editar", function (req, res) {
 });
 
 router.delete("/deletarPorPostagem", function (req, res) {
-    curtidaController.deletar(req, res);
+    curtidaController.deletarCurtida(req, res);
 });
 
 module.exports = router;

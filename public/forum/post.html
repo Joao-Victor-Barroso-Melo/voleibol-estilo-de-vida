@@ -23,7 +23,7 @@
                 </div>
                 <span onclick="dropDownMenuToggle()" class="menu_toggle">
                     <span id="user_name"></span>
-                    <i  class="fa-solid fa-sort-down"></i>
+                    <i class="fa-solid fa-sort-down"></i>
                     <div id="dropDownMenu" class="dropdow_menu">
                         <span onclick="navegation('profile.html')"><i class="fa-solid fa-user"></i> Perfi</span>
                         <span onclick="limparSessao()"><i class="fa-solid fa-right-from-bracket"></i> Sair</span>
@@ -48,7 +48,7 @@
     <main>
         <div class="container">
             <div class="post_container">
-             
+
                 <div id="post_content_id" class="post_content">
 
                 </div>
@@ -108,7 +108,7 @@
 
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
 <script>
-    
+
     var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
@@ -116,7 +116,9 @@
     const idPostagem = params.get('id');
     console.log(idPostagem)
     let dadosPostagens = '';
+    let curtidas = '';
     let comentarios = '';
+    let curtidaControl = ''
 
     function formatarTempoPostagem(dataHora) {
         let dataPostagem = '';
@@ -149,7 +151,7 @@
     }
 
     function atualizarPost() {
-        fetch(`/postagens/pegar/${idPostagem}`, { cache: 'no-store' })
+        fetch(`/postagens/pegar/${idPostagem}/${idUsuario}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
@@ -157,8 +159,16 @@
                         console.log(resposta)
                         dadosPostagens = resposta.postagem[0];
                         comentarios = resposta.comentarios;
+                        curtidas = resposta.curtidas;
+
+                        if(curtidas.length == 0){
+                            curtidaControl = 0
+                        } else if(
+                            curtidaControl = resposta.curtidas[0].isCurtido
+                        )
                         console.log(dadosPostagens)
                         console.log(comentarios)
+                        console.log(curtidas)
 
 
                         post_content_id.innerHTML = `
@@ -171,7 +181,7 @@
                             <i class="fa-solid fa-circle"></i>
                             <span>${formatarTempoPostagem(dadosPostagens.dataHora)}</span>
                         </div>
-                        <i class="fa-solid fa-heart like"></i>
+                        <i onclick="curtir(${dadosPostagens.idPostagem}, ${idUsuario})" id="btn_curtida" class="fa-solid fa-heart ${curtidaControl == 1 ? 'like' : ''}"></i>
                     </div>
                     <div class="user_post_content">
                         <h1>${dadosPostagens.assunto}</h1>
@@ -184,7 +194,7 @@
                         </span>
                         <span class="status_item">
                             <i class="fa-solid fa-heart like"></i>
-                            ${dadosPostagens.qtdCurtidas} Curtidas
+                            <span id="span_curtida">${dadosPostagens.qtdCurtidas}</span> Curtidas
                         </span>
                         <span class="status_item">
                             <i class="fa-solid fa-eye view"></i>
@@ -192,9 +202,9 @@
                         </span>
                     </div>
             `
-            
-            comentarios.map(comentario => {
-                comentarios_container.innerHTML += `
+
+                        comentarios.map(comentario => {
+                            comentarios_container.innerHTML += `
                 <div class="comentario_container">
                         <div class="user_post_info">
                             <div class="foto_perfil">
@@ -207,7 +217,7 @@
                         <pre>${comentario.mensagem}</pre>
                     </div>
                 `
-            })
+                        })
 
 
                     });
@@ -222,9 +232,9 @@
 
     }
 
-    function publicarComentario(){
+    function publicarComentario() {
         const comentario = input_comentario.value
-        if(comentario.trim() == ''){
+        if (comentario.trim() == '') {
             return;
         }
 
@@ -234,7 +244,7 @@
             mensagem: comentario
         }
         console.log(corpo)
-        
+
         fetch('/comentarios/publicar', {
             method: "POST",
             headers: {
@@ -248,7 +258,7 @@
             if (resposta.ok) {
                 alert("Comentario realizado")
                 window.location = `post.html?id=${idPostagem}`;
- 
+
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {
@@ -257,7 +267,49 @@
         }).catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
         });
+
+    }
+    
+    function curtir(fkPostagem, fkUsuario) {
         
+        span_curtida.value = Number(dadosPostagens.qtdCurtidas)
+        if (curtidaControl) {
+            btn_curtida.classList.remove('like')
+            span_curtida.innerHTML--
+        } else {
+            btn_curtida.classList.add('like')
+            span_curtida.innerHTML++
+        }
+        console.log(span_curtida.value)
+        curtidaControl = !curtidaControl
+        fetch('/curtidas/validarCurtida', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                isCurtido: curtidaControl,
+                idPostagem: fkPostagem,
+                idUsuario: fkUsuario
+
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                console.log(resposta)
+
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a curtida! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+
     }
 
     let dropdowMenuOpen = false;
@@ -271,7 +323,7 @@
         dropdowMenuOpen = !dropdowMenuOpen;
     }
 
-    function navegation(url){
+    function navegation(url) {
         window.location = url
     }
 

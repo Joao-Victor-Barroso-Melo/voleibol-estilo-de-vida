@@ -36,6 +36,8 @@ CREATE TABLE curtida(
 	idCurtida INT AUTO_INCREMENT,
     fkPostagem INT,
     fkUsuario INT,
+    isCurtido BOOLEAN,
+    dataHora DATETIME,
     FOREIGN KEY (fkPostagem) REFERENCES postagem(idPostagem),
     FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario),
     PRIMARY KEY (idCurtida, fkPostagem, fkUsuario)
@@ -62,16 +64,19 @@ INSERT INTO comentario (fkPostagem, fkUsuario, mensagem, dataHora) VALUES
 	(1, 1, 'Ou você poderia comer melhor para saúde e bem estar', now()),
 	(2, 1, 'Ou você poderia comer melhor para saúde e bem estar', now());
     
-INSERT INTO curtida (fkPostagem, fkUsuario) VALUES 
-	(1, 1),
-	(1, 1),
-	(2, 1);
+INSERT INTO curtida (fkPostagem, fkUsuario, isCurtido, dataHora) VALUES 
+	(1, 1, true, now()),
+	(2, 1, false, now());
+    
+UPDATE curtida SET isCurtido = true, dataHora = now() WHERE fkPostagem = 1 AND fkUsuario = 1;
 
 INSERT INTO visualizacao (fkPostagem, fkUsuario, dataHora) VALUES 
 	(1, 1 , now()),
 	(1, 1 , now()),
 	(2, 1 , now()),
 	(2, 1 , now());
+    
+SELECT * FROM curtida WHERE fkPostagem = 1 AND fkUsuario = 1;
 
 SELECT * FROM usuario;
 SELECT * FROM postagem;
@@ -86,7 +91,7 @@ SELECT
             u.idUsuario,
             u.nome,
 			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
-			(SELECT count(idCurtida) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
+			(SELECT count(isCurtido) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
         FROM postagem p
                 JOIN usuario u
@@ -118,7 +123,7 @@ SELECT
             u.idUsuario,
             u.nome,
 			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
-			(SELECT count(idCurtida) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
+			(SELECT sum(isCurtido) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
         FROM postagem p
                 JOIN usuario u

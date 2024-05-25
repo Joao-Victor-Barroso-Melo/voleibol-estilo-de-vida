@@ -11,7 +11,7 @@ router.get("/listar/:idUsuario", function (req, res) {
     postagemController.listarPorUsuario(req, res);
 });
 
-router.get("/pegar/:idPostagem", function (req, res) {
+router.get("/pegar/:idPostagem/:idUsuario", function (req, res) {
     postagemController.listarDadosPostagem(req, res);
 });
 

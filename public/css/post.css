@@ -40,6 +40,7 @@
 .header_post>i{
     font-size: 40px;
     color: #d1d1d1;
+    cursor: pointer;
 }
 
 /* POST CONTENT */
@@ -63,7 +64,7 @@
 }
 
 .like{
-    color: #FF3636;
+    color: #FF3636 !important;
 }
 
 .view{
