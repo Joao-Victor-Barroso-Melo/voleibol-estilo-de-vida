@@ -60,7 +60,7 @@
                         <label>Email:</label>
                         <input id="input_email" type="text" value="">
                         <label>Senha:</label>
-                        <input id="input_senha" type="text" value="">
+                        <input id="input_senha" type="password" value="">
                         <button class="btn_config">Salvar Alterações</button>
                     </div>
                 </div>
@@ -84,24 +84,24 @@
             <div onclick="toggleModalEdit()" class="header_modal"><i class="fa-solid fa-x"></i></div>
             <div class="form_post">
                 <label>Assunto:</label>
-                <input id="input_assunto" type="text" name="assunto" >
+                <input id="input_assunto" type="text" name="assunto">
                 <label>Descricao:</label>
-                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50" > </textarea>
-                <button onclick="publicar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50"> </textarea>
+                <button onclick="editar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL DELETE -->
-    <div id="modal_post" class="modal_container">
+    <div id="modal_delete" class="modal_container">
         <div class="modal_content">
-            <div onclick="toggleModalEdit()" class="header_modal"><i class="fa-solid fa-x"></i></div>
+            <div onclick="toggleModalDelete()" class="header_modal"><i class="fa-solid fa-x"></i></div>
             <div class="form_post">
-                <label>Assunto:</label>
-                <input id="input_assunto" type="text" name="assunto" >
-                <label>Descricao:</label>
-                <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50" > </textarea>
-                <button onclick="publicar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+                <h2 class="title_confirm">Deseja realmente apagar esta postagem?</h2>
+                <div class="btn_container_confirm">
+                    <button onclick="toggleModalDelete()" class="btn_confirm cancelar">CANCELAR</button>
+                    <button class="btn_confirm deletar">DELETAR</button>
+                </div>
             </div>
         </div>
     </div>
@@ -196,8 +196,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button onclick="toggleModalEdit('${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
-                                    <button class="btn_config">Deletar</button>
+                                    <button onclick="toggleModalEdit(${postagem.idPostagem}, '${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
+                                    <button onclick="toggleModalDelete()" class="btn_config">Deletar</button>
                                 </div>
                             </div>
 
@@ -213,6 +213,31 @@
             .catch(function (error) {
                 console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
             });
+    }
+
+    function editar() {
+        fetch(`/postagens/editar/${sessionStorage.getItem("ID_POSTAGEM_EDITANDO")}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                assunto: input_assunto.value,
+                descricao: input_descricao.value
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "profile.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
     }
 
     function formatarTempoPostagem(dataHora) {
@@ -256,23 +281,18 @@
         dropdowMenuOpen = !dropdowMenuOpen;
     }
 
-    function irParaPost(id) {
-        window.location = `post.html?id=${id}`
-    }
 
-    function navegation(url) {
-        window.location = url
-    }
 
     let modalOpen = false;
-    function toggleModalEdit(assunto, descricao) {
+    function toggleModalEdit(idPostagem, assunto, descricao) {
         input_assunto.value = '';
         input_descricao.value = '';
+        sessionStorage.setItem('ID_POSTAGEM_EDITANDO', idPostagem)
 
         if (modalOpen) {
             modal_post.style.display = 'none'
             document.body.style.overflow = 'auto';
-            
+
         } else {
             document.body.style.overflow = 'hidden';
             modal_post.style.display = 'flex'
@@ -282,4 +302,24 @@
         modalOpen = !modalOpen;
     }
 
+    function toggleModalDelete() {
+        if (modalOpen) {
+            modal_delete.style.display = 'none'
+            document.body.style.overflow = 'auto';
+
+        } else {
+            document.body.style.overflow = 'hidden';
+            modal_delete.style.display = 'flex'
+
+        }
+        modalOpen = !modalOpen;
+    }
+
+    function irParaPost(id) {
+        window.location = `post.html?id=${id}`
+    }
+
+    function navegation(url) {
+        window.location = url
+    }
 </script>

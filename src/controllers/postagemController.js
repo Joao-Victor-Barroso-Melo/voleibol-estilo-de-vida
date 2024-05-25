@@ -127,10 +127,11 @@ function publicar(req, res) {
 }
 
 function editar(req, res) {
+    var novoAssunto = req.body.assunto;
     var novaDescricao = req.body.descricao;
-    var idAviso = req.params.idAviso;
+    var idPostagem = req.params.idPostagem;
 
-    postagemModel.editar(novaDescricao, idAviso)
+    postagemModel.editar(novoAssunto, novaDescricao, idPostagem)
         .then(
             function (resultado) {
                 res.json(resultado);

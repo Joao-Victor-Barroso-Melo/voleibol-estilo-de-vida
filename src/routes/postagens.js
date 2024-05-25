@@ -23,7 +23,7 @@ router.post("/publicar/:idUsuario", function (req, res) {
     postagemController.publicar(req, res);
 });
 
-router.put("/editar/:idAviso", function (req, res) {
+router.put("/editar/:idPostagem", function (req, res) {
     postagemController.editar(req, res);
 });
 
