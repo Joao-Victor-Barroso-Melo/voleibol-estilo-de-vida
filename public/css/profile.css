@@ -7,7 +7,7 @@
 
 .profile_info{
     width: 300px;
-    height: 450px;
+    max-height: 700px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -27,7 +27,7 @@
 .profile_form{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
 }
 
 .profile_form>input{
@@ -37,6 +37,46 @@
 .profile_form>label,.profile_form>button{
     margin-top: 15px;
 }
+
+.div_btn_form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* VALIDATION FORM */
+
+.msg_error{
+    display: none;
+    color: rgb(240, 81, 81); 
+    font-size: 14px;
+    text-align: end;
+}
+
+.validationList {
+    display: none;
+    list-style-position: inside;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.validationList>li {
+    color: var(--text-gray);
+}
+
+.confirm{
+    background-color: rgb(43, 207, 98) !important;
+}
+.correct{
+    color: rgb(43, 207, 98) !important;
+}
+
+.wrong{
+    color: rgb(240, 81, 81) !important;
+}
+
 
 /* FEED */
 
@@ -146,12 +186,27 @@
     align-self: flex-end;
 }
 
+.btn_post_edit{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .btn_config{
     cursor: pointer;
     border: none;
     padding: 10px 30px;
     color: var(--text-white);
     background-color: var(--blue-mikasa);
+    font-weight: bold;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn_config>i{
+    color: #fff;
 }
 
 

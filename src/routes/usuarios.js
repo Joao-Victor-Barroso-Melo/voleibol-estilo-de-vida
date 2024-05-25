@@ -16,5 +16,9 @@ router.get("/listar/:idUsuario", function (req, res) {
     usuarioController.listarDadosUsuario(req, res);
 });
 
+router.put("/editar/:idUsuario", function (req, res) {
+    usuarioController.editar(req, res);
+});
+
 
 module.exports = router;

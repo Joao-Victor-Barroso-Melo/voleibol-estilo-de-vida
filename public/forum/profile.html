@@ -56,12 +56,29 @@
                     </div>
                     <div class="profile_form">
                         <label>Nome:</label>
-                        <input id="input_nome" type="text" value="">
+                        <input id="input_nome" type="text" value="" disabled>
                         <label>Email:</label>
-                        <input id="input_email" type="text" value="">
+                        <input id="input_email" type="text" value="" disabled>
+                        <span id="error_email" class="msg_error">Insira um email válido</span>
+
                         <label>Senha:</label>
-                        <input id="input_senha" type="password" value="">
-                        <button class="btn_config">Salvar Alterações</button>
+                        <input id="input_password" type="password" value="" onkeyup="validarSenha()" disabled>
+                        <span id="error_senha" class="msg_error">Senha Inválida</span>
+                        <ul id="validation_list" class="validationList">
+                            <li id="validation1">Deve conter 10 caracteres</li>
+                            <li id="validation2">Deve conter um caracter especial (@ ou #)</li>
+                            <li id="validation3">Deve conter um número</li>
+                        </ul>
+
+                        <label>Confirmar Senha:</label>
+                        <input id="input_confirm_password" type="password" disabled>
+                        <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
+
+                        <div id="divBtnForm" class="div_btn_form">
+
+                            <button onclick="changeBtnFormEdit()" class="btn_config">Editar Perfil <i
+                                    class="fa-solid fa-pencil"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div id="grid1">
@@ -147,6 +164,137 @@
     var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
+    let btnEditFormOpen = true;
+    function changeBtnFormEdit() {
+        if (btnEditFormOpen) {
+            validation_list.style.display = 'flex'
+            input_nome.disabled = false;
+            input_email.disabled = false;
+            input_password.disabled = false;
+            input_confirm_password.disabled = false;
+    
+            divBtnForm.innerHTML = `
+            <button onclick="atualizarCadastroUsuario()" class="btn_config confirm">Salvar Alterações</i></button>
+            <button onclick="changeBtnFormEdit()" class="btn_config">Cancelar</button>
+            `
+
+        } else {
+            validation_list.style.display = 'none'
+            error_email.style.display = 'none';
+            error_conf_senha.style.display = 'none'
+            error_senha.style.display = 'none'
+            input_nome.disabled = true;
+            input_email.disabled = true;
+            input_password.disabled = true;
+            input_confirm_password.disabled = true;
+            divBtnForm.innerHTML = `
+            <button onclick="changeBtnFormEdit()" class="btn_config">Editar Perfil <i class="fa-solid fa-pencil"></i></button>
+            `
+        }
+        btnEditFormOpen = !btnEditFormOpen;
+    }
+
+    function atualizarCadastroUsuario() {
+        const name = input_nome.value;
+        const email = input_email.value;
+        const password = input_password.value;
+        const confirmPassword = input_confirm_password.value;
+        let msgError = '';
+        let wrongColor = 'rgb(240, 81, 81)'
+        let correctColor = 'rgb(43, 207, 98)'
+        error_email.style.display = 'none';
+        error_conf_senha.style.display = 'none'
+        error_senha.style.display = 'none'
+
+        let validationIsCompleted = true;
+
+        if (name == '' || email == '' || password == '' || confirmPassword == '') {
+            // msgError = 'Preencha todos os campos'
+            // alertMsg(msgError, wrongColor);
+            alert("Preencha todos os campos")
+        }
+
+
+        if (email.indexOf('@') < 0 || email.indexOf('.com') < 0) {
+            error_email.style.display = 'block';
+            validationIsCompleted = false;
+        }
+
+
+        if (confirmPassword != password) {
+            error_conf_senha.style.display = 'block'
+            validationIsCompleted = false;
+        }
+
+        if (validarSenha() <= 3 && validarSenha() > 0) {
+            error_senha.style.display = 'block'
+            validationIsCompleted = false;
+        }
+
+        if (validationIsCompleted == false) {
+            console.log("TudoValidado")
+        } else {
+            fetch(`/usuarios/editar/${idUsuario}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nome: name,
+                    email: email,
+                    senha: password
+                })
+            }).then(function (resposta) {
+
+                if (resposta.ok) {
+                    sessionStorage.setItem('NOME_USUARIO', name)
+                    window.alert("Dados do usuário atualizados com sucesso: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                    window.location = "profile.html"
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+        }
+
+    }
+
+    function changeValidation(content, colorValidation) {
+        content.className = '';
+        content.classList.add(colorValidation)
+        if (colorValidation == 'wrong') return 1;
+        else return 0;
+    }
+
+    function validarSenha() {
+        const password = input_password.value;
+        const primeiraValidation = document.querySelector("#validation1")
+        const segundaValidation = document.querySelector("#validation2")
+        const terceiraValidation = document.querySelector("#validation3")
+
+        const hasTenCaracters = password.length >= 10 ? 'correct' : 'wrong';
+        const hasSpecial = password.indexOf('@') > 0 || password.indexOf('#') > 0 ? 'correct' : 'wrong';
+
+        let hasNumber = 'wrong';
+        for (let i = 0; i <= 9; i++) {
+            let numberConvertido = i.toString()
+            if (password.indexOf(numberConvertido) >= 0) {
+                hasNumber = 'correct'
+            }
+
+        }
+
+        let faliedPasswordValidation = 0
+        faliedPasswordValidation += changeValidation(primeiraValidation, hasTenCaracters)
+        faliedPasswordValidation += changeValidation(segundaValidation, hasSpecial)
+        faliedPasswordValidation += changeValidation(terceiraValidation, hasNumber)
+
+        return faliedPasswordValidation
+    }
+
     let dadosUsuario = '';
     let postagensUsuarios = '';
 
@@ -199,7 +347,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="btn_post_edit">
                                     <button onclick="toggleModalEdit(${postagem.idPostagem}, '${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
                                     <button onclick="toggleModalDelete(${postagem.idPostagem})" class="btn_config">Deletar</button>
                                 </div>
