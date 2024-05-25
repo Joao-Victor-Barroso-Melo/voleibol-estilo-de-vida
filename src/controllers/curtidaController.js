@@ -1,10 +1,10 @@
-var comentarioModel = require("../models/comentarioModel");
+var curtidaModel = require("../models/curtidaModel");
 
 
-function buscarComentarioPorPostagem(req, res) {
+function buscarCurtidaPorPostagem(req, res) {
     var idPostagem = req.params.idPostagem;
   
-    comentarioModel.buscarComentarioPorPostagem(idPostagem).then((resultado) => {
+    curtidaModel.buscarCurtidaPorPostagem(idPostagem).then((resultado) => {
       if (resultado.length > 0) {
         
         res.status(200).json(resultado);
@@ -30,7 +30,7 @@ function buscarComentarioPorPostagem(req, res) {
     } else if (idPostagem == undefined) {
         res.status(403).send("O id da postagem está indefinido!");
     } else {
-        comentarioModel.publicar(mensagem, idUsuario, idPostagem)
+        curtidaModel.publicar(mensagem, idUsuario, idPostagem)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -47,10 +47,9 @@ function buscarComentarioPorPostagem(req, res) {
 }
 
 function deletarPorPostagem(req, res) {
-  var idUsuario = req.body.idUsuario;
   var idPostagem = req.body.idPostagem;
 
-  comentarioModel.deletarPorPostagem(idPostagem)
+  curtidaModel.deletarPorPostagem(idPostagem)
       .then(
           function (resultado) {
               res.json(resultado);
@@ -69,5 +68,5 @@ function deletarPorPostagem(req, res) {
 module.exports = {
     publicar,
     deletarPorPostagem,
-    buscarComentarioPorPostagem
+    buscarCurtidaPorPostagem
 }

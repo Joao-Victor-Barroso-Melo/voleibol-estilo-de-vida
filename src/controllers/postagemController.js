@@ -1,5 +1,7 @@
 var postagemModel = require("../models/postagemModel");
 var comentarioModel = require("../models/comentarioModel");
+var curtidaModel = require("../models/curtidaModel");
+var visualizacaoModel = require("../models/visualizacaoModel");
 
 function listar(req, res) {
     postagemModel.listar().then(function (resultado) {
@@ -48,17 +50,19 @@ function listarDadosPostagem(req, res) {
             function (resultado) {
                 if (resultado.length == 1) {
                     comentarioModel.buscarComentarioPorPostagem(idPostagem)
-                    .then((resultadoComentarios) => {
-                        if (resultadoComentarios.length > 0) {
-                            res.json({
-                                postagem: resultado,
-                                comentarios: resultadoComentarios
-                            });
-                        } else {
-                            res.json({postagem: resultado,
-                                comentarios: [] });
-                        }
-                    })
+                        .then((resultadoComentarios) => {
+                            if (resultadoComentarios.length > 0) {
+                                res.json({
+                                    postagem: resultado,
+                                    comentarios: resultadoComentarios
+                                });
+                            } else {
+                                res.json({
+                                    postagem: resultado,
+                                    comentarios: []
+                                });
+                            }
+                        })
                 } else {
                     res.status(403).send("Nenhum resultado encontrado!");
                 }
@@ -113,6 +117,7 @@ function publicar(req, res) {
         postagemModel.publicar(titulo, descricao, idUsuario)
             .then(
                 function (resultado) {
+
                     res.json(resultado);
                 }
             )
@@ -148,12 +153,29 @@ function editar(req, res) {
 }
 
 function deletar(req, res) {
-    var idAviso = req.params.idAviso;
+    var idPostagem = req.body.idPostagem;
 
-    postagemModel.deletar(idAviso)
+    visualizacaoModel.deletarPorPostagem(idPostagem)
         .then(
-            function (resultado) {
-                res.json(resultado);
+            function (resultadoDelVisualizacao) {
+                curtidaModel.deletarPorPostagem(idPostagem)
+                    .then(
+                        function (resultadoDelCurtida) {
+                            comentarioModel.deletarPorPostagem(idPostagem)
+                                .then(
+                                    function (resultadoDelComentarios) {
+                                        postagemModel.deletar(idPostagem)
+                                            .then(
+                                                function (resultadoDelPostagem) {
+
+                                                    res.json(resultadoDelPostagem);
+
+                                                }
+                                            )
+                                    }
+                                )
+                        }
+                    )
             }
         )
         .catch(

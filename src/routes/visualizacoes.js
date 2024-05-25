@@ -1,14 +1,14 @@
 var express = require("express");
 var router = express.Router();
 
-var comentarioController = require("../controllers/comentarioController");
+var visualizacaoController = require("../controllers/visualizacaoController");
 
 router.get("listarComentarios/:idPostagem", function (req, res) {
-    comentarioController.buscarComentarioPorPostagem(req, res);
+    visualizacaoController.buscarComentarioPorPostagem(req, res);
 });
 
 router.post("/publicar", function (req, res) {
-    comentarioController.publicar(req, res);
+    visualizacaoController.publicar(req, res);
 });
 
 router.put("/editar", function (req, res) {
@@ -16,7 +16,7 @@ router.put("/editar", function (req, res) {
 });
 
 router.delete("/deletarPorPostagem", function (req, res) {
-    comentarioController.deletarPorPostagem(req, res);
+    visualizacaoController.deletar(req, res);
 });
 
 module.exports = router;

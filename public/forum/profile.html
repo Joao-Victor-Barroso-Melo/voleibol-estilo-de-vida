@@ -100,7 +100,7 @@
                 <h2 class="title_confirm">Deseja realmente apagar esta postagem?</h2>
                 <div class="btn_container_confirm">
                     <button onclick="toggleModalDelete()" class="btn_confirm cancelar">CANCELAR</button>
-                    <button class="btn_confirm deletar">DELETAR</button>
+                    <button onclick="deletar()" class="btn_confirm deletar">DELETAR</button>
                 </div>
             </div>
         </div>
@@ -155,6 +155,7 @@
         fetch(`/usuarios/listar/${idUsuario}`, { cache: 'no-store' })
             .then(function (response) {
                 if (response.ok) {
+
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosUsuario = resposta.dataUser;
@@ -165,7 +166,10 @@
                         input_nome.value = dadosUsuario.nome
                         input_email.value = dadosUsuario.email
                         // input_senha.value = dadosUsuario.senha
+                        if (postagensUsuarios.length <= 0) {
+                            feed.innerHTML = `<h3 style="text-align: center">Nenhuma postagem publicada!</h3>`
 
+                        }
                         postagensUsuarios.map(postagem => {
                             feed.innerHTML += `
                             <div class="post_item">
@@ -197,7 +201,7 @@
                                 </div>
                                 <div>
                                     <button onclick="toggleModalEdit(${postagem.idPostagem}, '${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
-                                    <button onclick="toggleModalDelete()" class="btn_config">Deletar</button>
+                                    <button onclick="toggleModalDelete(${postagem.idPostagem})" class="btn_config">Deletar</button>
                                 </div>
                             </div>
 
@@ -229,6 +233,32 @@
 
             if (resposta.ok) {
                 window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "profile.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function deletar() {
+        console.log("Criar função de apagar post escolhido - ID");
+        fetch(`/postagens/deletar`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: idUsuario,
+                idPostagem: sessionStorage.getItem("ID_POSTAGEM_DELETANDO")
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
                 window.location = "profile.html"
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -302,7 +332,8 @@
         modalOpen = !modalOpen;
     }
 
-    function toggleModalDelete() {
+    function toggleModalDelete(idPostagem) {
+        sessionStorage.setItem('ID_POSTAGEM_DELETANDO', idPostagem)
         if (modalOpen) {
             modal_delete.style.display = 'none'
             document.body.style.overflow = 'auto';
