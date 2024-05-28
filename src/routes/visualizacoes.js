@@ -7,8 +7,8 @@ router.get("listarComentarios/:idPostagem", function (req, res) {
     visualizacaoController.buscarComentarioPorPostagem(req, res);
 });
 
-router.post("/publicar", function (req, res) {
-    visualizacaoController.publicar(req, res);
+router.post("/adicionar", function (req, res) {
+    visualizacaoController.adicionar(req, res);
 });
 
 router.put("/editar", function (req, res) {
@@ -16,7 +16,7 @@ router.put("/editar", function (req, res) {
 });
 
 router.delete("/deletarPorPostagem", function (req, res) {
-    visualizacaoController.deletar(req, res);
+    visualizacaoController.deletarPorPostagem(req, res);
 });
 
 module.exports = router;

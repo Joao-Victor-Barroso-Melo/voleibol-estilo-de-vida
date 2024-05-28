@@ -18,19 +18,16 @@ function buscarVisualizacaoPorPostagem(req, res) {
     });
   }
 
-  function publicar(req, res) {
-    var mensagem = req.body.mensagem;
-    var idUsuario = req.body.usuario;
-    var idPostagem = req.body.postagem;
+  function adicionar(req, res) {
+    var idUsuario = req.body.idUsuario;
+    var idPostagem = req.body.idPostagem;
 
-    if (mensagem == undefined) {
-        res.status(400).send("A mensagem está indefinido!");
-    } else if (idUsuario == undefined) {
+    if (idUsuario == undefined) {
         res.status(400).send("O id do usuário está indefinido!");
     } else if (idPostagem == undefined) {
         res.status(403).send("O id da postagem está indefinido!");
     } else {
-        visualizacaoModel.publicar(mensagem, idUsuario, idPostagem)
+        visualizacaoModel.adicionar(idUsuario, idPostagem)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -66,7 +63,7 @@ function deletarPorPostagem(req, res) {
 
 
 module.exports = {
-    publicar,
+    adicionar,
     deletarPorPostagem,
     buscarVisualizacaoPorPostagem
 }

@@ -493,8 +493,32 @@
         modalOpen = !modalOpen;
     }
 
-    function irParaPost(id) {
-        window.location = `post.html?id=${id}`
+    function irParaPost(idPostagem) {
+        fetch(`/visualizacoes/adicionar`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idUsuario: idUsuario,
+                    idPostagem: idPostagem
+                })
+            }).then(function (resposta) {
+
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    window.location = `post.html?id=${idPostagem}`
+
+                } else if (resposta.status == 404) {
+                    window.alert("Deu 404!");
+                } else {
+                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+                }
+            }).catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+
+            });
     }
 
     function navegation(url) {

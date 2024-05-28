@@ -76,11 +76,12 @@ INSERT INTO visualizacao (fkPostagem, fkUsuario, dataHora) VALUES
 	(2, 1 , now()),
 	(2, 1 , now());
     
-SELECT * FROM curtida WHERE fkPostagem = 1 AND fkUsuario = 1;
+SELECT * FROM curtida WHERE fkPostagem = 1 AND fkUsuario = 3;
 
 SELECT * FROM usuario;
 SELECT * FROM postagem;
 SELECT * FROM comentario;
+SELECT * FROM curtida;
 SELECT * FROM visualizacao;
 
 SELECT 
@@ -161,5 +162,17 @@ SELECT
                 ON p.fkUsuario = u.idUsuario
                 WHERE p.fkUsuario = 1 AND p.idPostagem = 1;
 
-
+SELECT 
+            p.idPostagem,
+            p.assunto,
+            p.fkUsuario,
+            p.dataHora,
+            u.idUsuario,
+            u.nome,
+			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
+			(SELECT COALESCE(sum(isCurtido), 0) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
+            (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
+            FROM postagem p
+                JOIN usuario u
+                ON p.fkUsuario = u.idUsuario ORDER BY p.dataHora DESC;
                 
