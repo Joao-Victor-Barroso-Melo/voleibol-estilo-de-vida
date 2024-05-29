@@ -108,7 +108,8 @@
 
                 if (resposta.ok) {
                     console.log(resposta);
-
+                    msgError = 'Login realizado com sucesso'
+                    alertMsg(msgError, correctColor)
                     resposta.json().then(json => {
                         console.log(json);
                         console.log(JSON.stringify(json));
@@ -125,9 +126,13 @@
                     });
 
                 } else {
-
+                    msgError = 'Email ou senha inválidos'
+                    alertMsg(msgError, wrongColor)
+                    btn_content.innerHTML = `
+                    <button class="" onclick="entrar()">ENTRAR</button>
+                    <span>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></span>
+                    `
                     console.log("Houve um erro ao tentar realizar o login!");
-
                     resposta.text().then(texto => {
                         console.error(texto);
 
