@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="../css/headerForum.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/sessao.js"></script>
     <title>Document</title>
 </head>
 
-<body>
+<body onload="obterDadosGrafico()">
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -47,30 +48,39 @@
 
     <!-- PROFILE CONTENT -->
     <main>
-        <div class="container">
+        <div class="container dash_space">
+            <h2 class="btn_voltar" onclick="navegation('profile.html')"> 
+                <i class="fa-solid fa-chevron-up"></i>Voltar
+            </h2>
             <div class="dashboard_container">
-                <h2 class="btn_voltar" onclick="navegation('profile.html')"> <i class="fa-solid fa-chevron-up"></i>Voltar</h2>
-                <div class="dashboard_kpi">
-                    <div class="kpi">
-                        <h1>10</h1>
-                        <p>Publicações</p>
+                    <div class="dashboard_kpi">
+                        <h2 class="title_dash">Total</h2>
+                        <div class="kpi">
+                            <h1 id="label_postagem">10</h1>
+                            <p>Publicações</p>
+                        </div>
+                        <div class="kpi">
+                            <h1 id="label_curtida">55</h1>
+                            <p>Curtidas</p>
+                        </div>
+                        <div class="kpi">
+                            <h1 id="label_comentario">20</h1>
+                            <p>Comentários</p>
+                        </div>
+                        <div class="kpi">
+                            <h1 id="label_visualizacao">200</h1>
+                            <p>Visualizações</p>
+                        </div>
                     </div>
-                    <div class="kpi">
-                        <h1>55</h1>
-                        <p>Curtidas</p>
-                    </div>
-                    <div class="kpi">
-                        <h1>20</h1>
-                        <p>Comentários</p>
-                    </div>
-                    <div class="kpi">
-                        <h1>200</h1>
-                        <p>Visualizações</p>
-                    </div>
-                </div>
-                <div class="graph">
 
-                </div>
+
+                    <div class="graph_container">
+                        <h2 class="title_dash">Interações diárias</h2>
+                        <div class="graph">
+                            <canvas id="myChartCanvas"></canvas>
+                        </div>
+                    </div>
+             
             </div>
         </div>
     </main>
@@ -114,7 +124,130 @@
 
 <script>
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+    var idUsuario = sessionStorage.getItem('ID_USUARIO')
 
+    let totalPublicacoes = 0;
+    let totalCurtidas = 0;
+    let totalComentarios = 0;
+    let totalVisualizacoes = 0;
+
+    // O gráfico é construído com três funções:
+    // 1. obterDadosGrafico -> Traz dados do Banco de Dados para montar o gráfico da primeira vez
+    // 2. plotarGrafico -> Monta o gráfico com os dados trazidos e exibe em tela
+    // 3. atualizarGrafico -> Atualiza o gráfico, trazendo novamente dados do Banco
+
+    // Esta função *obterDadosGrafico* busca os últimos dados inseridos em tabela de medidas.
+    // para, quando carregar o gráfico da primeira vez, já trazer com vários dados.
+    // A função *obterDadosGrafico* também invoca a função *plotarGrafico*
+
+    //     Se quiser alterar a busca, ajuste as regras de negócio em src/controllers
+    //     Para ajustar o "select", ajuste o comando sql em src/models
+    function obterDadosGrafico() {
+
+        // if (proximaAtualizacao != undefined) {
+        //     clearTimeout(proximaAtualizacao);
+        // }
+
+        fetch(`/postagens/estatisticas/${idUsuario}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    plotarGrafico(resposta, idUsuario);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    // Esta função *plotarGrafico* usa os dados capturados na função anterior para criar o gráfico
+    // Configura o gráfico (cores, tipo, etc), materializa-o na página e, 
+    // A função *plotarGrafico* também invoca a função *atualizarGrafico*
+    function plotarGrafico(resposta, idUsuario) {
+
+        console.log('iniciando plotagem do gráfico...');
+
+        // Criando estrutura para plotar gráfico - labels
+        let labels = [];
+
+        // Criando estrutura para plotar gráfico - dados
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Comentarios',
+                data: [],
+                fill: false,
+                backgroundColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            },
+            {
+                label: 'Visualizações',
+                data: [],
+                fill: false,
+                backgroundColor: 'rgb(199, 52, 52)',
+                tension: 0.1
+            },
+            {
+                label: 'Curtidas',
+                data: [],
+                fill: false,
+                backgroundColor: 'rgb(199, 30, 51)',
+                tension: 0.1
+            }
+
+            ]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+        // Inserindo valores recebidos em estrutura para plotar o gráfico
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.data_formatada);
+            dados.datasets[0].data.push(registro.total_comentarios);
+            dados.datasets[1].data.push(registro.total_visualizacoes);
+            dados.datasets[2].data.push(registro.total_curtida);
+            totalPublicacoes += registro.total_postagens;
+            totalCurtidas += Number(registro.total_curtida);
+            totalComentarios += registro.total_comentarios;
+            totalVisualizacoes += registro.total_visualizacoes;
+        }
+
+        label_postagem.innerHTML = totalPublicacoes;
+        label_curtida.innerHTML = totalCurtidas;
+        label_comentario.innerHTML = totalComentarios;
+        label_visualizacao.innerHTML = totalVisualizacoes;
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
+
+        // Criando estrutura para plotar gráfico - config
+        const config = {
+            type: 'bar',
+            data: dados,
+        };
+
+        // Adicionando gráfico criado em div na tela
+        let myChart = new Chart(
+            document.getElementById(`myChartCanvas`),
+            config
+        );
+
+        // setTimeout(() => atualizarGrafico(idAquario, dados, myChart), 2000);
+    }
 
     let dropdowMenuOpen = false;
     function dropDownMenuToggle() {

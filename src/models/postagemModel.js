@@ -66,6 +66,43 @@ function listarPorUsuario(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function listarEstatisticas(idUsuario) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
+    var instrucaoSql = `
+    SELECT 
+    a.data_formatada,
+	a.total_postagens,
+    a.total_comentarios,
+    a.total_visualizacoes,
+    COALESCE(b.total_curtida, 0) AS total_curtida
+FROM (
+    SELECT 
+        DATE_FORMAT(p.dataHora, '%d/%m/%y') AS data_formatada,
+        COUNT(DISTINCT p.idPostagem) AS total_postagens,
+        COUNT(DISTINCT c.idComentario) AS total_comentarios,
+        COUNT(DISTINCT v.idVisualizacao) AS total_visualizacoes
+    FROM postagem p
+    LEFT JOIN comentario c ON c.fkPostagem = p.idPostagem
+    LEFT JOIN visualizacao v ON v.fkPostagem = p.idPostagem
+    JOIN usuario u ON p.fkUsuario = u.idUsuario
+    WHERE u.idUsuario = ${idUsuario}
+    GROUP BY data_formatada
+) a
+LEFT JOIN (
+    SELECT 
+        DATE_FORMAT(p.dataHora, '%d/%m/%y') AS data_formatada,
+        COALESCE(SUM(isCurtido), 0) AS total_curtida
+    FROM postagem p
+    LEFT JOIN curtida cu ON cu.fkPostagem = p.idPostagem
+    JOIN usuario u ON p.fkUsuario = u.idUsuario
+    WHERE u.idUsuario = ${idUsuario}
+    GROUP BY data_formatada
+) b ON a.data_formatada = b.data_formatada ORDER BY a.data_formatada DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function listarDadosPostagem(idPostagem) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
     var instrucaoSql = `
@@ -147,5 +184,6 @@ module.exports = {
     editar,
     deletar,
     listarDadosPostagem,
-    buscarComentarioPorPostagem
+    buscarComentarioPorPostagem,
+    listarEstatisticas
 }
