@@ -96,6 +96,7 @@ SELECT
             p.dataHora,
             u.idUsuario,
             u.nome,
+            u.fotoPerfil,
 			(SELECT count(idComentario) FROM comentario JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdComentarios,
 			(SELECT count(isCurtido) FROM curtida JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdCurtidas,
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes

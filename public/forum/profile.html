@@ -54,7 +54,7 @@
 
                     </div>
                     <div class="profile_form">
-                        <input name="foto" id="foto" type="file" />
+                        <input name="foto" id="foto" type="file" disabled/>
                         <label>Nome:</label>
                         <input id="input_nome" type="text" value="" disabled>
                         <label>Email:</label>
@@ -174,6 +174,7 @@
             input_email.disabled = false;
             input_password.disabled = false;
             input_confirm_password.disabled = false;
+            foto.disabled = false;
 
             divBtnForm.innerHTML = `
             <button onclick="atualizarCadastroUsuario()" class="btn_config confirm">Salvar Alterações</i></button>
@@ -189,6 +190,7 @@
             input_email.disabled = true;
             input_password.disabled = true;
             input_confirm_password.disabled = true;
+            foto.disabled = true;
             divBtnForm.innerHTML = `
             <button onclick="changeBtnFormEdit()" class="btn_config">Editar Perfil <i class="fa-solid fa-pencil"></i></button>
             `
@@ -324,6 +326,8 @@
 
                         input_nome.value = dadosUsuario.nome
                         input_email.value = dadosUsuario.email
+                        input_password.value = dadosUsuario.senha
+                        input_confirm_password.value = dadosUsuario.senha
                         // input_senha.value = dadosUsuario.senha
                         if (postagensUsuarios.length <= 0) {
                             feed.innerHTML = `<h3 style="text-align: center">Nenhuma postagem publicada!</h3>`
@@ -336,7 +340,14 @@
                             foto_perfil_lateral.style.backgroundImage = `url(../assets/profiles_img/${dadosUsuario.fotoPerfil})`
                         }
 
-                        postagensUsuarios.map(postagem => {
+                        postagensUsuarios.map((postagem, index) => {
+                            const editBody = {
+                                id: postagem.idPostagem, 
+                                assunto: `${postagem.assunto}`, 
+                                descricao: `${postagem.descricao}`
+                            }
+                            
+                           
                             feed.innerHTML += `
                             <div class="post_item">
                             <div class="post_section">
@@ -366,7 +377,7 @@
                                     </div>
                                 </div>
                                 <div class="btn_post_edit">
-                                    <button onclick="toggleModalEdit(${postagem.idPostagem}, '${postagem.assunto}', '${postagem.descricao}')" class="btn_config">Editar</button>
+                                    <button onclick="toggleModalEdit(${index})" class="btn_config">Editar</button>
                                     <button onclick="toggleModalDelete(${postagem.idPostagem})" class="btn_config">Deletar</button>
                                 </div>
                             </div>
@@ -479,20 +490,22 @@
 
 
     let modalOpen = false;
-    function toggleModalEdit(idPostagem, assunto, descricao) {
+    function toggleModalEdit(index) {
+        console.log('entrou')
+        const postagemEdit = postagensUsuarios[index]
         input_assunto.value = '';
         input_descricao.value = '';
-        sessionStorage.setItem('ID_POSTAGEM_EDITANDO', idPostagem)
-
+        
         if (modalOpen) {
             modal_post.style.display = 'none'
             document.body.style.overflow = 'auto';
-
+            
         } else {
+            sessionStorage.setItem('ID_POSTAGEM_EDITANDO', postagemEdit.idPostagem)
             document.body.style.overflow = 'hidden';
             modal_post.style.display = 'flex'
-            input_assunto.value = assunto;
-            input_descricao.value = descricao;
+            input_assunto.value = postagemEdit.assunto;
+            input_descricao.value = postagemEdit.descricao;
         }
         modalOpen = !modalOpen;
     }
