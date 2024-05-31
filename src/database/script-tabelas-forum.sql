@@ -9,7 +9,7 @@ CREATE TABLE usuario (
 	nome VARCHAR(45),
 	email VARCHAR(45),
 	senha VARCHAR(45),
-    fotoPerfil MEDIUMBLOB
+    fotoPerfil VARCHAR(255)
 );
 
 CREATE TABLE postagem(

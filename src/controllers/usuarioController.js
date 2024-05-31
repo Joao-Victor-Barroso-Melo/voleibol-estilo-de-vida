@@ -20,20 +20,21 @@ function autenticar(req, res) {
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                    
+
                         // aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
                         //     .then((resultadoAquarios) => {
                         //         if (resultadoAquarios.length > 0) {
-                                    res.json({
-                                        id: resultadoAutenticar[0].idUsuario,
-                                        email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nome,
-                                        senha: resultadoAutenticar[0].senha,
-                                    });
-                            //     } else {
-                            //         res.status(204).json({ aquarios: [] });
-                            //     }
-                            // })
+                        res.json({
+                            id: resultadoAutenticar[0].idUsuario,
+                            email: resultadoAutenticar[0].email,
+                            nome: resultadoAutenticar[0].nome,
+                            senha: resultadoAutenticar[0].senha,
+                            fotoPerfil: resultadoAutenticar[0].fotoPerfil,
+                        });
+                        //     } else {
+                        //         res.status(204).json({ aquarios: [] });
+                        //     }
+                        // })
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -102,7 +103,7 @@ function listarDadosUsuario(req, res) {
                     if (resultadoUsuario.length == 1) {
                         console.log(resultadoUsuario);
 
-                    
+
                         postagemModel.listarPorUsuario(idUsuario)
                             .then((resultadoPostagens) => {
                                 if (resultadoPostagens.length > 0) {
@@ -111,9 +112,10 @@ function listarDadosUsuario(req, res) {
                                         postagens: resultadoPostagens
                                     });
                                 } else {
-                                    res.json({ 
+                                    res.json({
                                         dataUser: resultadoUsuario[0],
-                                        postagens: [] });
+                                        postagens: []
+                                    });
                                 }
                             })
                     } else if (resultadoUsuario.length == 0) {
@@ -134,10 +136,15 @@ function listarDadosUsuario(req, res) {
 }
 
 function editar(req, res) {
-    var nome = req.body.nome;
-    var email = req.body.email;
-    var senha = req.body.senha;
     var idUsuario = req.params.idUsuario;
+
+    const {nome, email, senha} = req.body
+
+    let imagem = ''
+    if (req.file != undefined) {
+        imagem = req.file.filename;
+    }
+
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
@@ -146,19 +153,19 @@ function editar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
-    usuarioModel.editar(nome, email, senha, idUsuario)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+        usuarioModel.editar(nome, email, senha, idUsuario, imagem)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
     }
 
 }

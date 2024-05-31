@@ -19,8 +19,7 @@
                 <img src="../assets/img/voleibol_png_branca.png" alt="">
             </div>
             <div class="perfil_container">
-                <div class="foto_perfil">
-                    <img src="../assets/img/user_profiel_image.png" alt="">
+                <div id="foto_perfil_header" class="foto_perfil">
                 </div>
                 <span onclick="dropDownMenuToggle()" class="menu_toggle">
                     <span id="user_name"></span>
@@ -51,10 +50,11 @@
         <div class="container">
             <div class="profile_container">
                 <div class="profile_info">
-                    <div class="profile_foto">
-                        <img src="../assets/img/user_profiel_image.png" alt="">
+                    <div id="foto_perfil_lateral" class="profile_foto">
+
                     </div>
                     <div class="profile_form">
+                        <input name="foto" id="foto" type="file" />
                         <label>Nome:</label>
                         <input id="input_nome" type="text" value="" disabled>
                         <label>Email:</label>
@@ -164,6 +164,8 @@
     var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
 
+
+
     let btnEditFormOpen = true;
     function changeBtnFormEdit() {
         if (btnEditFormOpen) {
@@ -172,7 +174,7 @@
             input_email.disabled = false;
             input_password.disabled = false;
             input_confirm_password.disabled = false;
-    
+
             divBtnForm.innerHTML = `
             <button onclick="atualizarCadastroUsuario()" class="btn_config confirm">Salvar Alterações</i></button>
             <button onclick="changeBtnFormEdit()" class="btn_config">Cancelar</button>
@@ -206,6 +208,12 @@
         error_conf_senha.style.display = 'none'
         error_senha.style.display = 'none'
 
+        const formData = new FormData();
+        formData.append('foto', foto.files[0])
+        formData.append('nome', name)
+        formData.append('senha', password)
+        formData.append('email', email)
+
         let validationIsCompleted = true;
 
         if (name == '' || email == '' || password == '' || confirmPassword == '') {
@@ -236,14 +244,7 @@
         } else {
             fetch(`/usuarios/editar/${idUsuario}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    nome: name,
-                    email: email,
-                    senha: password
-                })
+                body: formData
             }).then(function (resposta) {
 
                 if (resposta.ok) {
@@ -311,13 +312,30 @@
                         console.log(dadosUsuario)
                         console.log(postagensUsuarios)
 
+                        sessionStorage.setItem('FOTO_PERFIL', dadosUsuario.fotoPerfil)
+                        var fotoPerfil = sessionStorage.FOTO_PERFIL
+
+                        if (fotoPerfil != '') {
+                            foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
+                        } else {
+                            foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
+
+                        }
+
                         input_nome.value = dadosUsuario.nome
                         input_email.value = dadosUsuario.email
                         // input_senha.value = dadosUsuario.senha
                         if (postagensUsuarios.length <= 0) {
                             feed.innerHTML = `<h3 style="text-align: center">Nenhuma postagem publicada!</h3>`
-
                         }
+
+                        // ALTERA FOTO LATERAL DA PAGINA DO PERFIL
+                        if (dadosUsuario.fotoPerfil == '') {
+                            foto_perfil_lateral.style.backgroundImage = 'url(../assets/img/user_profiel_image.png)'
+                        } else {
+                            foto_perfil_lateral.style.backgroundImage = `url(../assets/profiles_img/${dadosUsuario.fotoPerfil})`
+                        }
+
                         postagensUsuarios.map(postagem => {
                             feed.innerHTML += `
                             <div class="post_item">
@@ -495,30 +513,30 @@
 
     function irParaPost(idPostagem) {
         fetch(`/visualizacoes/adicionar`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idUsuario: idUsuario,
-                    idPostagem: idPostagem
-                })
-            }).then(function (resposta) {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: idUsuario,
+                idPostagem: idPostagem
+            })
+        }).then(function (resposta) {
 
-                console.log("resposta: ", resposta);
+            console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    window.location = `post.html?id=${idPostagem}`
+            if (resposta.ok) {
+                window.location = `post.html?id=${idPostagem}`
 
-                } else if (resposta.status == 404) {
-                    window.alert("Deu 404!");
-                } else {
-                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-                }
-            }).catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
 
-            });
+        });
     }
 
     function navegation(url) {

@@ -9,7 +9,8 @@ function buscarComentarioPorPostagem(idPostagem) {
     c.dataHora,
 	c.mensagem,
     u.idUsuario,
-    u.nome
+    u.nome,
+    u.fotoPerfil
 	FROM 
 	comentario as c
     JOIN postagem as p

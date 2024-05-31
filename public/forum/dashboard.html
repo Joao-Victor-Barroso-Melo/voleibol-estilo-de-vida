@@ -19,8 +19,7 @@
                 <img src="../assets/img/voleibol_png_branca.png" alt="">
             </div>
             <div class="perfil_container">
-                <div class="foto_perfil">
-                    <img src="../assets/img/user_profiel_image.png" alt="">
+                <div id="foto_perfil_header" class="foto_perfil">
                 </div>
                 <span onclick="dropDownMenuToggle()" class="menu_toggle">
                     <span id="user_name"></span>
@@ -125,12 +124,19 @@
 <script>
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
     var idUsuario = sessionStorage.getItem('ID_USUARIO')
-
+    var fotoPerfil = sessionStorage.FOTO_PERFIL
+    
     let totalPublicacoes = 0;
     let totalCurtidas = 0;
     let totalComentarios = 0;
     let totalVisualizacoes = 0;
+    
+    if(fotoPerfil != ''){
+        foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
+    }else {
+        foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
 
+    }
     // O gráfico é construído com três funções:
     // 1. obterDadosGrafico -> Traz dados do Banco de Dados para montar o gráfico da primeira vez
     // 2. plotarGrafico -> Monta o gráfico com os dados trazidos e exibe em tela

@@ -18,8 +18,7 @@
                 <img src="../assets/img/voleibol_png_branca.png" alt="">
             </div>
             <div class="perfil_container">
-                <div class="foto_perfil">
-                    <img src="../assets/img/user_profiel_image.png" alt="">
+                <div id="foto_perfil_header" class="foto_perfil">
                 </div>
                 <span onclick="dropDownMenuToggle()" class="menu_toggle">
                     <span id="user_name"></span>
@@ -60,8 +59,7 @@
 
                 <div class="comentar_container">
                     <div class="comentar_content">
-                        <div class="foto_perfil">
-                            <img src="../assets/img/user_profiel_image.png" alt="">
+                        <div id="foto_comentario_input" class="foto_coments">
                         </div>
                         <textarea id="input_comentario" placeholder="Deixe aqui seu comentário"></textarea>
                     </div>
@@ -111,6 +109,15 @@
 
     var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+
+    var fotoPerfil = sessionStorage.FOTO_PERFIL
+
+    if(fotoPerfil != ''){
+        foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
+    }else {
+        foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
+
+    }
 
     const params = new URLSearchParams(window.location.search);
     const idPostagem = params.get('id');
@@ -170,13 +177,24 @@
                         console.log(comentarios)
                         console.log(curtidas)
 
+                        if(dadosPostagens.fotoPerfil != ''){
+                            foto_comentario_input.style.backgroundImage = `url(../assets/profiles_img/${dadosPostagens.fotoPerfil})`
+                        }else{
+                            foto_comentario_input.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
+
+                        }
+
 
                         post_content_id.innerHTML = `
                     <div class="header_post">
                         <div class="user_post_info">
-                            <div class="foto_perfil">
-                                <img src="../assets/img/user_profiel_image.png" alt="">
-                            </div>
+                            
+                                ${dadosPostagens.fotoPerfil != '' ? 
+                                `<div style="background-image: url(../assets/profiles_img/${dadosPostagens.fotoPerfil})" class="foto_post"></div>`
+                                    :
+                                `<div style="background-image: url(../assets/img/user_profiel_image.png)" class="foto_post"></div>`
+                                }
+                         
                             <h3>${dadosPostagens.nome}</h3>
                             <i class="fa-solid fa-circle"></i>
                             <span>${formatarTempoPostagem(dadosPostagens.dataHora)}</span>
@@ -207,9 +225,12 @@
                             comentarios_container.innerHTML += `
                 <div class="comentario_container">
                         <div class="user_post_info">
-                            <div class="foto_perfil">
-                                <img src="../assets/img/user_profiel_image.png" alt="">
-                            </div>
+                                ${comentario.fotoPerfil != '' ? 
+                                `<div style="background-image: url(../assets/profiles_img/${comentario.fotoPerfil})" class="foto_coments"></div>`
+                                    :
+                                `<div style="background-image: url(../assets/img/user_profiel_image.png)" class="foto_coments"></div>`
+                                }
+                            
                             <h3>${comentario.nome}</h3>
                             <i class="fa-solid fa-circle"></i>
                             <span>${formatarTempoPostagem(comentario.dataHora)}</span>

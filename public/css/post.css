@@ -12,11 +12,21 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.foto_post>img{
-    width: 100%;
+.foto_coments{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+
+
 
 .header_post{
     display: flex;

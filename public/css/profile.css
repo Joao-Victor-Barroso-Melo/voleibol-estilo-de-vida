@@ -18,11 +18,12 @@
 .profile_foto{
     width: 150px;
     height: 150px;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.profile_foto>img{
-    width: 100%;
-}
 
 .profile_form{
     display: flex;
