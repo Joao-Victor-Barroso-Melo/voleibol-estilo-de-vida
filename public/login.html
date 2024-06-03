@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login_cadastro.css">
+    <link rel="stylesheet" href="./css/alertMsg.css">
+    <link rel="stylesheet" href="./css/loader.css">
     <title>Document</title>
 </head>
 
 <body>
+    <span id="alert_msg"></span>
     <section class="container">
         <div class="img_container">
             <img src="./assets/img/voleibol_png_branca.png" alt="">
         </div>
         <div class="login_container">
-            <span id="alert_error"></span>
             <div class="login_content">
                 <a href="index.html"><i class="fa-solid fa-house"></i></a>
                 <h1>ENTRAR</h1>
@@ -36,7 +38,7 @@
 
 </html>
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
-
+<script src="./js/alertMsg.js"></script>
 
 <script>
 
@@ -49,17 +51,6 @@
         `
     }
 
-    function alertMsg(msg, type) {
-        alert_error.innerHTML = msg;
-        alert_error.style.backgroundColor = type
-        alert_error.style.animationName = 'showRight'
-        alert_error.addEventListener('animationend', () => {
-            setTimeout(() => {
-                alert_error.style.animationName = 'hideRight'
-            }, 2000)
-        }
-        )
-    }
 
     function entrar() {
         btn_content.innerHTML = `<span class="loader"></span>`
@@ -69,16 +60,12 @@
 
         error_email.style.display = 'none'
 
-        let msgError = '';
-        let wrongColor = 'rgb(240, 81, 81)'
-        let correctColor = 'rgb(43, 207, 98)'
 
         let validationIsCompleted = true;
 
 
         if (email == '' || password == '') {
-            msgError = 'Preencha todos os campos'
-            alertMsg(msgError, wrongColor)
+            alertMsg('Preencha todos os campos', 'wrongColor')
             validationIsCompleted = false;
         }
 
@@ -108,8 +95,9 @@
 
                 if (resposta.ok) {
                     console.log(resposta);
-                    msgError = 'Login realizado com sucesso'
-                    alertMsg(msgError, correctColor)
+                    
+                    alertMsg('Login realizado com sucesso', 'correctColor')
+
                     resposta.json().then(json => {
                         console.log(json);
                         console.log(JSON.stringify(json));
@@ -127,8 +115,7 @@
                     });
 
                 } else {
-                    msgError = 'Email ou senha inválidos'
-                    alertMsg(msgError, wrongColor)
+                    alertMsg('Email ou senha inválidos', 'wrongColor')
                     btn_content.innerHTML = `
                     <button class="" onclick="entrar()">ENTRAR</button>
                     <span>Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></span>

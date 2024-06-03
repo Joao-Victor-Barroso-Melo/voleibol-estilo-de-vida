@@ -1,0 +1,36 @@
+/* ALERT ERROR */
+#alert_msg {
+    position: fixed;
+    width: 300px;
+    color: var(--text-white);
+    padding: 20px;
+    text-align: center;
+    top: 30px;
+    right: 30px;
+    transform: translateX(110%);
+    animation-duration: 500ms;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    z-index: 1000;
+}
+
+@keyframes showRight {
+    0% {
+        transform: translateX(110%);
+    }50%{
+        transform: translateX(-5%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+@keyframes hideRight {
+    0% {
+        transform: translateX(0%);
+    }50%{
+        transform: translateX(-5%);
+    }
+    100% {
+        transform: translateX(110%);
+    }
+}

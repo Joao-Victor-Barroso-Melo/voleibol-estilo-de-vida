@@ -9,11 +9,15 @@
     <link rel="stylesheet" href="../css/homeForum.css">
     <link rel="stylesheet" href="../css/modal.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/alertMsg.css">
+    <link rel="stylesheet" href="../css/loader.css">
+
     <script src="../js/sessao.js"></script>
 
 </head>
 
 <body onload="atualizarFeed(); validarSessao()">
+    <span id="alert_msg"></span>
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -21,11 +25,11 @@
             </div>
             <div class="perfil_container">
                 <div id="foto_perfil_header" class="foto_perfil">
-                   
+
                 </div>
                 <span onclick="dropDownMenuToggle()" class="menu_toggle">
                     <span id="user_name"></span>
-                    <i  class="fa-solid fa-sort-down"></i>
+                    <i class="fa-solid fa-sort-down"></i>
                     <div id="dropDownMenu" class="dropdow_menu">
                         <span onclick="navegation('profile.html')"><i class="fa-solid fa-user"></i> Perfi</span>
                         <span onclick="limparSessao()"><i class="fa-solid fa-right-from-bracket"></i> Sair</span>
@@ -79,7 +83,9 @@
                 <input id="input_assunto" type="text" name="assunto">
                 <label>Descricao:</label>
                 <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50"> </textarea>
-                <button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>
+                <div id="btn_content">
+                    <button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>
+                </div>
             </div>
         </div>
     </div>
@@ -120,20 +126,22 @@
 </html>
 
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script src="../js/alertMsg.js"></script>
 
 <script>
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
     var idUsuario = sessionStorage.ID_USUARIO;
     var fotoPerfil = sessionStorage.FOTO_PERFIL
 
-    if(fotoPerfil != ''){
+    if (fotoPerfil != '') {
         foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
-    }else {
+    } else {
         foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
 
     }
 
     function publicar() {
+        
         const assunto = input_assunto.value;
         const descricao = input_descricao.value;
         var corpo = {
@@ -142,8 +150,9 @@
         }
 
         if (assunto.trim().length <= 0 || descricao.trim().length <= 0) {
-            alert("Preencha todos os campos")
+            alertMsg('Preencha todos os campos', 'wrongColor')
         } else {
+            btn_content.innerHTML = `<span class="loader"></span>`
             fetch(`/postagens/publicar/${idUsuario}`, {
                 method: "POST",
                 headers: {
@@ -155,11 +164,17 @@
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                    window.location = "/forum/home.html";
+                    alertMsg('Post realizado com sucesso', 'correctColor')
+
+                    setTimeout(() => {
+                        window.location = "/forum/home.html";
+                    }, 1000)
 
                 } else if (resposta.status == 404) {
                     window.alert("Deu 404!");
+                    btn_content.innerHTML = 
+                    `<button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>`
+
                 } else {
                     throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
                 }
@@ -233,11 +248,11 @@
                         <div class="post_item" onclick="irParaPost(${post.idPostagem})">
                             <div class="post_section">
                                 
-                                ${post.fotoPerfil != '' ? 
+                                ${post.fotoPerfil != '' ?
                                 `<div style="background-image: url(../assets/profiles_img/${post.fotoPerfil})" class="foto_post">`
-                                    :
+                                :
                                 `<div style="background-image: url(../assets/img/user_profiel_image.png)" class="foto_post">`
-                                }
+                            }
 
                                 </div>
                                 <div class="post_content">
@@ -303,35 +318,35 @@
         dropdowMenuOpen = !dropdowMenuOpen;
     }
 
-    function irParaPost(idPostagem){
+    function irParaPost(idPostagem) {
         fetch(`/visualizacoes/adicionar`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idUsuario: idUsuario,
-                    idPostagem: idPostagem
-                })
-            }).then(function (resposta) {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: idUsuario,
+                idPostagem: idPostagem
+            })
+        }).then(function (resposta) {
 
-                console.log("resposta: ", resposta);
+            console.log("resposta: ", resposta);
 
-                if (resposta.ok) {
-                    window.location = `post.html?id=${idPostagem}`
+            if (resposta.ok) {
+                window.location = `post.html?id=${idPostagem}`
 
-                } else if (resposta.status == 404) {
-                    window.alert("Deu 404!");
-                } else {
-                    throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-                }
-            }).catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
 
-            });
+        });
     }
 
-    function navegation(url){
+    function navegation(url) {
         window.location = url
     }
 

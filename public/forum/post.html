@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="../css/headerForum.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/post.css">
+    <link rel="stylesheet" href="../css/alertMsg.css">
+    <link rel="stylesheet" href="../css/loader.css">
     <script src="../js/sessao.js"></script>
 </head>
 
 <body onload="atualizarPost()">
+    <span id="alert_msg"></span>
+
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -63,7 +67,9 @@
                         </div>
                         <textarea id="input_comentario" placeholder="Deixe aqui seu comentário"></textarea>
                     </div>
-                    <button onclick="publicarComentario()">COMENTAR</button>
+                    <div id="btn_content">
+                        <button onclick="publicarComentario()">COMENTAR</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,6 +111,8 @@
 </html>
 
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script src="../js/alertMsg.js"></script>
+
 <script>
 
     var idUsuario = sessionStorage.ID_USUARIO;
@@ -256,16 +264,18 @@
     function publicarComentario() {
         const comentario = input_comentario.value
         if (comentario.trim() == '') {
+            alertMsg('Preencha o campo de comentário', 'wrongColor')
             return;
         }
-
+        
         var corpo = {
             postagem: idPostagem,
             usuario: idUsuario,
             mensagem: comentario
         }
         console.log(corpo)
-
+        
+        btn_content.innerHTML = `<span class="loader"></span>`
         fetch('/comentarios/publicar', {
             method: "POST",
             headers: {
@@ -277,10 +287,13 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
-                alert("Comentario realizado")
-                window.location = `post.html?id=${idPostagem}`;
+                alertMsg('Comentario realizado', 'correctColor')
+                setTimeout(() => {
+                    window.location = `post.html?id=${idPostagem}`;
+                }, 1000)
 
             } else if (resposta.status == 404) {
+                btn_content.innerHTML = `<button onclick="publicarComentario()">COMENTAR</button>`
                 window.alert("Deu 404!");
             } else {
                 throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);

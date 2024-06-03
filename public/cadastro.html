@@ -5,16 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/login_cadastro.css">
+    <link rel="stylesheet" href="./css/alertMsg.css">
+    <link rel="stylesheet" href="./css/loader.css">
     <title>Document</title>
 </head>
 
 <body>
+    <span id="alert_msg"></span>
     <section class="container">
         <div class="img_container">
             <img src="./assets/img/voleibol_png_branca.png" alt="">
         </div>
         <div class="login_container">
-            <span id="alert_error"></span>
             <div class="login_content">
                 <a href="index.html"><i class="fa-solid fa-house"></i></a>
                 <h1>CADASTRE-SE</h1>
@@ -46,6 +48,7 @@
 
 </html>
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script src="./js/alertMsg.js"></script>
 
 <script>
 
@@ -60,17 +63,6 @@
           `
     }
 
-    function alertMsg(msg, type) {
-        alert_error.innerHTML = msg;
-        alert_error.style.backgroundColor = type
-        alert_error.style.animationName = 'showRight'
-        alert_error.addEventListener('animationend', () => {
-            setTimeout(() => {
-                alert_error.style.animationName = 'hideRight'
-            }, 2000)
-        }
-        )
-    }
 
     function validarCampos() {
         btn_content.innerHTML = `<span class="loader"></span>`
@@ -78,9 +70,7 @@
         const email = input_email.value;
         const password = input_password.value;
         const confirmPassword = input_confirm_password.value;
-        let msgError = '';
-        let wrongColor = 'rgb(240, 81, 81)'
-        let correctColor = 'rgb(43, 207, 98)'
+
         error_email.style.display = 'none';
         error_conf_senha.style.display = 'none'
         error_senha.style.display = 'none'
@@ -88,8 +78,7 @@
         let validationIsCompleted = true;
 
         if (name == '' || email == '' || password == '' || confirmPassword == '') {
-            msgError = 'Preencha todos os campos'
-            alertMsg(msgError, wrongColor);
+            alertMsg('Preencha todos os campos', 'wrongColor');
         }
 
 
@@ -132,8 +121,7 @@
                     console.log("resposta: ", resposta);
 
                     if (resposta.ok) {
-                        msgError = 'Cadastro realizado - Redirecionando para Login'
-                        alertMsg(msgError, correctColor);
+                        alertMsg('Cadastro realizado - Redirecionando para Login', 'correctColor');
 
                         setTimeout(() => {
                             window.location = "login.html";

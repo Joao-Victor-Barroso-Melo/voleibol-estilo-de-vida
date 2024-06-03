@@ -44,6 +44,11 @@
     flex-direction: column;
     gap: 10px;
     margin-top: 10px;
+    align-items: center;
+}
+
+.div_btn_form>button{
+    width: 100%;
 }
 
 /* VALIDATION FORM */

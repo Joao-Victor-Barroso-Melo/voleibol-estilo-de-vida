@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="../css/modal.css">
     <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/alertMsg.css">
+    <link rel="stylesheet" href="../css/loader.css">
     <script src="../js/sessao.js"></script>
     <title>Document</title>
 </head>
 
 <body onload="atualizarDadosUsuario()">
+    <span id="alert_msg"></span>
     <header class="header_container">
         <section class="section_header container">
             <div class="img_container">
@@ -54,7 +57,7 @@
 
                     </div>
                     <div class="profile_form">
-                        <input name="foto" id="foto" type="file" disabled/>
+                        <input name="foto" id="foto" type="file" disabled />
                         <label>Nome:</label>
                         <input id="input_nome" type="text" value="" disabled>
                         <label>Email:</label>
@@ -104,7 +107,9 @@
                 <input id="input_assunto" type="text" name="assunto">
                 <label>Descricao:</label>
                 <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50"> </textarea>
-                <button onclick="editar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+                <div id="btn_content">
+                    <button onclick="editar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>
+                </div>
             </div>
         </div>
     </div>
@@ -115,7 +120,7 @@
             <div onclick="toggleModalDelete()" class="header_modal"><i class="fa-solid fa-x"></i></div>
             <div class="form_post">
                 <h2 class="title_confirm">Deseja realmente apagar esta postagem?</h2>
-                <div class="btn_container_confirm">
+                <div id="btn_delete_content" class="btn_container_confirm">
                     <button onclick="toggleModalDelete()" class="btn_confirm cancelar">CANCELAR</button>
                     <button onclick="deletar()" class="btn_confirm deletar">DELETAR</button>
                 </div>
@@ -159,6 +164,7 @@
 </html>
 
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script src="../js/alertMsg.js"></script>
 
 <script>
     var idUsuario = sessionStorage.ID_USUARIO;
@@ -203,9 +209,7 @@
         const email = input_email.value;
         const password = input_password.value;
         const confirmPassword = input_confirm_password.value;
-        let msgError = '';
-        let wrongColor = 'rgb(240, 81, 81)'
-        let correctColor = 'rgb(43, 207, 98)'
+
         error_email.style.display = 'none';
         error_conf_senha.style.display = 'none'
         error_senha.style.display = 'none'
@@ -219,9 +223,7 @@
         let validationIsCompleted = true;
 
         if (name == '' || email == '' || password == '' || confirmPassword == '') {
-            // msgError = 'Preencha todos os campos'
-            // alertMsg(msgError, wrongColor);
-            alert("Preencha todos os campos")
+            alertMsg('Preencha todos os campos', 'wrongColor');
         }
 
 
@@ -244,6 +246,7 @@
         if (validationIsCompleted == false) {
             console.log("TudoValidado")
         } else {
+            divBtnForm.innerHTML = `<span class="loader"></span>`
             fetch(`/usuarios/editar/${idUsuario}`, {
                 method: "PUT",
                 body: formData
@@ -251,10 +254,17 @@
 
                 if (resposta.ok) {
                     sessionStorage.setItem('NOME_USUARIO', name)
-                    window.alert("Dados do usuário atualizados com sucesso: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                    window.location = "profile.html"
+                    alertMsg('Dados do usuário atualizados com sucesso', 'corrctColor');
+                    setTimeout(() => {
+                        window.location = "profile.html"
+                    }, 1000)
                 } else if (resposta.status == 404) {
                     window.alert("Deu 404!");
+
+                    divBtnForm.innerHTML = `
+                    <button onclick="atualizarCadastroUsuario()" class="btn_config confirm">Salvar Alterações</i></button>
+                    <button onclick="changeBtnFormEdit()" class="btn_config">Cancelar</button>`
+                    
                 } else {
                     throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
                 }
@@ -342,12 +352,12 @@
 
                         postagensUsuarios.map((postagem, index) => {
                             const editBody = {
-                                id: postagem.idPostagem, 
-                                assunto: `${postagem.assunto}`, 
+                                id: postagem.idPostagem,
+                                assunto: `${postagem.assunto}`,
                                 descricao: `${postagem.descricao}`
                             }
-                            
-                           
+
+
                             feed.innerHTML += `
                             <div class="post_item">
                             <div class="post_section">
@@ -397,6 +407,7 @@
     }
 
     function editar() {
+        btn_content.innerHTML = `<span class="loader"></span>`
         fetch(`/postagens/editar/${sessionStorage.getItem("ID_POSTAGEM_EDITANDO")}`, {
             method: "PUT",
             headers: {
@@ -409,10 +420,14 @@
         }).then(function (resposta) {
 
             if (resposta.ok) {
-                window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "profile.html"
+                alertMsg('Post atualizado com sucesso', 'correctColor')
+                setTimeout(() => {
+                    window.location = "profile.html"
+                }, 1000)
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
+                btn_content.innerHTML = `<button onclick="editar()" class="btn_insert_post">SALVAR ALTERAÇÕES</button>`
+
             } else {
                 throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
             }
@@ -422,6 +437,7 @@
     }
 
     function deletar() {
+        btn_delete_content.innerHTML = `<span class="loader"></span>`
         fetch(`/postagens/deletar`, {
             method: "DELETE",
             headers: {
@@ -434,10 +450,17 @@
         }).then(function (resposta) {
 
             if (resposta.ok) {
-                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "profile.html"
+
+                alertMsg('Post deletado com sucesso', 'correctColor')
+                setTimeout(() => {
+                    window.location = "profile.html"
+                }, 1000)
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
+                btn_delete_content.innerHTML =
+                    `<button onclick="toggleModalDelete()" class="btn_confirm cancelar">CANCELAR</button>
+                    <button onclick="deletar()" class="btn_confirm deletar">DELETAR</button>`
+
             } else {
                 throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
             }
@@ -495,11 +518,11 @@
         const postagemEdit = postagensUsuarios[index]
         input_assunto.value = '';
         input_descricao.value = '';
-        
+
         if (modalOpen) {
             modal_post.style.display = 'none'
             document.body.style.overflow = 'auto';
-            
+
         } else {
             sessionStorage.setItem('ID_POSTAGEM_EDITANDO', postagemEdit.idPostagem)
             document.body.style.overflow = 'hidden';

@@ -122,9 +122,13 @@
     overflow-wrap: break-word; 
 }
 
-.comentar_container>button{
+#btn_content{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btn_content>button{
     cursor: pointer;
-    align-self: flex-end;
     font-weight: bold;
     padding: 15px 40px;
     border: none;
