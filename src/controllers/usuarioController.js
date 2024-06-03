@@ -145,15 +145,8 @@ function editar(req, res) {
         imagem = req.file.filename;
     }
 
-
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else {
-        usuarioModel.editar(nome, email, senha, idUsuario, imagem)
+    if(imagem == ''){
+        usuarioModel.editarSemFoto(nome, email, senha, idUsuario)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -166,7 +159,32 @@ function editar(req, res) {
                     res.status(500).json(erro.sqlMessage);
                 }
             );
+    }else {
+        if (nome == undefined) {
+            res.status(400).send("Seu nome está undefined!");
+        } else if (email == undefined) {
+            res.status(400).send("Seu email está undefined!");
+        } else if (senha == undefined) {
+            res.status(400).send("Sua senha está undefined!");
+        } else {
+            usuarioModel.editar(nome, email, senha, idUsuario, imagem)
+                .then(
+                    function (resultado) {
+                        res.json(resultado);
+                    }
+                )
+                .catch(
+                    function (erro) {
+                        console.log(erro);
+                        console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
+                        res.status(500).json(erro.sqlMessage);
+                    }
+                );
+        }
     }
+
+   
+    
 
 }
 
