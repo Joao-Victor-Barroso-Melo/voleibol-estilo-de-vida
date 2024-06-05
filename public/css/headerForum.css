@@ -25,6 +25,7 @@
 }
 .img_container>img{
     width: 100%;
+    cursor: pointer;
 }
 
 .section_header{

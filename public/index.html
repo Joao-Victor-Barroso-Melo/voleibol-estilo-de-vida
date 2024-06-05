@@ -12,104 +12,131 @@
 </head>
 
 <body>
-    <main class="scroll_mandatory">
-            <section class="banner_mikasa scroll_content">
-                <header>
-                    <div class="img_container_logo">
-                        <img src="./assets/img/voleibol_png_preta.png" alt="">
-                    </div>
-                    <ul class="navigation">
-                        <li><a href="#history">HISTÓRIA</a></li>
-                        <li><a href="#caracteristics">CARACTERÍSTICAS</a></li>
-                        <li><a href="#aboutMe">SOBRE MIM</a></li>
-                    </ul>
-                    <a href="login.html"><button class="btn_header">ENTRAR</button></a>
-                </header>
-                <div class="mikasa_container">
-                    <h2>VÔLEI</h2>
-                    <img id="img-ball" src="./assets/img/mikasa-png.png" alt="">
-                    <h2>VÔLEI</h2>
-                </div>
-                <div class="mikasa_footer">
-                    <p>Conheça o esporte que mudou minha vida</p>
-                    <button class="btn_banner"><i class="fa-solid fa-arrow-down"></i></button>
-                </div>
-            </section>
-    
-        <section id="history" class="history_container scroll_content">
-            <div class="history_left_container"></div>
-            <div class="text_content">
-                <h4>História do vôlei</h4>
-                <h1>O QUE É VÔLEI?</h1>
-                <p>    Vôlei é um esporte dinâmico e envolvente, conquistando uma vasta audiência global desde sua origem nos Estados Unidos. Tornou-se um destaque nos Jogos Olímpicos desde 1964, exigindo dos jogadores não apenas habilidades técnicas, mas também coordenação, agilidade e comunicação. Além de ser emocionante de assistir, o vôlei proporciona uma plataforma ideal para o desenvolvimento de habilidades sociais e físicas.</p>
+    <!-- <main class="scroll_mandatory"> -->
+    <section class="banner_mikasa scroll_content">
+        <header>
+            <div class="img_container_logo">
+                <img src="./assets/img/voleibol_png_preta.png" alt="">
             </div>
-        </section>
-    
-        <section id="caracteristics" class="characteristics_container scroll_content">
-            <div class="characteristics_header">
-                <h1>MAIS QUE UM JOGO</h1>
-            </div>
-            <div class="characteristics_flex">
-                <div class="img_flex flex1">
-                    <div class="gradient"><p>TRABALHO EM EQUIPE</p></div>
-                </div>
-                <div class="img_flex flex2">
-                    <div class="gradient"><p>FOCO E RESILIÊNCIA</p></div>
-                </div>
-                <div class="img_flex flex3">
-                    <div class="gradient"><p>COMPANHERISMO</p></div>
-                </div>
-            </div>
-        </section>
-    
-        <section id="aboutMe" class="about_container scroll_content">
-            <div class="about_right_container"></div>
-            <div class="text_content">
-                <h4>Sobre mim</h4>
-                <h1>ESTILO DE VIDA</h1>
-                <p>      O vôlei não apenas me proporcionou a oportunidade de me exercitar e melhorar minha saúde física, mas também me ofereceu um time caloroso e cheio de alegria chamado Comensais, equipe amadora na qual fiz parte por 5 anos. Os laços que formei com meus colegas de equipe se transformaram em amizades, repletas de companheirismo e apoio mútuo. Juntos, enfrentamos desafios e celebramos conquistas em diversos campeonatos, construindo memórias inesquecíveis que sempre carregarei comigo. </p>
-            </div>
-        </section>
-    
-        <section class="community_container scroll_content">
-            <div class="community_content">
-                <h1>FAÇA PARTE DA COMUNIDADE</h1>
-                <p>Venha se juntar ao nosso fórum de vôlei e mergulhe em uma comunidade apaixonada pelo esporte! Não importa se você é um jogador casual, um fã dedicado ou um técnico experiente, todos são bem-vindos para compartilhar suas histórias, dicas e amor pelo vôlei. </p>
-                <button class="btn_community">ENTRAR</button>
-            </div>
-        </section>
-    
-        <footer class="footer_container scroll_content">
-            <div class="top_footer">
-                <div class="img_container_footer ">
-                    <img src="./assets/img/voleibol_png_branca.png" alt="">
-                </div>
-                <ul class="list_footer">
-                    <li class="title_list">Navegação</li>
-                    <li>História</li>
-                    <li>Características</li>
-                    <li>Sobre mim</li>
-                </ul>
-                <ul class="list_footer">
-                    <li class="title_list">Contato</li>
-                    <li>(+55) 0000-0000</li>
-                    <li>(+55) 3691-0000</li>
-                    <li>nome.sobrenome@gmail.com</li>
-                </ul>
-                <div class="list_icon">
-                    <p class="title_list">Redes Sociais</p>
-                    <div class="flex_icon">
-                        <i class="fa-brands fa-instagram"></i>
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <i class="fa-brands fa-facebook"></i>
-                    </div>
+            <ul class="navigation">
+                <li><a href="#history">HISTÓRIA</a></li>
+                <li><a href="#caracteristics">CARACTERÍSTICAS</a></li>
+                <li><a href="#aboutMe">SOBRE MIM</a></li>
+            </ul>
+            <a href="login.html"><button class="btn_header">ENTRAR</button></a>
+        </header>
+        <div class="mikasa_container">
+            <h2>VÔLEI</h2>
+            <img id="img-ball" src="./assets/img/mikasa-png.png" alt="">
+            <h2>VÔLEI</h2>
+        </div>
+        <div class="mikasa_footer">
+            <p>Conheça o esporte que mudou minha vida</p>
+            <a href="#history"><button class="btn_banner"><i class="fa-solid fa-arrow-down"></i></button></a>
+        </div>
+    </section>
+
+    <section id="history" class="history_container scroll_content">
+        <span id="next_btn" class="btn_carrossel"><i class="fa-solid fa-chevron-right"
+                onclick="nextHistory()"></i></span>
+        <span id="prev_btn" class="btn_carrossel"><i class="fa-solid fa-chevron-left"
+                onclick="prevHistory()"></i></span>
+
+        <div id="img_hist" class="history_left_container"></div>
+        <div class="text_content">
+            <h4>História do vôlei</h4>
+            <h1 id="titulo_hist">O QUE É VÔLEI?</h1>
+            <p id="descricao_hist">
+                Vôlei é um esporte dinâmico e envolvente, conquistando uma vasta audiência
+                global desde sua origem nos Estados Unidos. Tornou-se um destaque nos Jogos Olímpicos desde
+                1964,
+                exigindo dos jogadores não apenas habilidades técnicas, mas também coordenação, agilidade e
+                comunicação. Além de ser emocionante de assistir, o vôlei proporciona uma plataforma ideal para
+                o
+                desenvolvimento de habilidades sociais e físicas.
+            </p>
+        </div>
+    </section>
+
+    <section id="caracteristics" class="characteristics_container scroll_content">
+        <div class="characteristics_header">
+            <h1>MAIS QUE UM JOGO</h1>
+        </div>
+        <div class="characteristics_flex">
+            <div class="img_flex flex1">
+                <div class="gradient">
+                    <p>TRABALHO EM EQUIPE</p>
                 </div>
             </div>
-            <div class="bottom_footer">
-                <p>©2024 - Vôlei como estilo de vida</p>
+            <div class="img_flex flex2">
+                <div class="gradient">
+                    <p>FOCO E RESILIÊNCIA</p>
+                </div>
             </div>
-        </footer>
-    </main>
+            <div class="img_flex flex3">
+                <div class="gradient">
+                    <p>COMPANHERISMO</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="aboutMe" class="about_container scroll_content">
+        <div class="about_right_container"></div>
+        <div class="text_content">
+            <h4>Sobre mim</h4>
+            <h1>ESTILO DE VIDA</h1>
+            <p> O vôlei não apenas me proporcionou a oportunidade de me exercitar e melhorar minha saúde física, mas
+                também me ofereceu um time caloroso e cheio de alegria chamado Comensais, equipe amadora na qual fiz
+                parte por 5 anos. Os laços que formei com meus colegas de equipe se transformaram em amizades,
+                repletas de companheirismo e apoio mútuo. Juntos, enfrentamos desafios e celebramos conquistas em
+                diversos campeonatos, construindo memórias inesquecíveis que sempre carregarei comigo. </p>
+        </div>
+    </section>
+
+    <section class="community_container scroll_content">
+        <div class="community_content">
+            <h1>FAÇA PARTE DA COMUNIDADE</h1>
+            <p>Venha se juntar ao nosso fórum de vôlei e mergulhe em uma comunidade apaixonada pelo esporte! Não
+                importa se você é um jogador casual, um fã dedicado ou um técnico experiente, todos são bem-vindos
+                para compartilhar suas histórias, dicas e amor pelo vôlei. </p>
+            <a href="login.html"><button class="btn_community">ENTRAR</button></a>
+        </div>
+    </section>
+
+    <footer class="footer_container scroll_content">
+        <div class="top_footer">
+            <div class="img_container_footer ">
+                <img src="./assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <ul class="list_footer">
+                <li class="title_list">Navegação</li>
+                <li><a href="#history" class="link_footer">História</a></li>
+                <li><a href="#caracteristics" class="link_footer">Características</a></li>
+                <li><a href="#aboutMe" class="link_footer">Sobre Mim</a></li>
+            </ul>
+            <ul class="list_footer">
+                <li class="title_list">Contato</li>
+                <li>+55 (88) 99215-1831</li>
+                <li>joao.melo@sptech.school</li>
+            </ul>
+            <div class="list_icon">
+                <p class="title_list">Social</p>
+                <div class="flex_icon">
+                    <a href="https://www.instagram.com/_jaov_/" target="_blank">
+                        <i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/joão-victor-632a1021a/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/Joao-Victor-Barroso-Melo" target="_blank">
+                        <i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="bottom_footer">
+            <p>©2024 - Vôlei como estilo de vida</p>
+        </div>
+    </footer>
+    <!-- </main> -->
 
 </body>
 
@@ -118,17 +145,66 @@
 <script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
 
 <script>
-    
+
+    let posicao = 0;
+    const listaHistoriaVolei =
+        [
+            {
+                img: 'Jogo-de-volei-feminino.webp',
+                titulo: 'O QUE É VÔLEI?',
+                descricao: 'Vôlei é um esporte dinâmico e envolvente, conquistando uma vasta audiência global desde sua origem nos Estados Unidos. Tornou-se um destaque nos Jogos Olímpicos desde 1964, exigindo dos jogadores não apenas habilidades técnicas, mas também coordenação, agilidade e comunicação. Além de ser emocionante de assistir, o vôlei proporciona uma plataforma ideal para o desenvolvimento de habilidades sociais e físicas.'
+            },
+            {
+                img: 'rotacao.png',
+                titulo: 'POSIÇÕES',
+                descricao: `<b>Levantador(5):</b> É o jogador responsável por organizar as jogadas e distribuir os passes para os atacantes.<br>
+                <b>Oposto(2):</b> Jogador que fica na posição oposta ao levantador e é o principal responsável por marcar pontos.<br>
+                <b>Pontas(1,4):</b> Jogadores que atacam pelas laterais da rede. Geralmente são rápidos e eficientes em ataques variados.<br>
+                <b>Meio de rede(3):</b> Estes jogadores atuam próximo à rede e têm a função de bloquear os ataques adversários, além de atacar quando necessário. São frequentemente os jogadores mais altos do time.<br>
+                <b>Líbero(6):</b> Especializado em defesa e recepção, usa uma camisa de cor diferente e tem algumas restrições de ataque`
+            },
+            {
+                img: 'olimpiadas-2016.jpg',
+                titulo: 'TÍTULOS <i class="fa-solid fa-medal" style="color: #ffbc3f"></i>',
+                descricao: 'A seleção brasileira de vôlei acumula uma série de títulos impressionantes. Destacam-se, entre elas, as <b>medalhas de ouro nas Olimpíadas</b>, com a vitória no Rio de Janeiro em 2016 no masculino e em Londres em 2012 no feminino. Além disso, brilham também as medalhas de ouro no campeonato Sul-Americano em 2023, e o desempenho excepcional que rendeu a medalha de ouro para a seleção masculina e a prata para a seleção feminina nos Jogos Pan-Americanos.'
+            },
+        ]
+
+    function nextHistory() {
+        posicao++
+        if (posicao == listaHistoriaVolei.length) {
+            posicao = 0
+        }
+
+        const slideAtual = listaHistoriaVolei[posicao]
+        img_hist.style.backgroundImage = `url(../assets/img/${slideAtual.img})`
+        titulo_hist.innerHTML = slideAtual.titulo
+        descricao_hist.innerHTML = slideAtual.descricao
+    }
+
+    function prevHistory() {
+        posicao--
+        console.log(posicao)
+        if (posicao < 0) {
+            posicao = listaHistoriaVolei.length - 1
+        }
+
+        const slideAtual = listaHistoriaVolei[posicao]
+        img_hist.style.backgroundImage = `url(../assets/img/${slideAtual.img})`
+        titulo_hist.innerHTML = slideAtual.titulo
+        descricao_hist.innerHTML = slideAtual.descricao
+    }
+
     let actualBall = 'mikasa'
     setInterval(() => {
         let ballImg = document.getElementById("img-ball")
-        if(actualBall == 'mikasa'){
+        if (actualBall == 'mikasa') {
             ballImg.setAttribute('src', './assets/img/mikasa-praia-png.png')
             actualBall = 'mikasa praia'
-        }else if(actualBall == 'mikasa praia'){
+        } else if (actualBall == 'mikasa praia') {
             ballImg.setAttribute('src', './assets/img/bola-antiga-png.png')
             actualBall = 'mikasa antiga'
-        }else{
+        } else {
             ballImg.setAttribute('src', './assets/img/mikasa-png.png')
             actualBall = 'mikasa'
         }

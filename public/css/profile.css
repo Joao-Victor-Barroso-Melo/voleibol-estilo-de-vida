@@ -112,6 +112,14 @@
     color: #2fbbfc;
 }
 
+.feedHeader>span:hover{
+    text-decoration: underline;
+}
+
+.feedHeader>span>i{
+    color: #2fbbfc;
+}
+
 .feedHeader>h2{
     font-size: 20px;
 }

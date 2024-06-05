@@ -24,8 +24,12 @@
     width: 100%;
 }
 
-.list_footer>li,.list_icon>p,.flex_icon>i{
+.list_footer>li,.link_footer,.list_icon>p,.flex_icon>a>i{
     color: var(--text-white);
+    text-decoration: none;
+}
+
+.link_footer,.flex_icon>i{
     cursor: pointer;
 }
 
@@ -49,7 +53,7 @@
     gap: 20px;
 }
 
-.flex_icon>i{
+.flex_icon>a>i{
     padding: 15px;
     background-color: #122357;
     border-radius: 50%;

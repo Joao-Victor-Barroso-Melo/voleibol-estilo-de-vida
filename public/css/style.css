@@ -13,7 +13,7 @@ html{
 }
 
 body{
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     overflow-x: hidden;
 
 }
@@ -134,7 +134,7 @@ header{
     font-size: 20px;
 }
 
-.mikasa_footer>.btn_banner{
+.mikasa_footer .btn_banner{
     width: 50px;
     height: 50px;
     padding: 10px;
@@ -146,7 +146,7 @@ header{
 
 }
 
-.mikasa_footer>.btn_banner>i{
+.mikasa_footer .btn_banner>i{
     font-size: 20px;
     color: var(--text-white);
 }
@@ -166,6 +166,37 @@ header{
 .history_container{
     height: 100vh;
     display: flex;
+    position: relative;
+}
+
+.btn_carrossel{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    top: 0;
+    
+}
+
+#next_btn{
+    right: 10px;
+}
+
+#prev_btn{
+    left: 10px;
+}
+
+.btn_carrossel>i{
+    padding: 10px;
+    background-color: var(--blue-mikasa);
+    color: #fff;
+    font-size: 20px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.btn_carrossel>i:hover{
+    opacity: 1;
 }
 
 .history_container>.history_left_container{
@@ -189,16 +220,52 @@ header{
 }
 
 .text_content>h1{
-    font-size: 70px;
+    font-size: 60px;
 }
 
+/* CSS PARA OS ELEMETNOS QUE MUDAM NA DESCRICAO DO CARROSSEL */
+
+
 .text_content>p{
-    margin-top: 20px;
-    text-indent: 40px;
     font-size: 18px;
     text-align: justify;
     line-height: 1.5;
+    margin-top: 20px;
+    width: 90%;
+
 }
+
+/* .medal_ouro>i{
+    color: #ffbc3f;
+}
+.medal_prata>i{
+    color: #b1b1b1;
+}
+
+.medal_ouro>i,.medal_prata>i{
+    font-size: 40px;
+}
+
+.medal_ouro,.medal_prata{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+}
+
+.medal_ouro:hover,.medal_prata:hover{
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 1px #00000063;
+    ;
+}
+
+.medal_container{
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+} */
+
 
 /* CHARACTERISTICS */
 .characteristics_container{
@@ -352,8 +419,9 @@ header{
 }
 
 .community_content>p{
-    width: 50%;
+    width: 60%;
     text-align: center;
+    font-size: 18px;
     line-height: 1.5;
 }
 
