@@ -1,0 +1,128 @@
+.news_content {
+    
+    padding: 50px 10px;
+}
+
+/* GRID NOTICIAS */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: 100px;
+    padding: 20px;
+    background-color: #fff;
+    /* Espaçamento entre as notícias */
+    
+}
+
+.noticia {
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    position: relative;
+    padding: 20px;
+    cursor: pointer;
+}
+
+#n1,#n2,#n3,#n4{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: color;
+    transition: background-size 400ms ease;
+    background-size: auto 100%;
+}
+
+#n1 {
+    grid-row-start: 1;
+    grid-row-end: 6;
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+}
+
+#n1:hover,#n2:hover,#n3:hover,#n4:hover{
+    background-size: auto 110%;
+}
+
+#n2 {
+    grid-row-start: 1;
+    grid-row-end: 4;
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
+
+#n3 {
+    grid-row-start: 4;
+    grid-row-end: 6;
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+#n3>h2,#n4>h2{
+    font-size: 20px;
+}
+
+#n4 {
+    grid-row-start: 4;
+    grid-row-end: 6;
+    grid-column-start: 4;
+    grid-column-end: 5;
+}
+
+
+.noticia h2 {
+    margin-top: 0;
+    color: #fff;
+}
+
+.noticia p {
+    margin-bottom: 10px;
+    color: #fff;
+
+}
+
+/* LISTA NOTICIAS */
+
+.lista_flex{
+    background-color: #fff;
+    
+}
+
+.noticia_container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #cacaca;
+
+}
+
+.noticia_img{
+    background-color: #cacaca;
+    width: 400px;
+}
+
+.noticia_img>img{
+    width: 100%;
+}
+
+
+.noticia_text{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%;
+}
+
+.noticia_text>h2{
+    cursor: pointer;
+    color: var(--blue-mikasa);
+}
+
+.noticia_text>h2:hover{
+    color: rgb(0, 115, 209);
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/headerForum.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/alertMsg.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    <link rel="stylesheet" href="../css/news.css">
+
+    <script src="../js/sessao.js"></script>
+</head>
+
+<body onload="getNoticias()">
+    <span id="alert_msg"></span>
+    <header class="header_container">
+        <section class="section_header container">
+            <div class="img_container">
+                <img onclick="navegation('home.html')" src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <div class="perfil_container">
+                <div id="foto_perfil_header" class="foto_perfil">
+
+                </div>
+                <span onclick="dropDownMenuToggle()" class="menu_toggle">
+                    <span id="user_name"></span>
+                    <i class="fa-solid fa-sort-down"></i>
+                    <div id="dropDownMenu" class="dropdow_menu">
+                        <span onclick="navegation('profile.html')"><i class="fa-solid fa-user"></i> Perfi</span>
+                        <span onclick="limparSessao()"><i class="fa-solid fa-right-from-bracket"></i> Sair</span>
+                    </div>
+                </span>
+            </div>
+        </section>
+    </header>
+    <section class="nav_section">
+        <div class="nav_content container">
+            <nav class=nav_menu>
+                <span onclick="navegation('home.html')" class="item_menu">Fórum</span>
+                <span class="item_menu menu_active">Notícias</span>
+            </nav>
+            <div class="pesquisa_container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="news_content">
+
+                <div class="grid-container" id="div_grid">
+
+                </div>
+
+                <div class="lista_flex" id="lista_noticias">
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer_container scroll_content">
+        <div class="top_footer">
+            <div class="img_container_footer ">
+                <img src="../assets/img/voleibol_png_branca.png" alt="">
+            </div>
+            <ul class="list_footer">
+                <li class="title_list">Navegação</li>
+                <li><a href="home.html" class="link_footer">Home</a></li>
+                <li><a href="news.html" class="link_footer">Notícias</a></li>
+                <li><a onclick="navegation('profile.html')" class="link_footer">Perfil</a></li>
+            </ul>
+            <ul class="list_footer">
+                <li class="title_list">Contato</li>
+                <li>+55 (88) 99215-1831</li>
+                <li>joao.melo@sptech.school</li>
+            </ul>
+            <div class="list_icon">
+                <p class="title_list">Social</p>
+                <div class="flex_icon">
+                    <a href="https://www.instagram.com/_jaov_/" target="_blank">
+                        <i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/joão-victor-632a1021a/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/Joao-Victor-Barroso-Melo" target="_blank">
+                        <i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="bottom_footer">
+            <p>©2024 - Vôlei como estilo de vida</p>
+        </div>
+    </footer>
+</body>
+
+</html>
+<script src="https://kit.fontawesome.com/d94da5d75d.js" crossorigin="anonymous"></script>
+<script src="../js/alertMsg.js"></script>
+
+<script>
+    user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
+    var idUsuario = sessionStorage.ID_USUARIO;
+    var fotoPerfil = sessionStorage.FOTO_PERFIL
+
+    if (fotoPerfil != '') {
+        foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
+    } else {
+        foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
+
+    }
+
+
+    function getNoticias() {
+        fetch('https://newsapi.org/v2/everything?q=voleibol&language=pt&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
+            .then(async function (response) {
+                const data = await response.json()
+
+                const noticias = [];
+
+                data.articles.map(item => {
+                    if (item.author != null) {
+                        noticias.push(item)
+                    } else {
+                        return;
+                    }
+                })
+                console.log(noticias)
+
+                div_grid.innerHTML += `
+                    <div onclick="navigationBlank('${noticias[0].url}')" class="noticia" id="n1">
+                            <p>por: ${noticias[0].author}</p>
+                            <h2>${noticias[0].title}</h2>
+                    </div>
+                    <div onclick="navigationBlank('${noticias[1].url}')" class="noticia" id="n2">
+                        <p>por: ${noticias[1].author}</p>
+                        <h2>${noticias[1].title}</h2>
+                    </div>
+                    <div onclick="navigationBlank('${noticias[3].url}')" class="noticia" id="n3">
+                        <p>por: ${noticias[3].author}</p>
+                        <h2>${noticias[3].title}</h2>
+                    </div>
+                    <div onclick="navigationBlank('${noticias[4].url}')" class="noticia" id="n4">
+                        <p>por: ${noticias[4].author}</p>
+                        <h2>${noticias[4].title}</h2>
+                    </div>
+                `
+
+                n1.style.backgroundImage = `url(${noticias[0].urlToImage})`
+                n2.style.backgroundImage = `url(${noticias[1].urlToImage})`
+                n3.style.backgroundImage = `url(${noticias[3].urlToImage})`
+                n4.style.backgroundImage = `url(${noticias[4].urlToImage})`
+
+                for (let posicao = 10; posicao < 20; posicao++) {
+                    const noticia = noticias[posicao];
+
+                    lista_noticias.innerHTML += `
+                    <div class="noticia_container">
+                        <div class="noticia_img" id="n${posicao}">
+                            <img src="${noticia.urlToImage}">
+                        </div>
+                        <div class="noticia_text">
+                            <h5>por: ${noticia.author}</h5>
+                            <h2 onclick="navigationBlank('${noticia.url}')">${noticia.title}</h2>
+                            <p>${noticia.description}</p>
+                        </div>
+                    </div>
+                    `
+
+                }
+
+            })
+    }
+
+
+    let dropdowMenuOpen = false;
+    function dropDownMenuToggle() {
+        if (dropdowMenuOpen) {
+            dropDownMenu.style.display = 'none'
+
+        } else {
+            dropDownMenu.style.display = 'flex'
+        }
+        dropdowMenuOpen = !dropdowMenuOpen;
+    }
+
+    function navegation(url) {
+        window.location = url
+    }
+
+    function navigationBlank(url) {
+        window.open(url, '_blank');
+    }
+
+</script>

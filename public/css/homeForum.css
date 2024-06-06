@@ -18,20 +18,42 @@
 
 .right_cards{
     width: 30%;
+    gap: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
+
+#grid2,#grid3{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    padding: 20px;
+    cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-blend-mode: color;
+    background-size: auto 100%;
+    transition: background-size 400ms ease;
+}
+
+#grid2:hover,#grid3:hover{
+    background-size: auto 110%;
+}
+
+.noticia>p,.noticia>h2{
+    color: #fff;
+}
+
 #grid2{
     width: 100%;
     height: 300px;
-    background-color: #fff;
 }
 
 #grid3{
     width: 100%;
     height: 300px;
-    background-color: #fff;
 }
 
 .header_posts{

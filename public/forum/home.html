@@ -41,8 +41,8 @@
     <section class="nav_section">
         <div class="nav_content container">
             <nav class=nav_menu>
-                <span class="item_menu menu_active">Feed</span>
-                <span class="item_menu">Notícias</span>
+                <span class="item_menu menu_active">Fórum</span>
+                <span onclick="navegation('news.html')" class="item_menu">Notícias</span>
             </nav>
             <div class="pesquisa_container">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -69,9 +69,8 @@
 
                     <div id="feed"></div>
                 </div>
-                <div class="right_cards">
-                    <div id="grid2"></div>
-                    <div id="grid3"></div>
+                <div class="right_cards" id="cards_flex_noticia">
+                    
                 </div>
             </div>
     </main>
@@ -97,7 +96,8 @@
             </div>
             <ul class="list_footer">
                 <li class="title_list">Navegação</li>
-                <li><a href="home.html" class="link_footer">Home</a></li>
+                <li><a href="home.html" class="link_footer">Fórum</a></li>
+                <li><a href="news.html" class="link_footer">Notícias</a></li>
                 <li><a onclick="navegation('profile.html')" class="link_footer">Perfil</a></li>
             </ul>
             <ul class="list_footer">
@@ -191,6 +191,7 @@
 
     function atualizarFeed() {
         feed.innerHTML = "";
+        getNoticias()
 
         fetch("/postagens/listar").then(function (resposta) {
             if (resposta.ok) {
@@ -349,6 +350,40 @@
 
     function navegation(url) {
         window.location = url
+    }
+
+    function getNoticias() {
+        fetch('https://newsapi.org/v2/everything?q=voleibol&language=pt&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
+            .then(async function (response) {
+                const data = await response.json()
+
+                const noticias = [];
+
+                data.articles.map(item => {
+                    if (item.author != null) {
+                        noticias.push(item)
+                    } else {
+                        return;
+                    }
+                })
+                console.log(noticias)
+
+                cards_flex_noticia.innerHTML += `
+                    <div onclick="navegation('news.html')" class="noticia" id="grid2">
+                            <p>por: ${noticias[0].author}</p>
+                            <h2>${noticias[0].title}</h2>
+                    </div>
+                    <div onclick="navegation('news.html')" class="noticia" id="grid3">
+                        <p>por: ${noticias[1].author}</p>
+                        <h2>${noticias[1].title}</h2>
+                    </div>
+                `
+
+                grid2.style.backgroundImage = `url(${noticias[0].urlToImage})`
+                grid3.style.backgroundImage = `url(${noticias[1].urlToImage})`
+
+
+            })
     }
 
 </script>

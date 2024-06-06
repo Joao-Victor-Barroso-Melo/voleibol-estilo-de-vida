@@ -299,14 +299,14 @@ header{
 .characteristics_flex>.img_flex{
     width: 100%;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto 100%;
     background-position: center;
-    transition: transform 0.5s ease;
+    transition: background-size 0.5s ease;
     
 }
 
 .characteristics_flex>.img_flex:hover{
-   transform: scale(105%);
+    background-size: auto 110%;
 }
 
 .gradient{
