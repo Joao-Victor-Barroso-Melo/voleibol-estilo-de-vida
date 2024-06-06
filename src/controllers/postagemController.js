@@ -4,7 +4,11 @@ var curtidaModel = require("../models/curtidaModel");
 var visualizacaoModel = require("../models/visualizacaoModel");
 
 function listar(req, res) {
-    postagemModel.listar().then(function (resultado) {
+    let ordemList = req.body.ordemList
+    if(ordemList == "#"){
+        ordemList = 'p.dataHora'
+    }
+    postagemModel.listar(ordemList).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

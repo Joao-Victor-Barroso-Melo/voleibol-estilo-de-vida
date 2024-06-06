@@ -16,7 +16,7 @@
 
 </head>
 
-<body onload="atualizarFeed(); validarSessao()">
+<body onload="atualizarFeed(); validarSessao(); getNoticias()">
     <span id="alert_msg"></span>
     <header class="header_container">
         <section class="section_header container">
@@ -61,10 +61,14 @@
                             CRIAR POST
                             <i class="fa-solid fa-plus"></i>
                         </button>
-                        <span class="filter_content">
-                            Filtrar por
+                        <select class="filter_content" id="ordernar_select" onchange="atualizarFeed()">
+                            <option value="#">Ordenar por</option>
+                            <option value="p.dataHora">Mais recentes</option>
+                            <option value="qtdCurtidas">Curtidas</option>
+                            <option value="qtdComentarios">Comentários</option>
+                            <option value="qtdVisualizacoes">Visualizações</option>
                             <i class="fa-solid fa-sort-down"></i>
-                        </span>
+                        </select>
                     </div>
 
                     <div id="feed"></div>
@@ -191,9 +195,18 @@
 
     function atualizarFeed() {
         feed.innerHTML = "";
-        getNoticias()
-
-        fetch("/postagens/listar").then(function (resposta) {
+        
+        let ordenar = ordernar_select.value;
+        console.log(ordenar)
+        fetch("/postagens/listar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ordemList: ordenar
+                })
+            }).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed");
