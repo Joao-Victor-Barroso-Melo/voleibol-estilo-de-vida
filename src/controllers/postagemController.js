@@ -5,10 +5,11 @@ var visualizacaoModel = require("../models/visualizacaoModel");
 
 function listar(req, res) {
     let ordemList = req.body.ordemList
+    let pesquisa = req.body.pesquisa;
     if(ordemList == "#"){
         ordemList = 'p.dataHora'
     }
-    postagemModel.listar(ordemList).then(function (resultado) {
+    postagemModel.listar(ordemList, pesquisa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

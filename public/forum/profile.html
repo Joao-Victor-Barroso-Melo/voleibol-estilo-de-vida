@@ -38,13 +38,11 @@
     <section class="nav_section">
         <div class="nav_content container">
             <nav class=nav_menu>
-                <span onclick="navegation('home.html')" class="item_menu">Fórum</span>
-                <span onclick="navegation('news.html')" class="item_menu">Notícias</span>
+                <span onclick="navegation('home.html')" class="item_menu"><i class="fa-solid fa-comment-dots"></i>
+                    Fórum</span>
+                <span onclick="navegation('news.html')" class="item_menu"><i class="fa-solid fa-newspaper"></i>
+                    Notícias</span>
             </nav>
-            <div class="pesquisa_container">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Pesquisar...">
-            </div>
         </div>
     </section>
 
@@ -65,7 +63,11 @@
                         <span id="error_email" class="msg_error">Insira um email válido</span>
 
                         <label>Senha:</label>
-                        <input id="input_password" type="password" value="" onkeyup="validarSenha()" disabled>
+                        <span class="container_senha">
+                            <i onclick="showPassword(eye_icon, input_password)" id="eye_icon"
+                                class="fa-solid fa-eye"></i>
+                            <input id="input_password" type="password" value="" onkeyup="validarSenha()" disabled>
+                        </span>
                         <span id="error_senha" class="msg_error">Senha Inválida</span>
                         <ul id="validation_list" class="validationList">
                             <li id="validation1">Deve conter 10 caracteres</li>
@@ -74,7 +76,11 @@
                         </ul>
 
                         <label>Confirmar Senha:</label>
-                        <input id="input_confirm_password" type="password" disabled>
+                        <span class="container_senha">
+                            <i onclick="showPassword(eye_icon_confirm, input_confirm_password)" id="eye_icon_confirm"
+                                class="fa-solid fa-eye"></i>
+                            <input id="input_confirm_password" type="password" disabled>
+                        </span>
                         <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
 
                         <div id="divBtnForm" class="div_btn_form">
@@ -87,7 +93,8 @@
                 <div id="grid1">
                     <div class="feedHeader">
                         <h2>Publicações</h2>
-                        <span onclick="navegation('dashboard.html')"><i class="fa-solid fa-chart-simple"></i> ver estatisticas</span>
+                        <span onclick="navegation('dashboard.html')"><i class="fa-solid fa-chart-simple"></i> ver
+                            estatísticas</span>
                     </div>
                     <div id="feed">
 
@@ -171,8 +178,6 @@
 <script>
     var idUsuario = sessionStorage.ID_USUARIO;
     user_name.innerHTML = sessionStorage.getItem('NOME_USUARIO')
-
-
 
     let btnEditFormOpen = true;
     function changeBtnFormEdit() {
@@ -266,7 +271,7 @@
                     divBtnForm.innerHTML = `
                     <button onclick="atualizarCadastroUsuario()" class="btn_config confirm">Salvar Alterações</i></button>
                     <button onclick="changeBtnFormEdit()" class="btn_config">Cancelar</button>`
-                    
+
                 } else {
                     throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
                 }
@@ -512,7 +517,17 @@
         dropdowMenuOpen = !dropdowMenuOpen;
     }
 
-
+    function showPassword(idIcon, idInput) {
+        if (idInput.type == 'password') {
+            idIcon.classList.remove('fa-eye')
+            idIcon.classList.add('fa-eye-slash')
+            idInput.type = 'text'
+        } else if (idInput.type == 'text') {
+            idInput.type = 'password'
+            idIcon.classList.remove('fa-eye-slash')
+            idIcon.classList.add('fa-eye')
+        }
+    }
 
     let modalOpen = false;
     function toggleModalEdit(index) {

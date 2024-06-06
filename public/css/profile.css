@@ -31,8 +31,9 @@
     width: 90%;
 }
 
-.profile_form>input{
+.profile_form input{
     padding: 5px;
+    width: 100%;
 }
 
 .profile_form>label,.profile_form>button{
@@ -49,6 +50,17 @@
 
 .div_btn_form>button{
     width: 100%;
+}
+
+.container_senha{
+    position: relative;
+
+}
+
+.container_senha>i{
+    position: absolute;
+    right: 10px;
+    top: 30%;
 }
 
 /* VALIDATION FORM */

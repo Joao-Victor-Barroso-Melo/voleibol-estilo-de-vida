@@ -76,20 +76,32 @@
     color: #0086E8;
 }
 
-.form_container>input {
+.form_container input{
     border: none;
     border-bottom: 1px solid var(--text-gray);
     padding: 10px 0px;
     margin-top: 5%;
     margin-bottom: 5px;
+    width: 100%;
 }
 
-.form_container>input::placeholder {
+.form_container input::placeholder {
     font-size: 14px;
 }
 
-.form_container>input:focus {
+.form_container input:focus {
     outline: none;
+}
+
+.container_senha{
+    position: relative;
+
+}
+
+.container_senha>i{
+    position: absolute;
+    right: 10px;
+    top: 50%;
 }
 
 .btn_container {

@@ -41,12 +41,12 @@
     <section class="nav_section">
         <div class="nav_content container">
             <nav class=nav_menu>
-                <span class="item_menu menu_active">Fórum</span>
-                <span onclick="navegation('news.html')" class="item_menu">Notícias</span>
+                <span onclick="navegation('home.html')" class="item_menu menu_active"><i class="fa-solid fa-comment-dots"></i> Fórum</span>
+                <span onclick="navegation('news.html')" class="item_menu"><i class="fa-solid fa-newspaper"></i> Notícias</span>
             </nav>
             <div class="pesquisa_container">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Pesquisar...">
+                <i onclick="atualizarFeed()" class="fa-solid fa-magnifying-glass"></i>
+                <input id="input_pesquisa" type="text" placeholder="Pesquise um assunto">
             </div>
         </div>
     </section>
@@ -84,7 +84,7 @@
             <div class="form_post">
                 <label>Assunto:</label>
                 <input id="input_assunto" type="text" name="assunto">
-                <label>Descricao:</label>
+                <label>Descrição:</label>
                 <textarea id="input_descricao" type="" name="descricao" rows="10" cols="50"> </textarea>
                 <div id="btn_content">
                     <button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>
@@ -197,6 +197,7 @@
         feed.innerHTML = "";
         
         let ordenar = ordernar_select.value;
+        let pesquisa = input_pesquisa.value;
         console.log(ordenar)
         fetch("/postagens/listar", {
                 method: "POST",
@@ -204,7 +205,8 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    ordemList: ordenar
+                    ordemList: ordenar,
+                    pesquisa: pesquisa
                 })
             }).then(function (resposta) {
             if (resposta.ok) {

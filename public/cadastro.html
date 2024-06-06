@@ -26,7 +26,10 @@
                     <input id="input_email" type="text" placeholder="nome@gmail.com">
                     <span id="error_email" class="msg_error">Insira um email válido</span>
 
-                    <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
+                    <span class="container_senha">
+                        <i onclick="showPassword(eye_icon, input_password)" id="eye_icon" class="fa-solid fa-eye"></i>
+                        <input id="input_password" type="password" placeholder="Senha" onkeyup="validarSenha()">
+                    </span>
                     <span id="error_senha" class="msg_error">Senha Inválida</span>
                     <ul class="validationList">
                         <li id="validation1">Deve conter 10 caracteres</li>
@@ -34,7 +37,10 @@
                         <li id="validation3">Deve conter um número</li>
                     </ul>
 
-                    <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
+                    <span class="container_senha">
+                        <i onclick="showPassword(eye_icon_confirm, input_confirm_password)" id="eye_icon_confirm" class="fa-solid fa-eye"></i>
+                        <input id="input_confirm_password" type="password" placeholder="Confirmar Senha">
+                    </span>
                     <span id="error_conf_senha" class="msg_error">As senhas devem ser iguais</span>
                 </form>
                 <div id="btn_content" class="btn_container">
@@ -178,4 +184,15 @@
         return faliedPasswordValidation
     }
 
+    function showPassword(idIcon, idInput) {
+        if (idInput.type == 'password') {
+            idIcon.classList.remove('fa-eye')
+            idIcon.classList.add('fa-eye-slash')
+            idInput.type = 'text'
+            } else if(idInput.type == 'text') {
+            idInput.type = 'password'
+            idIcon.classList.remove('fa-eye-slash')
+            idIcon.classList.add('fa-eye')
+        }
+    }
 </script>

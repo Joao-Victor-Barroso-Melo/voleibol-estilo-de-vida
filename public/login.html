@@ -24,8 +24,10 @@
                     <input id="input_email" type="text" placeholder="nome@gmail.com">
                     <span id="error_email" class="msg_error">Insira um email válido</span>
 
-                    <input id="input_password" type="password" placeholder="********">
-                    <a href="">Esqueceu a senha?</a>
+                    <span class="container_senha">
+                        <i onclick="showPassword()" id="eye_icon" class="fa-solid fa-eye"></i>
+                        <input id="input_password" type="password" placeholder="********">
+                    </span>
                 </form>
                 <div id="btn_content" class="btn_container">
                     <button class="" onclick="entrar()">ENTRAR</button>
@@ -95,7 +97,7 @@
 
                 if (resposta.ok) {
                     console.log(resposta);
-                    
+
                     alertMsg('Login realizado com sucesso', 'correctColor')
 
                     resposta.json().then(json => {
@@ -133,6 +135,18 @@
         }
 
 
+    }
+
+    function showPassword() {
+        if (input_password.type == 'password') {
+            eye_icon.classList.remove('fa-eye')
+            eye_icon.classList.add('fa-eye-slash')
+            input_password.type = 'text'
+            } else if(input_password.type == 'text') {
+            input_password.type = 'password'
+            eye_icon.classList.remove('fa-eye-slash')
+            eye_icon.classList.add('fa-eye')
+        }
     }
 
 </script>
