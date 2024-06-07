@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title id="titulo_pagina">Postagem</title>
     <link rel="stylesheet" href="../css/headerForum.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/post.css">
     <link rel="stylesheet" href="../css/alertMsg.css">
     <link rel="stylesheet" href="../css/loader.css">
+    <link rel="icon" href="../assets/img/logo_icon.png" type="image/png">
     <script src="../js/sessao.js"></script>
 </head>
 
@@ -101,7 +102,7 @@
             </div>
         </div>
         <div class="bottom_footer">
-            <p>©2024 - Vôlei como estilo de vida</p>
+            <p>©2024 Voleibol - Estilo de vida</p>
         </div>
     </footer>
 </body>
@@ -173,6 +174,7 @@
                         dadosPostagens = resposta.postagem[0];
                         comentarios = resposta.comentarios;
                         curtidas = resposta.curtidas;
+                        titulo_pagina.innerHTML = dadosPostagens.assunto
 
                         if(curtidas.length == 0){
                             curtidaControl = 0
