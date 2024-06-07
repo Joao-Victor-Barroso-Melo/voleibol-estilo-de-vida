@@ -60,7 +60,7 @@
                 <div id="grid1" class="forum_posts_container">
                     <div class="header_posts">
                         <button class="btn_add_post" onclick="toggleModal()">
-                            CRIAR POST
+                            CRIAR POSTAGEM
                             <i class="fa-solid fa-plus"></i>
                         </button>
                         <select class="filter_content" id="ordernar_select" onchange="atualizarFeed()">
@@ -221,7 +221,7 @@
                 montarPaginacao(pesquisa, offset, limitSelect)
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed");
-                    feed.innerHTML = `<h3 style="text-align: center">Seja o primeiro a publicar!</h3>`
+                    feed.innerHTML = `<h3 style="text-align: center">Nenhuma postagem encontrada!</h3>`
                     throw "Nenhum resultado encontrado!!";
                 }
 
@@ -427,7 +427,7 @@
     }
 
     function getNoticias() {
-        fetch('https://newsapi.org/v2/everything?q=voleibol&language=pt&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
+        fetch('https://newsapi.org/v2/everything?q=vôlei&language=pt&pageSize=2&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
             .then(async function (response) {
                 const data = await response.json()
 
