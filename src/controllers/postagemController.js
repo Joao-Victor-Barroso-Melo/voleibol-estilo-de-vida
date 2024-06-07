@@ -3,13 +3,35 @@ var comentarioModel = require("../models/comentarioModel");
 var curtidaModel = require("../models/curtidaModel");
 var visualizacaoModel = require("../models/visualizacaoModel");
 
-function listar(req, res) {
+function listarPorOffset(req, res) {
+    let ordemList = req.body.ordemList
+    let pesquisa = req.body.pesquisa;
+    let offset = req.body.offset;
+    if(ordemList == "#"){
+        ordemList = 'p.dataHora'
+    }
+    postagemModel.listarPorOffset(ordemList, pesquisa, offset).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
+// a difernça entre elas esta no model
+function listarTodas(req, res) {
+
     let ordemList = req.body.ordemList
     let pesquisa = req.body.pesquisa;
     if(ordemList == "#"){
         ordemList = 'p.dataHora'
     }
-    postagemModel.listar(ordemList, pesquisa).then(function (resultado) {
+    postagemModel.listarTodas(ordemList, pesquisa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -231,7 +253,8 @@ function deletar(req, res) {
 }
 
 module.exports = {
-    listar,
+    listarPorOffset,
+    listarTodas,
     listarPorUsuario,
     pesquisarDescricao,
     publicar,

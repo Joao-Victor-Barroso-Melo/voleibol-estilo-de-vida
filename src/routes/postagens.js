@@ -3,8 +3,12 @@ var router = express.Router();
 
 var postagemController = require("../controllers/postagemController");
 
-router.post("/listar", function (req, res) {
-    postagemController.listar(req, res);
+router.post("/listarPagina", function (req, res) {
+    postagemController.listarPorOffset(req, res);
+});
+
+router.post("/listarTodas", function (req, res) {
+    postagemController.listarTodas(req, res);
 });
 
 router.get("/listar/:idUsuario", function (req, res) {

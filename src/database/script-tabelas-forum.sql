@@ -102,7 +102,7 @@ SELECT
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
         FROM postagem p
                 JOIN usuario u
-                ON p.fkUsuario = u.idUsuario WHERE p.assunto LIKE '%%' ORDER BY p.dataHora DESC;
+                ON p.fkUsuario = u.idUsuario WHERE p.assunto LIKE '%%' ORDER BY p.dataHora DESC LIMIT 3 OFFSET 3;
                 
 SELECT * FROM usuario WHERE idUsuario = 1;
 

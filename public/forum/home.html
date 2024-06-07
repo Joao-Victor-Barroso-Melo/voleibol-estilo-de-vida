@@ -41,8 +41,10 @@
     <section class="nav_section">
         <div class="nav_content container">
             <nav class=nav_menu>
-                <span onclick="navegation('home.html')" class="item_menu menu_active"><i class="fa-solid fa-comment-dots"></i> Fórum</span>
-                <span onclick="navegation('news.html')" class="item_menu"><i class="fa-solid fa-newspaper"></i> Notícias</span>
+                <span onclick="navegation('home.html')" class="item_menu menu_active"><i
+                        class="fa-solid fa-comment-dots"></i> Fórum</span>
+                <span onclick="navegation('news.html')" class="item_menu"><i class="fa-solid fa-newspaper"></i>
+                    Notícias</span>
             </nav>
             <div class="pesquisa_container">
                 <i onclick="atualizarFeed()" class="fa-solid fa-magnifying-glass"></i>
@@ -74,8 +76,10 @@
                     <div id="feed"></div>
                 </div>
                 <div class="right_cards" id="cards_flex_noticia">
-                    
+
                 </div>
+            </div>
+            <div id="paginacao" class="paginacao_container">
             </div>
     </main>
     <div id="modal_post" class="modal_container">
@@ -146,7 +150,7 @@
     }
 
     function publicar() {
-        
+
         const assunto = input_assunto.value;
         const descricao = input_descricao.value;
         var corpo = {
@@ -177,8 +181,8 @@
 
                 } else if (resposta.status == 404) {
                     window.alert("Deu 404!");
-                    btn_content.innerHTML = 
-                    `<button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>`
+                    btn_content.innerHTML =
+                        `<button onclick="publicar()" class="btn_insert_post">PUBLICAR</button>`
 
                 } else {
                     throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
@@ -193,22 +197,25 @@
 
     }
 
-    function atualizarFeed() {
+    function atualizarFeed(offset = 0) {
         feed.innerHTML = "";
-        
+        let offsetValue = offset
+
         let ordenar = ordernar_select.value;
         let pesquisa = input_pesquisa.value;
         console.log(ordenar)
-        fetch("/postagens/listar", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    ordemList: ordenar,
-                    pesquisa: pesquisa
-                })
-            }).then(function (resposta) {
+        montarPaginacao(ordenar, pesquisa, offset)
+        fetch("/postagens/listarPagina", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ordemList: ordenar,
+                pesquisa: pesquisa,
+                offset: offsetValue
+            })
+        }).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed");
@@ -248,19 +255,6 @@
 
                         console.log(`Passaram ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos.`);
 
-
-                        // let day = date.getDate().toString().padStart(2, '0');
-                        // let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Os meses são indexados de 0 a 11
-                        // let year = date.getFullYear();
-
-                        // let hours = date.getHours().toString().padStart(2, '0');
-                        // let minutes = date.getMinutes().toString().padStart(2, '0');
-
-                        // let formattedDate = `${day}/${month}/${year}`;
-                        // let formattedTime = `${hours}:${minutes}`;
-
-                        // console.log(`Data: ${formattedDate}`);
-                        // console.log(`Hora: ${formattedTime}`);
                         feed.innerHTML += `
                         <div class="post_item" onclick="irParaPost(${post.idPostagem})">
                             <div class="post_section">
@@ -365,6 +359,42 @@
 
     function navegation(url) {
         window.location = url
+    }
+
+    function montarPaginacao(ordenar, pesquisa, offsetActive) {
+        paginacao.innerHTML = ''
+        let offset = 0
+        fetch("/postagens/listarTodas",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ordemList: ordenar,
+                pesquisa: pesquisa
+            })
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (res) {
+
+                        console.log(Math.ceil(res[0].count / 5))
+                        // divido pelo numero de items por pagina e arredondo para o valor acima mai prox
+                        let qtdPaginas = Math.ceil(res[0].count / 5);
+                        for (let index = 1; index <= qtdPaginas; index++) {
+                                paginacao.innerHTML += `
+                                <span onclick="atualizarFeed(${offset})" id="btn${index}" class="btn_page ${offsetActive == offset ? 'pg_active' : ''}">${index}</span>
+                                `
+                                offset += 5
+                            
+                        }
+                        
+                    })
+                }
+
+            }).catch(function (resposta) {
+                console.error(resposta);
+            });
     }
 
     function getNoticias() {
