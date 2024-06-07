@@ -1,6 +1,6 @@
 var database = require("../database/config");
 
-function listarPorOffset(ordemList, pesquisa, offset) {
+function listarPorOffset(ordemList, pesquisa, offset, limit) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = `
     SELECT 
@@ -16,13 +16,13 @@ function listarPorOffset(ordemList, pesquisa, offset) {
             (SELECT count(idVisualizacao) FROM visualizacao JOIN postagem ON fkPostagem = idPostagem WHERE fkPostagem = p.idPostagem) as qtdVisualizacoes
             FROM postagem p
                 JOIN usuario u
-                ON p.fkUsuario = u.idUsuario WHERE p.assunto LIKE '%${pesquisa}%' ORDER BY ${ordemList} DESC LIMIT 5 OFFSET ${offset};
+                ON p.fkUsuario = u.idUsuario WHERE p.assunto LIKE '%${pesquisa}%' ORDER BY ${ordemList} DESC LIMIT ${limit} OFFSET ${offset};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function listarTodas(ordemList, pesquisa) {
+function listarTodas(pesquisa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = `
      SELECT 

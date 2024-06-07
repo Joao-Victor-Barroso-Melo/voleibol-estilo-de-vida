@@ -203,8 +203,8 @@
 
         let ordenar = ordernar_select.value;
         let pesquisa = input_pesquisa.value;
+        const limitSelect = 5;
         console.log(ordenar)
-        montarPaginacao(ordenar, pesquisa, offset)
         fetch("/postagens/listarPagina", {
             method: "POST",
             headers: {
@@ -213,10 +213,12 @@
             body: JSON.stringify({
                 ordemList: ordenar,
                 pesquisa: pesquisa,
-                offset: offsetValue
+                offset: offsetValue,
+                limit: limitSelect
             })
         }).then(function (resposta) {
             if (resposta.ok) {
+                montarPaginacao(pesquisa, offset, limitSelect)
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed");
                     feed.innerHTML = `<h3 style="text-align: center">Seja o primeiro a publicar!</h3>`
@@ -360,34 +362,57 @@
     function navegation(url) {
         window.location = url
     }
-
-    function montarPaginacao(ordenar, pesquisa, offsetActive) {
+    
+    function montarPaginacao(pesquisa = "", offsetActive, limitSelect) {
         paginacao.innerHTML = ''
         let offset = 0
+        let actualPageOffeset = offsetActive;
+        console.log(`offsetAtual = ${offsetActive}`)
         fetch("/postagens/listarTodas",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                ordemList: ordenar,
                 pesquisa: pesquisa
             })
         })
             .then(function (resposta) {
                 if (resposta.ok) {
                     resposta.json().then(function (res) {
+                        
+                        let qtdPaginas = Math.ceil(res[0].count / limitSelect);   
 
-                        console.log(Math.ceil(res[0].count / 5))
+                        // proxima pagina
+                        paginacao.innerHTML += `
+                        <span onclick="${console.log(actualPageOffeset)}; atualizarFeed(
+                        ${actualPageOffeset > 0 ?  actualPageOffeset-=limitSelect : actualPageOffeset });" 
+                         class="btn_page"><</span>
+                        `
+                        
                         // divido pelo numero de items por pagina e arredondo para o valor acima mai prox
-                        let qtdPaginas = Math.ceil(res[0].count / 5);
                         for (let index = 1; index <= qtdPaginas; index++) {
-                                paginacao.innerHTML += `
-                                <span onclick="atualizarFeed(${offset})" id="btn${index}" class="btn_page ${offsetActive == offset ? 'pg_active' : ''}">${index}</span>
-                                `
-                                offset += 5
-                            
+                            paginacao.innerHTML += `
+                            <span onclick="atualizarFeed(${offset})" id="${index}" class="btn_page ${offsetActive == offset ? 'pg_active' : ''}">${index}</span>
+                            `
+                            offset += limitSelect
+                            if(offset == (qtdPaginas * limitSelect)){
+                                offset -= limitSelect;
+                            }
+                       
                         }
+                        console.log(`offsetTotal = ${offset}`)
+
+
+                        
+                        // proxima pagina
+                        paginacao.innerHTML += `
+                        <span onclick="atualizarFeed(
+                        ${offsetActive < offset ?  offsetActive+=limitSelect : offsetActive });" 
+                         class="btn_page">></span>
+                        `
+                        
+
                         
                     })
                 }
@@ -395,6 +420,10 @@
             }).catch(function (resposta) {
                 console.error(resposta);
             });
+    }
+
+    function proxPagina(){
+        
     }
 
     function getNoticias() {

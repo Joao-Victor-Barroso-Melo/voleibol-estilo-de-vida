@@ -7,10 +7,11 @@ function listarPorOffset(req, res) {
     let ordemList = req.body.ordemList
     let pesquisa = req.body.pesquisa;
     let offset = req.body.offset;
+    let limit = req.body.limit;
     if(ordemList == "#"){
         ordemList = 'p.dataHora'
     }
-    postagemModel.listarPorOffset(ordemList, pesquisa, offset).then(function (resultado) {
+    postagemModel.listarPorOffset(ordemList, pesquisa, offset, limit).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -26,12 +27,9 @@ function listarPorOffset(req, res) {
 // a difernça entre elas esta no model
 function listarTodas(req, res) {
 
-    let ordemList = req.body.ordemList
     let pesquisa = req.body.pesquisa;
-    if(ordemList == "#"){
-        ordemList = 'p.dataHora'
-    }
-    postagemModel.listarTodas(ordemList, pesquisa).then(function (resultado) {
+
+    postagemModel.listarTodas(pesquisa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

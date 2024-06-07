@@ -222,6 +222,7 @@
     cursor: pointer;
 }
 
+
 .pg_active{
     background-color: var(--blue-mikasa) !important;
     color: #fff !important; 
