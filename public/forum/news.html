@@ -114,7 +114,7 @@
 
 
     function getNoticias() {
-        fetch('http://newsapi.org/v2/everything?q=vôlei&language=pt&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
+        fetch('https://newsapi.org/v2/everything?q=vôlei&language=pt&sortBy=publishedAt&apiKey=58d19560e8ea40edb645bdefe0fe5b7a')
             .then(async function (response) {
                 const data = await response.json()
 
