@@ -58,7 +58,7 @@ INSERT INTO postagem (assunto, descricao, dataHora, fkUsuario) VALUES
 	('outro', 'outro dia', '2024-05-10 10:00:00', 1),
 	('outro', 'dia', '2024-05-10 11:00:00', 1);
 
-INSERT INTO usuario (nome, email, senha) VALUES ('João Victor', 'joao@gmail.com', 'joao@gmail.com1');
+INSERT INTO usuario (nome, email, senha, fotoPerfil) VALUES ('João Victor', 'joao@gmail.com', 'joao@gmail.com1', '');
 
 INSERT INTO postagem (assunto, descricao, dataHora, fkUsuario) VALUES 
 	('Como vocês melhoram a impulsão nos treinos?', 'Eu tenho feito diversos circuitos para aumentar minha impulsão.', now(), 1),
