@@ -11,10 +11,6 @@ router.post("/adicionar", function (req, res) {
     visualizacaoController.adicionar(req, res);
 });
 
-router.put("/editar", function (req, res) {
-    postagemController.editar(req, res);
-});
-
 router.delete("/deletarPorPostagem", function (req, res) {
     visualizacaoController.deletarPorPostagem(req, res);
 });

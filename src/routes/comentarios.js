@@ -11,9 +11,6 @@ router.post("/publicar", function (req, res) {
     comentarioController.publicar(req, res);
 });
 
-router.put("/editar", function (req, res) {
-    postagemController.editar(req, res);
-});
 
 router.delete("/deletarPorPostagem", function (req, res) {
     comentarioController.deletarPorPostagem(req, res);

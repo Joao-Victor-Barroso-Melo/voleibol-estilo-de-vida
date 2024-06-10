@@ -1,10 +1,11 @@
 var curtidaModel = require("../models/curtidaModel");
 
 
-function buscarCurtidaPorPostagem(req, res) {
-    var idPostagem = req.params.idPostagem;
+function buscarCurtidaPorPostagemAndUsuario(req, res) {
+    var idPostagem = req.body.idPostagem;
+    var idUsuario = req.body.idUsuario;
 
-    curtidaModel.buscarCurtidaPorPostagem(idPostagem).then((resultado) => {
+    curtidaModel.buscarCurtidaPorPostagemAndUsuario(idPostagem, idUsuario).then((resultado) => {
         if (resultado.length > 0) {
 
             res.status(200).json(resultado);
@@ -74,5 +75,5 @@ function deletarCurtida(req, res) {
 module.exports = {
     validar,
     deletarCurtida,
-    buscarCurtidaPorPostagem
+    buscarCurtidaPorPostagemAndUsuario
 }

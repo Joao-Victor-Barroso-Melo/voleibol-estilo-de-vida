@@ -21,9 +21,8 @@ var postagemRouter = require("./src/routes/postagens");
 var comentarioRouter = require("./src/routes/comentarios");
 var curtidaRouter = require("./src/routes/curtidas");
 var visualizacaoRouter = require("./src/routes/visualizacoes");
-// var medidasRouter = require("./src/routes/medidas");
-// var aquariosRouter = require("./src/routes/aquarios");
-// var empresasRouter = require("./src/routes/empresas");
+var noticiasRouter = require("./src/routes/noticias")
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,9 +36,8 @@ app.use("/postagens", postagemRouter);
 app.use("/comentarios", comentarioRouter);
 app.use("/curtidas", curtidaRouter);
 app.use("/visualizacoes", visualizacaoRouter);
-// app.use("/medidas", medidasRouter);
-// app.use("/aquarios", aquariosRouter);
-// app.use("/empresas", empresasRouter);
+app.use("/noticias", noticiasRouter);
+
 
 app.listen(PORTA_APP, function () {
     console.log(`
