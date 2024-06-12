@@ -61,8 +61,7 @@ INSERT INTO postagem (assunto, descricao, dataHora, fkUsuario) VALUES
 INSERT INTO usuario (nome, email, senha, fotoPerfil) VALUES ('João Victor', 'joao@gmail.com', 'joao@gmail.com1', '');
 
 INSERT INTO postagem (assunto, descricao, dataHora, fkUsuario) VALUES 
-	('Como vocês melhoram a impulsão nos treinos?', 'Eu tenho feito diversos circuitos para aumentar minha impulsão.', now(), 1),
-	('teste', 'este', now(), 1);
+	('Como vocês melhoram a impulsão nos treinos?', 'Eu tenho feito diversos circuitos para aumentar minha impulsão.', now(), 1);
 
 INSERT INTO comentario (fkPostagem, fkUsuario, mensagem, dataHora) VALUES
 	(1, 1, 'Acho que você deveria treinar impulsão separado do seu treino de perna.', now()),

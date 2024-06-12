@@ -142,7 +142,7 @@
     var idUsuario = sessionStorage.ID_USUARIO;
     var fotoPerfil = sessionStorage.FOTO_PERFIL
 
-    if (fotoPerfil == '') {
+    if (fotoPerfil != '') {
         foto_perfil_header.style.backgroundImage = `url(../assets/profiles_img/${fotoPerfil})`
     } else {
         foto_perfil_header.style.backgroundImage = `url(../assets/img/user_profiel_image.png)`
